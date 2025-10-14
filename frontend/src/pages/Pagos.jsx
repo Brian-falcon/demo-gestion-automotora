@@ -1,0 +1,1332 @@
+import { useEffect, useState } from 'react';
+import { pagosService, autosService, clientesService } from '../services';
+import { useAuth } from '../context/AuthContext';
+import { CreditCard, Plus, AlertCircle, CheckCircle, Calendar, DollarSign, User, ChevronDown, ChevronUp, Car } from 'lucide-react';
+
+const Pagos = () => {
+  const { user } = useAuth();
+  const [pagos, setPagos] = useState([]);
+  const [autos, setAutos] = useState([]);
+  const [clientes, setClientes] = useState([]);
+  const [clientesConPagos, setClientesConPagos] = useState([]);
+  const [clientesExpandidos, setClientesExpandidos] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('todos');
+  const [showModal, setShowModal] = useState(false);
+  const [showGenerateModal, setShowGenerateModal] = useState(false);
+  const [showPagoOnlineModal, setShowPagoOnlineModal] = useState(false);
+  const [pagoSeleccionado, setPagoSeleccionado] = useState(null);
+  const [metodoPago, setMetodoPago] = useState('tarjeta');
+  const [formData, setFormData] = useState({
+    autoId: '',
+    numeroCuota: 1,
+    monto: '',
+    fechaVencimiento: '',
+  });
+  const [generateData, setGenerateData] = useState({
+    autoId: '',
+    precioTotal: '',
+    entregaInicial: '',
+    porcentajeInteres: '',
+    numeroCuotas: 12,
+    montoCuota: '',
+    fechaInicio: new Date().toISOString().split('T')[0],
+    intervaloMeses: 1,
+    esFinanciamientoEnProgreso: false,
+    cuotasPagadas: 0,
+  });
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [pagosData, autosData, clientesData] = await Promise.all([
+        pagosService.getAll(),
+        autosService.getAll(),
+        clientesService.getAll(),
+      ]);
+      setPagos(pagosData);
+      setAutos(autosData.filter(auto => auto.estado !== 'disponible'));
+      setClientes(clientesData);
+      
+      // Agrupar pagos por cliente
+      if (user?.rol === 'admin') {
+        organizarPagosPorCliente(pagosData, clientesData);
+      }
+    } catch (error) {
+      console.error('Error al cargar datos:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const organizarPagosPorCliente = (pagosData, clientesData) => {
+    const clientesMap = {};
+    
+    pagosData.forEach(pago => {
+      const clienteId = pago.auto?.clienteId;
+      if (!clienteId) return;
+      
+      if (!clientesMap[clienteId]) {
+        const cliente = clientesData.find(c => c.id === clienteId);
+        if (!cliente) return;
+        
+        clientesMap[clienteId] = {
+          cliente: cliente,
+          pagos: {
+            pendientes: [],
+            vencidos: [],
+            pagados: []
+          },
+          totales: {
+            pendientes: 0,
+            vencidos: 0,
+            pagados: 0
+          }
+        };
+      }
+      
+      // Clasificar pago
+      if (pago.estado === 'pagado') {
+        clientesMap[clienteId].pagos.pagados.push(pago);
+        clientesMap[clienteId].totales.pagados += parseFloat(pago.monto);
+      } else if (isVencido(pago)) {
+        clientesMap[clienteId].pagos.vencidos.push(pago);
+        clientesMap[clienteId].totales.vencidos += parseFloat(pago.monto);
+      } else {
+        clientesMap[clienteId].pagos.pendientes.push(pago);
+        clientesMap[clienteId].totales.pendientes += parseFloat(pago.monto);
+      }
+    });
+    
+    setClientesConPagos(Object.values(clientesMap));
+  };
+
+  const handleFilter = async (filterType) => {
+    try {
+      setLoading(true);
+      setFilter(filterType);
+      let params = {};
+      
+      if (filterType === 'pendientes') {
+        params.estado = 'pendiente';
+      } else if (filterType === 'pagados') {
+        params.estado = 'pagado';
+      } else if (filterType === 'vencidos') {
+        params.vencidos = 'true';
+      }
+      
+      const data = await pagosService.getAll(params);
+      setPagos(data);
+      
+      // Actualizar agrupación por cliente si es admin
+      if (user?.rol === 'admin') {
+        organizarPagosPorCliente(data, clientes);
+      }
+    } catch (error) {
+      console.error('Error al filtrar:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleCliente = (clienteId) => {
+    setClientesExpandidos(prev => ({
+      ...prev,
+      [clienteId]: !prev[clienteId]
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await pagosService.create(formData);
+      setShowModal(false);
+      resetForm();
+      loadData();
+    } catch (error) {
+      alert(error.response?.data?.error || 'Error al crear el pago');
+    }
+  };
+
+  const handleGenerateCuotas = async (e) => {
+    e.preventDefault();
+    try {
+      await pagosService.generarCuotas(generateData);
+      setShowGenerateModal(false);
+      resetGenerateForm();
+      loadData();
+      alert('Cuotas generadas exitosamente');
+    } catch (error) {
+      alert(error.response?.data?.error || 'Error al generar cuotas');
+    }
+  };
+
+  const handleMarcarPagado = async (pagoId) => {
+    if (window.confirm('¿Marcar esta cuota como pagada?')) {
+      try {
+        await pagosService.update(pagoId, { estado: 'pagado' });
+        loadData();
+      } catch (error) {
+        alert('Error al actualizar el pago');
+      }
+    }
+  };
+
+  const handlePagarOnline = (pago) => {
+    setPagoSeleccionado(pago);
+    setShowPagoOnlineModal(true);
+  };
+
+  const handleConfirmarPago = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      // Simular proceso de pago online
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Marcar como pagado
+      await pagosService.update(pagoSeleccionado.id, { 
+        estado: 'pagado',
+        fechaPago: new Date().toISOString()
+      });
+      
+      setShowPagoOnlineModal(false);
+      setPagoSeleccionado(null);
+      setMetodoPago('tarjeta');
+      loadData();
+      
+      alert('¡Pago realizado exitosamente!');
+    } catch (error) {
+      alert(error.response?.data?.error || 'Error al procesar el pago');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      autoId: '',
+      numeroCuota: 1,
+      monto: '',
+      fechaVencimiento: '',
+    });
+  };
+
+  const resetGenerateForm = () => {
+    setGenerateData({
+      autoId: '',
+      precioTotal: '',
+      entregaInicial: '',
+      porcentajeInteres: '',
+      numeroCuotas: 12,
+      montoCuota: '',
+      fechaInicio: new Date().toISOString().split('T')[0],
+      intervaloMeses: 1,
+      esFinanciamientoEnProgreso: false,
+      cuotasPagadas: 0,
+    });
+  };
+
+  // Calcular monto de cuota automáticamente con intereses
+  const calcularMontoCuota = () => {
+    const precio = parseFloat(generateData.precioTotal) || 0;
+    const entrega = parseFloat(generateData.entregaInicial) || 0;
+    const porcentaje = parseFloat(generateData.porcentajeInteres) || 0;
+    const cuotas = parseInt(generateData.numeroCuotas) || 1;
+    
+    if (precio > 0 && cuotas > 0) {
+      const saldoFinanciar = precio - entrega;
+      const interes = saldoFinanciar * (porcentaje / 100);
+      const totalConInteres = saldoFinanciar + interes;
+      const montoPorCuota = totalConInteres / cuotas;
+      
+      setGenerateData(prev => ({
+        ...prev,
+        montoCuota: montoPorCuota.toFixed(2)
+      }));
+    }
+  };
+
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('es-EC', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(value);
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('es-EC', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
+  };
+
+  const getEstadoBadge = (pago) => {
+    if (pago.estado === 'pagado') {
+      return <span className="badge badge-success flex items-center gap-1">
+        <CheckCircle className="w-3 h-3" /> Pagado
+      </span>;
+    }
+    
+    const fechaVencimiento = new Date(pago.fechaVencimiento);
+    const hoy = new Date();
+    
+    if (fechaVencimiento < hoy) {
+      return <span className="badge badge-danger flex items-center gap-1">
+        <AlertCircle className="w-3 h-3" /> Vencido
+      </span>;
+    }
+    
+    return <span className="badge badge-warning flex items-center gap-1">
+      <Calendar className="w-3 h-3" /> Pendiente
+    </span>;
+  };
+
+  const isVencido = (pago) => {
+    if (pago.estado === 'pagado') return false;
+    return new Date(pago.fechaVencimiento) < new Date();
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">
+            {user?.rol === 'admin' ? 'Gestión de Pagos' : 'Mis Cuotas'}
+          </h1>
+          <p className="text-gray-600 mt-1">
+            {user?.rol === 'admin' 
+              ? 'Administra las cuotas y pagos' 
+              : 'Consulta tus cuotas pagadas y pendientes'}
+          </p>
+        </div>
+        {user?.rol === 'admin' && (
+          <div className="flex gap-3">
+            <button
+              onClick={() => {
+                resetGenerateForm();
+                setShowGenerateModal(true);
+              }}
+              className="btn btn-secondary flex items-center gap-2"
+            >
+              <Plus className="w-5 h-5" />
+              Generar Cuotas
+            </button>
+            <button
+              onClick={() => {
+                resetForm();
+                setShowModal(true);
+              }}
+              className="btn btn-primary flex items-center gap-2"
+            >
+              <Plus className="w-5 h-5" />
+              Nueva Cuota
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Filtros */}
+      <div className="card">
+        <div className="flex flex-wrap gap-3">
+          <button
+            onClick={() => {
+              setFilter('todos');
+              loadData();
+            }}
+            className={`btn ${filter === 'todos' ? 'btn-primary' : 'btn-secondary'}`}
+          >
+            Todas
+          </button>
+          <button
+            onClick={() => handleFilter('pendientes')}
+            className={`btn ${filter === 'pendientes' ? 'btn-primary' : 'btn-secondary'}`}
+          >
+            Pendientes
+          </button>
+          <button
+            onClick={() => handleFilter('vencidos')}
+            className={`btn ${filter === 'vencidos' ? 'btn-primary' : 'btn-secondary'}`}
+          >
+            Vencidas
+          </button>
+          <button
+            onClick={() => handleFilter('pagados')}
+            className={`btn ${filter === 'pagados' ? 'btn-primary' : 'btn-secondary'}`}
+          >
+            Pagadas
+          </button>
+        </div>
+      </div>
+
+      {/* Vista de pagos */}
+      {loading ? (
+        <div className="card">
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+          </div>
+        </div>
+      ) : user?.rol === 'admin' ? (
+        /* Vista Admin: Clientes agrupados */
+        <div className="space-y-4">
+          {clientesConPagos.length === 0 ? (
+            <div className="card">
+              <div className="text-center py-12">
+                <User className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-500">No se encontraron clientes con pagos</p>
+              </div>
+            </div>
+          ) : (
+            clientesConPagos.map((clienteData) => (
+              <div key={clienteData.cliente.id} className="card overflow-hidden">
+                {/* Header del cliente */}
+                <div 
+                  className="bg-gradient-to-r from-gray-50 to-white p-6 cursor-pointer hover:from-gray-100 hover:to-gray-50 transition-all duration-200"
+                  onClick={() => toggleCliente(clienteData.cliente.id)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                        {clienteData.cliente.nombre.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                          {clienteData.cliente.nombre}
+                          {clientesExpandidos[clienteData.cliente.id] ? (
+                            <ChevronUp className="w-5 h-5 text-gray-400" />
+                          ) : (
+                            <ChevronDown className="w-5 h-5 text-gray-400" />
+                          )}
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          Cédula: {clienteData.cliente.cedula} • Tel: {clienteData.cliente.telefono}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Resumen de pagos */}
+                    <div className="flex gap-6">
+                      {clienteData.totales.vencidos > 0 && (
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-red-600">
+                            {formatCurrency(clienteData.totales.vencidos)}
+                          </div>
+                          <div className="text-xs text-red-600 font-medium uppercase">
+                            Vencidos ({clienteData.pagos.vencidos.length})
+                          </div>
+                        </div>
+                      )}
+                      {clienteData.totales.pendientes > 0 && (
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-yellow-600">
+                            {formatCurrency(clienteData.totales.pendientes)}
+                          </div>
+                          <div className="text-xs text-yellow-600 font-medium uppercase">
+                            Pendientes ({clienteData.pagos.pendientes.length})
+                          </div>
+                        </div>
+                      )}
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-green-600">
+                          {formatCurrency(clienteData.totales.pagados)}
+                        </div>
+                        <div className="text-xs text-green-600 font-medium uppercase">
+                          Pagados ({clienteData.pagos.pagados.length})
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contenido expandible */}
+                {clientesExpandidos[clienteData.cliente.id] && (
+                  <div className="p-6 space-y-6 bg-gray-50">
+                    {/* Pagos Vencidos */}
+                    {clienteData.pagos.vencidos.length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-bold text-red-700 uppercase mb-3 flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4" />
+                          Pagos Vencidos ({clienteData.pagos.vencidos.length})
+                        </h4>
+                        <div className="space-y-2">
+                          {clienteData.pagos.vencidos.map(pago => (
+                            <div key={pago.id} className="bg-red-50 border border-red-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                              <div className="flex items-center justify-between">
+                                <div className="flex-1">
+                                  <div className="font-medium text-gray-900">
+                                    {pago.auto.marca} {pago.auto.modelo} - Cuota #{pago.numeroCuota}
+                                  </div>
+                                  <div className="text-sm text-gray-600 mt-1">
+                                    Matrícula: {pago.auto.matricula} • Vencimiento: {formatDate(pago.fechaVencimiento)}
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                  <div className="text-right">
+                                    <div className="text-lg font-bold text-red-700">{formatCurrency(pago.monto)}</div>
+                                  </div>
+                                  <button
+                                    onClick={() => handleMarcarPagado(pago.id)}
+                                    className="btn btn-success btn-sm whitespace-nowrap"
+                                  >
+                                    Marcar Pagado
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Pagos Pendientes */}
+                    {clienteData.pagos.pendientes.length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-bold text-yellow-700 uppercase mb-3 flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          Pagos Pendientes ({clienteData.pagos.pendientes.length})
+                        </h4>
+                        <div className="space-y-2">
+                          {clienteData.pagos.pendientes.map(pago => (
+                            <div key={pago.id} className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                              <div className="flex items-center justify-between">
+                                <div className="flex-1">
+                                  <div className="font-medium text-gray-900">
+                                    {pago.auto.marca} {pago.auto.modelo} - Cuota #{pago.numeroCuota}
+                                  </div>
+                                  <div className="text-sm text-gray-600 mt-1">
+                                    Matrícula: {pago.auto.matricula} • Vencimiento: {formatDate(pago.fechaVencimiento)}
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                  <div className="text-right">
+                                    <div className="text-lg font-bold text-yellow-700">{formatCurrency(pago.monto)}</div>
+                                  </div>
+                                  <button
+                                    onClick={() => handleMarcarPagado(pago.id)}
+                                    className="btn btn-success btn-sm whitespace-nowrap"
+                                  >
+                                    Marcar Pagado
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Pagos Realizados */}
+                    {clienteData.pagos.pagados.length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-bold text-green-700 uppercase mb-3 flex items-center gap-2">
+                          <CheckCircle className="w-4 h-4" />
+                          Pagos Realizados ({clienteData.pagos.pagados.length})
+                        </h4>
+                        <div className="space-y-2">
+                          {clienteData.pagos.pagados.map(pago => (
+                            <div key={pago.id} className="bg-white border border-green-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                              <div className="flex items-center justify-between">
+                                <div className="flex-1">
+                                  <div className="font-medium text-gray-900">
+                                    {pago.auto.marca} {pago.auto.modelo} - Cuota #{pago.numeroCuota}
+                                  </div>
+                                  <div className="text-sm text-gray-600 mt-1">
+                                    Matrícula: {pago.auto.matricula} • Pagado: {formatDate(pago.fechaPago)}
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <div className="text-lg font-bold text-green-600">{formatCurrency(pago.monto)}</div>
+                                  <div className="text-xs text-green-600 font-medium">✓ PAGADO</div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      ) : (
+        /* Vista Cliente: Tabla simple */
+        <div className="card overflow-hidden">
+          {pagos.length === 0 ? (
+            <div className="text-center py-12">
+              <CreditCard className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500">No se encontraron pagos</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Auto
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Cuota
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Monto
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Vencimiento
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Fecha Pago
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Estado
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                      Acciones
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {pagos.map((pago) => (
+                    <tr 
+                      key={pago.id} 
+                      className={`hover:bg-gray-50 ${isVencido(pago) ? 'bg-red-50' : ''}`}
+                    >
+                      <td className="px-6 py-4">
+                        <div className="text-sm">
+                          <div className="font-medium text-gray-900">
+                            {pago.auto.marca} {pago.auto.modelo}
+                          </div>
+                          <div className="text-gray-600">
+                            {pago.auto.matricula}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                        Cuota #{pago.numeroCuota}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                        {formatCurrency(pago.monto)}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600">
+                        {formatDate(pago.fechaVencimiento)}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600">
+                        {pago.fechaPago ? formatDate(pago.fechaPago) : '-'}
+                      </td>
+                      <td className="px-6 py-4">
+                        {getEstadoBadge(pago)}
+                      </td>
+                      <td className="px-6 py-4 text-right text-sm font-medium">
+                        {pago.estado === 'pendiente' && (
+                          <button
+                            onClick={() => handlePagarOnline(pago)}
+                            className="btn btn-primary btn-sm flex items-center gap-2"
+                          >
+                            <CreditCard className="w-4 h-4" />
+                            Pagar Online
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Modal crear cuota individual */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full">
+            <div className="p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Nueva Cuota</h2>
+              
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Auto *
+                  </label>
+                  <select
+                    required
+                    value={formData.autoId}
+                    onChange={(e) => setFormData({ ...formData, autoId: e.target.value })}
+                    className="input"
+                  >
+                    <option value="">Seleccione un auto</option>
+                    {autos.map((auto) => (
+                      <option key={auto.id} value={auto.id}>
+                        {auto.marca} {auto.modelo} - {auto.cliente?.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Número de Cuota *
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="1"
+                    value={formData.numeroCuota}
+                    onChange={(e) => setFormData({ ...formData, numeroCuota: e.target.value })}
+                    className="input"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Monto *
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    min="0"
+                    step="0.01"
+                    value={formData.monto}
+                    onChange={(e) => setFormData({ ...formData, monto: e.target.value })}
+                    className="input"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Fecha de Vencimiento *
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={formData.fechaVencimiento}
+                    onChange={(e) => setFormData({ ...formData, fechaVencimiento: e.target.value })}
+                    className="input"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button type="submit" className="btn btn-primary flex-1">
+                    Crear Cuota
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowModal(false);
+                      resetForm();
+                    }}
+                    className="btn btn-secondary flex-1"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal generar cuotas */}
+      {showGenerateModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
+          <div className="bg-white rounded-xl max-w-2xl w-full shadow-xl border border-gray-300 animate-scale-in max-h-[90vh] flex flex-col">
+            {/* Header - Fijo */}
+            <div className="bg-gray-800 p-4 rounded-t-xl flex-shrink-0">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-bold text-white">
+                    Generar Plan de Cuotas
+                  </h2>
+                  <p className="text-gray-300 text-sm mt-1">Configure el plan de financiamiento</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowGenerateModal(false);
+                    resetGenerateForm();
+                  }}
+                  className="text-white hover:bg-gray-700 rounded-lg p-2 transition-all duration-200"
+                >
+                  <span className="text-2xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+            
+            {/* Contenedor con scroll */}
+            <div className="overflow-y-auto flex-1 custom-scrollbar">
+              <form onSubmit={handleGenerateCuotas} className="p-5 space-y-4">
+                {/* Sección 1: Selección de Auto */}
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-300">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Seleccionar Vehículo *
+                  </label>
+                  <select
+                    required
+                    value={generateData.autoId}
+                    onChange={(e) => {
+                      const selectedAuto = autos.find(a => a.id === parseInt(e.target.value));
+                      setGenerateData({ 
+                        ...generateData, 
+                        autoId: e.target.value,
+                        precioTotal: selectedAuto ? selectedAuto.precio.toString() : ''
+                      });
+                    }}
+                    className="input w-full"
+                  >
+                    <option value="">Seleccione un auto...</option>
+                    {autos.map((auto) => (
+                      <option key={auto.id} value={auto.id}>
+                        {auto.marca} {auto.modelo} • {auto.cliente?.nombre} • ${auto.precio.toLocaleString()}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Sección 2: Detalles Financieros */}
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-300">
+                  <h3 className="text-sm font-bold text-gray-700 mb-3">
+                    Detalles Financieros
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Precio Total del Auto *
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                        <input
+                          type="number"
+                          required
+                          min="0"
+                          step="0.01"
+                          value={generateData.precioTotal}
+                          onChange={(e) => {
+                            setGenerateData({ ...generateData, precioTotal: e.target.value });
+                          }}
+                          onBlur={calcularMontoCuota}
+                          className="input pl-8"
+                          placeholder="0.00"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Entrega Inicial
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={generateData.entregaInicial}
+                          onChange={(e) => {
+                            setGenerateData({ ...generateData, entregaInicial: e.target.value });
+                          }}
+                          onBlur={calcularMontoCuota}
+                          className="input pl-8"
+                          placeholder="0.00"
+                        />
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Pago inicial del cliente</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Interés (%)
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          step="0.1"
+                          value={generateData.porcentajeInteres}
+                          onChange={(e) => {
+                            setGenerateData({ ...generateData, porcentajeInteres: e.target.value });
+                          }}
+                          onBlur={calcularMontoCuota}
+                          className="input pr-8"
+                          placeholder="0.0"
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">%</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Tasa de interés anual</p>
+                    </div>
+
+                  </div>
+
+                  {/* Resumen Financiero Dinámico */}
+                  {generateData.precioTotal && (
+                    <div className="mt-3 bg-white rounded-lg p-3 border border-gray-300 animate-fade-in">
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                          <span className="text-sm text-gray-600">Saldo a Financiar:</span>
+                          <span className="font-semibold text-gray-900">
+                            ${((parseFloat(generateData.precioTotal) || 0) - (parseFloat(generateData.entregaInicial) || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </span>
+                        </div>
+                        
+                        {generateData.porcentajeInteres && parseFloat(generateData.porcentajeInteres) > 0 && (
+                          <>
+                            <div className="flex justify-between items-center py-2 border-b border-gray-200 animate-fade-in">
+                              <span className="text-sm text-gray-600">
+                                Interés ({generateData.porcentajeInteres}%):
+                              </span>
+                              <span className="font-semibold text-gray-900">
+                                +${(((parseFloat(generateData.precioTotal) || 0) - (parseFloat(generateData.entregaInicial) || 0)) * (parseFloat(generateData.porcentajeInteres) / 100)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center py-2 bg-gray-100 rounded px-2">
+                              <span className="font-bold text-gray-900">
+                                TOTAL A PAGAR:
+                              </span>
+                              <span className="font-bold text-gray-900 text-lg">
+                                ${(((parseFloat(generateData.precioTotal) || 0) - (parseFloat(generateData.entregaInicial) || 0)) * (1 + parseFloat(generateData.porcentajeInteres) / 100)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              </span>
+                            </div>
+                          </>
+                        )}
+                        
+                        {(!generateData.porcentajeInteres || parseFloat(generateData.porcentajeInteres) === 0) && (
+                          <div className="flex justify-between items-center py-2 bg-gray-100 rounded px-2">
+                            <span className="font-bold text-gray-900">
+                              TOTAL A PAGAR:
+                            </span>
+                            <span className="font-bold text-gray-900 text-lg">
+                              ${((parseFloat(generateData.precioTotal) || 0) - (parseFloat(generateData.entregaInicial) || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Sección 3: Configuración de Cuotas */}
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-300">
+                  <h3 className="text-sm font-bold text-gray-700 mb-3">
+                    Configuración del Plan
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Número de Cuotas *
+                      </label>
+                      <input
+                        type="number"
+                        required
+                        min="1"
+                        max="60"
+                        value={generateData.numeroCuotas}
+                        onChange={(e) => {
+                          setGenerateData({ ...generateData, numeroCuotas: e.target.value });
+                        }}
+                        onBlur={calcularMontoCuota}
+                        className="input text-center"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Intervalo (meses)
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="12"
+                        value={generateData.intervaloMeses}
+                        onChange={(e) => setGenerateData({ ...generateData, intervaloMeses: e.target.value })}
+                        className="input text-center"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Fecha de Inicio *
+                      </label>
+                      <input
+                        type="date"
+                        required
+                        value={generateData.fechaInicio}
+                        onChange={(e) => setGenerateData({ ...generateData, fechaInicio: e.target.value })}
+                        className="input"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Checkbox para financiamiento en progreso */}
+                  <div className="mt-4 pt-4 border-t border-gray-300">
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={generateData.esFinanciamientoEnProgreso}
+                        onChange={(e) => {
+                          setGenerateData({ 
+                            ...generateData, 
+                            esFinanciamientoEnProgreso: e.target.checked,
+                            cuotasPagadas: e.target.checked ? generateData.cuotasPagadas : 0
+                          });
+                        }}
+                        className="w-4 h-4 text-blue-400 border-gray-300 rounded focus:ring-blue-400"
+                      />
+                      <div>
+                        <span className="text-sm font-semibold text-gray-700">
+                          Auto con financiamiento en progreso
+                        </span>
+                        <p className="text-xs text-gray-500 mt-0.5">
+                          Marcar cuotas anteriores como ya pagadas
+                        </p>
+                      </div>
+                    </label>
+
+                    {/* Campo de cuotas pagadas */}
+                    {generateData.esFinanciamientoEnProgreso && (
+                      <div className="mt-3 bg-blue-50 rounded-lg p-3 border border-blue-200">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Número de Cuotas Ya Pagadas *
+                        </label>
+                        <input
+                          type="number"
+                          required={generateData.esFinanciamientoEnProgreso}
+                          min="0"
+                          max={generateData.numeroCuotas ? parseInt(generateData.numeroCuotas) - 1 : 0}
+                          value={generateData.cuotasPagadas}
+                          onChange={(e) => setGenerateData({ ...generateData, cuotasPagadas: e.target.value })}
+                          className="input text-center"
+                          placeholder="0"
+                        />
+                        <p className="text-xs text-gray-600 mt-2">
+                          Estas cuotas se marcarán automáticamente como pagadas.
+                          Quedarán {(parseInt(generateData.numeroCuotas) || 0) - (parseInt(generateData.cuotasPagadas) || 0)} cuotas pendientes.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Sección 4: Resultado - Monto por Cuota */}
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-300">
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-sm font-bold text-gray-700">
+                      Monto por Cuota *
+                    </label>
+                    <button
+                      type="button"
+                      onClick={calcularMontoCuota}
+                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-800 text-white text-xs font-medium rounded transition-all duration-200"
+                    >
+                      Calcular
+                    </button>
+                  </div>
+                  
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                    <input
+                      type="number"
+                      required
+                      min="0"
+                      step="0.01"
+                      value={generateData.montoCuota}
+                      onChange={(e) => setGenerateData({ ...generateData, montoCuota: e.target.value })}
+                      className="input pl-8 text-lg font-semibold text-center"
+                      placeholder="0.00"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1 text-center">
+                    Valor de cada cuota mensual
+                  </p>
+                </div>
+
+                {/* Resumen del Plan (si hay financiamiento en progreso) */}
+                {generateData.esFinanciamientoEnProgreso && generateData.numeroCuotas && generateData.cuotasPagadas && (
+                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <h4 className="text-sm font-bold text-gray-800 mb-3">Resumen del Plan</h4>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div className="bg-white rounded p-2 border border-gray-200">
+                        <div className="text-gray-600 text-xs">Total de Cuotas</div>
+                        <div className="font-bold text-gray-900 text-lg">{generateData.numeroCuotas}</div>
+                      </div>
+                      <div className="bg-green-50 rounded p-2 border border-green-200">
+                        <div className="text-green-700 text-xs">Ya Pagadas</div>
+                        <div className="font-bold text-green-700 text-lg">{generateData.cuotasPagadas}</div>
+                      </div>
+                      <div className="bg-orange-50 rounded p-2 border border-orange-200">
+                        <div className="text-orange-700 text-xs">Pendientes</div>
+                        <div className="font-bold text-orange-700 text-lg">
+                          {parseInt(generateData.numeroCuotas) - parseInt(generateData.cuotasPagadas)}
+                        </div>
+                      </div>
+                      <div className="bg-blue-50 rounded p-2 border border-blue-200">
+                        <div className="text-blue-700 text-xs">Monto Pendiente</div>
+                        <div className="font-bold text-blue-700 text-lg">
+                          ${((parseInt(generateData.numeroCuotas) - parseInt(generateData.cuotasPagadas)) * parseFloat(generateData.montoCuota || 0)).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Botones de Acción */}
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowGenerateModal(false);
+                      resetGenerateForm();
+                    }}
+                    className="px-6 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition-all duration-200"
+                  >
+                    Cancelar
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="flex-1 bg-blue-400 hover:bg-blue-500 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
+                  >
+                    Generar Plan de Cuotas
+                  </button>
+                </div>
+              </form>
+            </div>
+            {/* Fin del contenedor con scroll */}
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Pago Online */}
+      {showPagoOnlineModal && pagoSeleccionado && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] flex flex-col">
+            {/* Header fijo */}
+            <div className="p-6 pb-4 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900">Pago Online</h2>
+                <button
+                  onClick={() => {
+                    setShowPagoOnlineModal(false);
+                    setPagoSeleccionado(null);
+                    setMetodoPago('tarjeta');
+                  }}
+                  className="text-gray-400 hover:text-gray-600 text-3xl leading-none"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            {/* Contenido con scroll */}
+            <div className="overflow-y-auto flex-1 custom-scrollbar">
+              <div className="p-6 pt-4">
+
+              {/* Resumen del Pago */}
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-4 mb-6 border border-blue-200">
+                <h3 className="font-semibold text-gray-900 mb-3">Resumen del Pago</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Auto:</span>
+                    <span className="font-medium text-gray-900">
+                      {pagoSeleccionado.auto?.marca} {pagoSeleccionado.auto?.modelo}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Matrícula:</span>
+                    <span className="font-medium text-gray-900">{pagoSeleccionado.auto?.matricula}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Cuota #:</span>
+                    <span className="font-medium text-gray-900">{pagoSeleccionado.numeroCuota}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Vencimiento:</span>
+                    <span className="font-medium text-gray-900">{formatDate(pagoSeleccionado.fechaVencimiento)}</span>
+                  </div>
+                  <div className="border-t border-blue-200 pt-2 mt-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-900 font-semibold">Total a Pagar:</span>
+                      <span className="text-2xl font-bold text-blue-600">
+                        ${pagoSeleccionado.monto.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Formulario de Pago */}
+              <form onSubmit={handleConfirmarPago}>
+                <div className="space-y-4">
+                  {/* Método de Pago */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Método de Pago
+                    </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setMetodoPago('tarjeta')}
+                        className={`p-3 rounded-lg border-2 transition-all ${
+                          metodoPago === 'tarjeta'
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <CreditCard className="w-6 h-6 mx-auto mb-1 text-blue-600" />
+                        <span className="text-sm font-medium">Tarjeta</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setMetodoPago('transferencia')}
+                        className={`p-3 rounded-lg border-2 transition-all ${
+                          metodoPago === 'transferencia'
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <DollarSign className="w-6 h-6 mx-auto mb-1 text-green-600" />
+                        <span className="text-sm font-medium">Transferencia</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {metodoPago === 'tarjeta' && (
+                    <>
+                      {/* Número de Tarjeta */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Número de Tarjeta
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="1234 5678 9012 3456"
+                          maxLength="19"
+                          required
+                          className="input"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        {/* Fecha de Expiración */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Vencimiento
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="MM/AA"
+                            maxLength="5"
+                            required
+                            className="input"
+                          />
+                        </div>
+
+                        {/* CVV */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            CVV
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="123"
+                            maxLength="3"
+                            required
+                            className="input"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Nombre del Titular */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Nombre del Titular
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Como aparece en la tarjeta"
+                          required
+                          className="input"
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {metodoPago === 'transferencia' && (
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                      <p className="text-sm text-yellow-800 mb-3">
+                        <strong>Datos para transferencia:</strong>
+                      </p>
+                      <div className="space-y-1 text-sm text-gray-700">
+                        <p><strong>Banco:</strong> Banco Pichincha</p>
+                        <p><strong>Cuenta:</strong> 2100123456</p>
+                        <p><strong>Beneficiario:</strong> RV Automoviles</p>
+                        <p><strong>RUC:</strong> 1234567890001</p>
+                      </div>
+                      <p className="text-xs text-yellow-700 mt-3">
+                        * Al confirmar, tu pago quedará en estado "Procesando" hasta que sea verificado.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Seguridad */}
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                    </svg>
+                    <span>Pago seguro encriptado SSL</span>
+                  </div>
+                </div>
+              </form>
+              </div>
+            </div>
+
+            {/* Footer fijo con botones */}
+            <div className="p-6 pt-4 border-t border-gray-200 bg-gray-50">
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  onClick={handleConfirmarPago}
+                  disabled={loading}
+                  className="btn btn-primary flex-1 flex items-center justify-center gap-2"
+                >
+                  {loading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Procesando...
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="w-5 h-5" />
+                      Confirmar Pago
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowPagoOnlineModal(false);
+                    setPagoSeleccionado(null);
+                    setMetodoPago('tarjeta');
+                  }}
+                  disabled={loading}
+                  className="btn btn-secondary flex-1"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Pagos;
