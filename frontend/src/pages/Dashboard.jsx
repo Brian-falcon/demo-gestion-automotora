@@ -190,7 +190,7 @@ const Dashboard = () => {
                 >
                   <div className="flex-1">
                     <p className="font-medium text-gray-900 dark:text-white">
-                      {pago.auto.cliente.nombre}
+                      {pago.auto?.cliente?.nombre || 'Cliente archivado'}
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       {pago.auto.marca} {pago.auto.modelo} - Cuota #{pago.numeroCuota}
@@ -222,7 +222,7 @@ const Dashboard = () => {
                 >
                   <div className="flex-1">
                     <p className="font-medium text-gray-900 dark:text-white">
-                      {pago.auto.cliente.nombre}
+                      {pago.auto?.cliente?.nombre || 'Cliente archivado'}
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       {pago.auto.marca} {pago.auto.modelo} - Cuota #{pago.numeroCuota}
