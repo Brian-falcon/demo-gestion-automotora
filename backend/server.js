@@ -3,7 +3,41 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const { PrismaClient } = require('@prisma/client');
 const app = express();
+
+// Inicializar Prisma Client
+const prisma = new PrismaClient();
+
+// Verificar conexión a base de datos al iniciar
+async function verifyDatabaseConnection() {
+  try {
+    await prisma.$connect();
+    console.log('✅ Conexión a base de datos PostgreSQL exitosa');
+    
+    // Verificar que las tablas existan
+    const tables = await prisma.$queryRaw`
+      SELECT tablename 
+      FROM pg_tables 
+      WHERE schemaname = 'public'
+    `;
+    console.log(`📊 Tablas encontradas: ${tables.length}`);
+    
+    if (tables.length === 0) {
+      console.error('❌ ERROR: No se encontraron tablas en la base de datos');
+      console.error('🔧 Por favor, ejecuta el script SQL para crear las tablas');
+      process.exit(1);
+    }
+  } catch (error) {
+    console.error('❌ ERROR: No se pudo conectar a la base de datos');
+    console.error('Detalles:', error.message);
+    console.error('🔧 Verifica que DATABASE_URL esté correctamente configurado');
+    process.exit(1); // Fallar si no hay conexión
+  }
+}
+
+// Verificar conexión antes de iniciar el servidor
+verifyDatabaseConnection();
 
 // Importar rutas
 const authRoutes = require('./routes/auth.routes');
