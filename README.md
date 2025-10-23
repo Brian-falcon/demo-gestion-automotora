@@ -4,7 +4,21 @@
 
 RV Automoviles es una aplicación web completa diseñada para digitalizar y automatizar la gestión de una automotora, eliminando el uso de papel y centralizando toda la información en un sistema moderno y eficiente.
 
-## 📋 Tabla de Contenidos
+## � Deploy Rápido en Vercel
+
+**¿Quieres poner la aplicación en producción AHORA?**
+
+👉 **[Guía Rápida de Deploy](QUICK_DEPLOY.md)** - ¡Lista en 10 minutos!
+
+**Documentación de Deploy:**
+- 📖 [Guía Completa Paso a Paso](VERCEL_DEPLOY_GUIDE.md)
+- ✅ [Checklist de Deploy](DEPLOY_CHECKLIST.md)
+- 📋 [Resumen Ejecutivo](DEPLOY_READY.md)
+- 📝 [Información Post-Deploy](POST_DEPLOY_INFO.md)
+
+---
+
+## �📋 Tabla de Contenidos
 
 - [Características](#características)
 - [Tecnologías](#tecnologías)
