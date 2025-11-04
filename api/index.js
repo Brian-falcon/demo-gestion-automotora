@@ -1,8 +1,5 @@
 // Función serverless de Vercel para manejar todas las peticiones API
-const path = require('path');
-
-// Configurar variables de entorno
-require('dotenv').config({ path: path.join(__dirname, '../backend/.env') });
+// Las variables de entorno son inyectadas automáticamente por Vercel
 
 // Importar el servidor Express
 const app = require('../backend/server');
