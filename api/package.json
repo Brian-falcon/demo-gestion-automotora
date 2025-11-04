@@ -2,6 +2,9 @@
   "name": "rv-automoviles-api",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "postinstall": "prisma generate"
+  },
   "dependencies": {
     "express": "^4.19.2",
     "cors": "^2.8.5",
