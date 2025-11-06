@@ -1,333 +1,663 @@
-# 🚗 RV Automóviles - Sistema de Gestión# 🚗 RV Automoviles
+# 🚗 RV Automóviles - Sistema de Gestión# 🚗 RV Automóviles - Sistema de Gestión# 🚗 RV Automoviles
 
 
 
-Sistema completo de gestión para RV Automóviles con frontend React y backend Express + PostgreSQL.**Sistema de Gestión Digital para Automotoras**
+**Sistema completo de gestión digital para automotoras**
 
 
 
-## 🚀 Deploy en Producción (Vercel)RV Automoviles es una aplicación web completa diseñada para digitalizar y automatizar la gestión de una automotora, eliminando el uso de papel y centralizando toda la información en un sistema moderno y eficiente.
+Aplicación web moderna que permite gestionar clientes, vehículos, pagos y reportes de una automotora de forma eficiente y sin papeleos.Sistema completo de gestión para RV Automóviles con frontend React y backend Express + PostgreSQL.**Sistema de Gestión Digital para Automotoras**
 
 
 
-### Variables de Entorno Requeridas en Vercel:## � Deploy Rápido en Vercel
+---
 
 
 
-1. **NODE_ENV** = `production`**¿Quieres poner la aplicación en producción AHORA?**
+## ⚡ Quick Start - Deploy en Vercel## 🚀 Deploy en Producción (Vercel)RV Automoviles es una aplicación web completa diseñada para digitalizar y automatizar la gestión de una automotora, eliminando el uso de papel y centralizando toda la información en un sistema moderno y eficiente.
 
-2. **POSTGRES_PRISMA_URL** = Tu URL de Neon (con pgbouncer)
 
-3. **DATABASE_URL_UNPOOLED** = Tu URL de Neon (sin pgbouncer)👉 **[Guía Rápida de Deploy](QUICK_DEPLOY.md)** - ¡Lista en 10 minutos!
+
+**¿Listo para poner tu app en producción?**
+
+
+
+### 📘 Opción 1: Guía Completa (Paso a Paso - 30 min)### Variables de Entorno Requeridas en Vercel:## � Deploy Rápido en Vercel
+
+
+
+👉 **[VERCEL_DEPLOY_GUIDE.md](VERCEL_DEPLOY_GUIDE.md)**
+
+
+
+Incluye:1. **NODE_ENV** = `production`**¿Quieres poner la aplicación en producción AHORA?**
+
+- ✅ Configuración de base de datos en Neon
+
+- ✅ Variables de entorno explicadas2. **POSTGRES_PRISMA_URL** = Tu URL de Neon (con pgbouncer)
+
+- ✅ Deployment en Vercel
+
+- ✅ Inicialización de base de datos3. **DATABASE_URL_UNPOOLED** = Tu URL de Neon (sin pgbouncer)👉 **[Guía Rápida de Deploy](QUICK_DEPLOY.md)** - ¡Lista en 10 minutos!
+
+- ✅ Solución de problemas
 
 4. **JWT_SECRET** = `rv_automoviles_secret_key_2025_super_seguro`
 
+### 📝 Opción 2: Resumen de Cambios
+
 5. **FRONTEND_URL** = `https://tu-dominio.vercel.app`**Documentación de Deploy:**
+
+👉 **[CAMBIOS_RECONSTRUCCION.md](CAMBIOS_RECONSTRUCCION.md)**
 
 6. **VITE_API_URL** = `/api`- 📖 [Guía Completa Paso a Paso](VERCEL_DEPLOY_GUIDE.md)
 
-- ✅ [Checklist de Deploy](DEPLOY_CHECKLIST.md)
+Para desarrolladores que quieren entender:
 
-### Deploy:- 📋 [Resumen Ejecutivo](DEPLOY_READY.md)
+- 🔧 Arquitectura serverless implementada- ✅ [Checklist de Deploy](DEPLOY_CHECKLIST.md)
 
-```bash- 📝 [Información Post-Deploy](POST_DEPLOY_INFO.md)
+- 📊 Cambios en el código
 
-git add .
-
-git commit -m "Deploy to production"---
-
-git push origin main
-
-```## �📋 Tabla de Contenidos
+- 💡 Decisiones técnicas### Deploy:- 📋 [Resumen Ejecutivo](DEPLOY_READY.md)
 
 
 
-Vercel desplegará automáticamente.- [Características](#características)
+---```bash- 📝 [Información Post-Deploy](POST_DEPLOY_INFO.md)
 
-- [Tecnologías](#tecnologías)
 
-## 💻 Desarrollo Local- [Requisitos Previos](#requisitos-previos)
 
-- [Instalación](#instalación)
+## 🎯 Funcionalidadesgit add .
 
-### Backend:- [Configuración](#configuración)
 
-```bash- [Ejecución](#ejecución)
 
-cd backend- [Estructura del Proyecto](#estructura-del-proyecto)
+### Autenticacióngit commit -m "Deploy to production"---
 
-npm install- [API Endpoints](#api-endpoints)
+- ✅ Login de administrador
+
+- ✅ Login de clientesgit push origin main
+
+- ✅ Gestión de sesiones con JWT
+
+- ✅ Protección de rutas por rol```## �📋 Tabla de Contenidos
+
+
+
+### Gestión de Clientes
+
+- ✅ Crear, editar y eliminar clientes
+
+- ✅ Asignar credenciales de accesoVercel desplegará automáticamente.- [Características](#características)
+
+- ✅ Archivar clientes completados
+
+- ✅ Buscar y filtrar- [Tecnologías](#tecnologías)
+
+
+
+### Gestión de Autos## 💻 Desarrollo Local- [Requisitos Previos](#requisitos-previos)
+
+- ✅ Inventario de vehículos
+
+- ✅ Estados: Disponible, Vendido, Reservado- [Instalación](#instalación)
+
+- ✅ Asignación a clientes
+
+- ✅ Filtros y búsqueda### Backend:- [Configuración](#configuración)
+
+
+
+### Gestión de Pagos```bash- [Ejecución](#ejecución)
+
+- ✅ Generación automática de cuotas
+
+- ✅ Registro de pagoscd backend- [Estructura del Proyecto](#estructura-del-proyecto)
+
+- ✅ Control de vencimientos
+
+- ✅ Histórico de pagosnpm install- [API Endpoints](#api-endpoints)
+
+- ✅ Alertas de pagos vencidos
 
 npx prisma generate- [Uso del Sistema](#uso-del-sistema)
 
-npm run dev- [Capturas de Pantalla](#capturas-de-pantalla)
+### Dashboard
 
-```- [Solución de Problemas](#solución-de-problemas)
+- ✅ Estadísticas en tiempo realnpm run dev- [Capturas de Pantalla](#capturas-de-pantalla)
+
+- ✅ Indicadores clave (KPIs)
+
+- ✅ Gráficos visuales```- [Solución de Problemas](#solución-de-problemas)
+
+- ✅ Resumen financiero
 
 - [Próximas Funcionalidades](#próximas-funcionalidades)
 
-### Frontend:
+### Reportes
 
-```bash## ✨ Características
+- ✅ Exportación a PDF### Frontend:
 
-cd frontend
+- ✅ Reportes personalizados
 
-npm install### Funcionalidades Principales
+- ✅ Listados imprimibles```bash## ✨ Características
 
-npm run dev
 
-```- **Dashboard Interactivo**: Vista general con estadísticas en tiempo real
 
-  - Total de autos (disponibles, vendidos, reservados)
+---cd frontend
 
-## 📁 Estructura del Proyecto  - Total de clientes registrados
+
+
+## 🛠️ Stack Tecnológiconpm install### Funcionalidades Principales
+
+
+
+### Frontendnpm run dev
+
+- **React** 18.3.1 - UI Library
+
+- **Vite** 5.4.5 - Build Tool```- **Dashboard Interactivo**: Vista general con estadísticas en tiempo real
+
+- **React Router** 6.26.1 - Routing
+
+- **Axios** 1.7.7 - HTTP Client  - Total de autos (disponibles, vendidos, reservados)
+
+- **Tailwind CSS** 3.4.11 - Styling
+
+- **Lucide React** - Icons## 📁 Estructura del Proyecto  - Total de clientes registrados
+
+- **jsPDF** - PDF Generation
 
   - Resumen de pagos (pagados, pendientes, vencidos)
 
-```  - Próximos vencimientos de cuotas
+### Backend
 
-├── api/              # API serverless para Vercel  - Historial de pagos recientes
+- **Node.js** - Runtime```  - Próximos vencimientos de cuotas
 
-├── backend/          # Servidor Express + Prisma
+- **Express** 4.19.2 - Web Framework
 
-├── frontend/         # App React con Vite- **Gestión de Autos**
+- **Prisma** 5.19.0 - ORM├── api/              # API serverless para Vercel  - Historial de pagos recientes
+
+- **PostgreSQL** - Database
+
+- **JWT** - Authentication├── backend/          # Servidor Express + Prisma
+
+- **bcryptjs** - Password Hashing
+
+- **Helmet** - Security├── frontend/         # App React con Vite- **Gestión de Autos**
+
+- **CORS** - Cross-Origin
 
 ├── vercel.json       # Configuración de Vercel  - Registro completo de vehículos (marca, modelo, año, matrícula, precio)
 
-└── README.md  - Estados: Disponible, Vendido, Reservado
+### Infrastructure
 
-```  - Asignación de clientes
+- **Vercel** - Hosting & Serverless Functions└── README.md  - Estados: Disponible, Vendido, Reservado
 
-  - Búsqueda y filtrado avanzado
+- **Neon** - PostgreSQL Database
 
-## 🔒 Seguridad  - Edición y eliminación
+- **GitHub** - Version Control & CI/CD```  - Asignación de clientes
 
 
 
-- Autenticación JWT- **Gestión de Clientes**
+---  - Búsqueda y filtrado avanzado
+
+
+
+## 📋 Requisitos## 🔒 Seguridad  - Edición y eliminación
+
+
+
+- Node.js 18+ (para desarrollo local)
+
+- Cuenta en Vercel (gratis)
+
+- Cuenta en Neon (gratis)- Autenticación JWT- **Gestión de Clientes**
+
+- Cuenta en GitHub
 
 - Rate limiting  - Registro de información completa (nombre, cédula, teléfono, dirección, email)
 
+---
+
 - CORS configurado  - Visualización de autos asociados
+
+## 🚀 Deployment
 
 - Helmet para headers de seguridad  - Búsqueda rápida
 
+### Opción A: Vercel (Recomendado)
+
 - Variables de entorno protegidas  - Edición y eliminación con validaciones
 
+1. Lee la guía: `VERCEL_DEPLOY_GUIDE.md`
+
+2. Configura Neon PostgreSQL
+
+3. Agrega variables de entorno en Vercel
+
+4. Deploy automático desde GitHub---- **Gestión de Pagos y Cuotas**
 
 
----- **Gestión de Pagos y Cuotas**
 
-  - Generación automática de planes de cuotas
+### Variables de Entorno Necesarias  - Generación automática de planes de cuotas
 
-**Última actualización:** 2025-11-01  - Control de cuotas pagadas y pendientes
 
-  - Alertas visuales para pagos vencidos
-  - Registro de fechas de vencimiento y pago
-  - Marcado rápido de cuotas como pagadas
-  - Filtros: Todas, Pendientes, Vencidas, Pagadas
 
-- **Autenticación y Seguridad**
+```env**Última actualización:** 2025-11-01  - Control de cuotas pagadas y pendientes
+
+NODE_ENV=production
+
+POSTGRES_PRISMA_URL=postgresql://... (de Neon)  - Alertas visuales para pagos vencidos
+
+POSTGRES_URL_NON_POOLING=postgresql://... (de Neon)  - Registro de fechas de vencimiento y pago
+
+JWT_SECRET=tu_clave_secreta_generada  - Marcado rápido de cuotas como pagadas
+
+FRONTEND_URL=https://tu-app.vercel.app  - Filtros: Todas, Pendientes, Vencidas, Pagadas
+
+VITE_API_URL=/api
+
+```- **Autenticación y Seguridad**
+
   - Sistema de login seguro
-  - Autenticación con JWT
+
+---  - Autenticación con JWT
+
   - Contraseñas encriptadas con bcrypt
-  - Rutas protegidas
 
-## 🛠️ Tecnologías
+## 💻 Desarrollo Local  - Rutas protegidas
 
-### Frontend
-- **React 18** - Framework de interfaz de usuario
-- **Vite** - Build tool y dev server
-- **TailwindCSS** - Framework de estilos
+
+
+### 1. Clonar el repositorio## 🛠️ Tecnologías
+
+
+
+```bash### Frontend
+
+git clone https://github.com/Mateo14RDGZ/Gestio_RV_Automoviles.git- **React 18** - Framework de interfaz de usuario
+
+cd Gestio_RV_Automoviles- **Vite** - Build tool y dev server
+
+```- **TailwindCSS** - Framework de estilos
+
 - **React Router DOM** - Navegación
-- **Axios** - Cliente HTTP
+
+### 2. Instalar dependencias- **Axios** - Cliente HTTP
+
 - **Lucide React** - Iconos modernos
 
-### Backend
-- **Node.js** - Runtime de JavaScript
-- **Express** - Framework web
+```bash
+
+# Frontend### Backend
+
+cd frontend- **Node.js** - Runtime de JavaScript
+
+npm install- **Express** - Framework web
+
 - **Prisma** - ORM para base de datos
-- **SQLite** - Base de datos
-- **JWT** - Autenticación
-- **Bcrypt** - Encriptación de contraseñas
 
-## 📦 Requisitos Previos
+# Backend- **SQLite** - Base de datos
 
-Antes de comenzar, asegúrate de tener instalado:
+cd ../backend- **JWT** - Autenticación
+
+npm install- **Bcrypt** - Encriptación de contraseñas
+
+
+
+# API (para development)## 📦 Requisitos Previos
+
+cd ../api
+
+npm installAntes de comenzar, asegúrate de tener instalado:
+
+```
 
 - **Node.js** (versión 16 o superior)
-- **npm** o **yarn**
+
+### 3. Configurar variables de entorno- **npm** o **yarn**
+
 - **Git** (opcional, para clonar el repositorio)
+
+Crear `.env` en `/backend`:
 
 Verifica las instalaciones:
 
-```bash
-node --version
-npm --version
+```env
+
+DATABASE_URL="postgresql://..."```bash
+
+JWT_SECRET="tu_jwt_secret"node --version
+
+NODE_ENV="development"npm --version
+
+FRONTEND_URL="http://localhost:3000"```
+
 ```
 
 ## 🚀 Instalación
 
+Crear `.env` en `/frontend`:
+
 ### Opción 1: Instalación Completa (Recomendada)
 
-Desde la raíz del proyecto:
+```env
 
-```bash
-# Instalar dependencias de frontend y backend
-npm run install-all
+VITE_API_URL=http://localhost:5000/apiDesde la raíz del proyecto:
+
 ```
 
-### Opción 2: Instalación Manual
-
 ```bash
-# Instalar dependencias del backend
-cd backend
-npm install
 
-# Instalar dependencias del frontend
-cd ../frontend
-npm install
+### 4. Inicializar base de datos# Instalar dependencias de frontend y backend
+
+npm run install-all
+
+```bash```
+
+cd backend
+
+npx prisma generate### Opción 2: Instalación Manual
+
+npx prisma db push
+
+npx prisma db seed  # (opcional - datos de prueba)```bash
+
+```# Instalar dependencias del backend
+
+cd backend
+
+### 5. Ejecutar en desarrollonpm install
+
+
+
+Terminal 1 - Backend:# Instalar dependencias del frontend
+
+```bashcd ../frontend
+
+cd backendnpm install
+
+npm run dev```
+
 ```
 
 ## ⚙️ Configuración
 
-### 1. Configurar Base de Datos
+Terminal 2 - Frontend:
 
-El backend ya incluye un archivo `.env` configurado. Si necesitas modificarlo:
+```bash### 1. Configurar Base de Datos
 
-```bash
-cd backend
-# Editar .env con tus configuraciones
+cd frontend
+
+npm run devEl backend ya incluye un archivo `.env` configurado. Si necesitas modificarlo:
+
 ```
 
-Contenido del archivo `.env`:
+```bash
+
+La aplicación estará en:cd backend
+
+- Frontend: http://localhost:3000# Editar .env con tus configuraciones
+
+- Backend API: http://localhost:5000/api```
+
+
+
+---Contenido del archivo `.env`:
+
 ```env
-PORT=5000
+
+## 📁 Estructura del ProyectoPORT=5000
+
 JWT_SECRET=tu_secreto_super_seguro_cambiar_en_produccion
-NODE_ENV=development
-DATABASE_URL="file:../database/automanager.db"
+
+```NODE_ENV=development
+
+Gestio_RV_Automoviles/DATABASE_URL="file:../database/automanager.db"
+
+├── api/                    # Funciones serverless para Vercel```
+
+│   ├── index.js           # Handler principal
+
+│   ├── lib/### 2. Inicializar Base de Datos
+
+│   │   ├── prisma.js      # Prisma Client singleton
+
+│   │   └── auth.js        # Middlewares de autenticación```bash
+
+│   ├── prisma/cd backend
+
+│   │   └── schema.prisma  # Schema de base de datos
+
+│   └── package.json# Generar cliente de Prisma
+
+├── backend/               # Código del backend (Express)npx prisma generate
+
+│   ├── routes/           # Rutas de la API
+
+│   │   ├── auth.routes.js# Crear/actualizar la base de datos
+
+│   │   ├── autos.routes.jsnpx prisma db push
+
+│   │   ├── clientes.routes.js
+
+│   │   ├── pagos.routes.js# Poblar con datos de ejemplo
+
+│   │   └── dashboard.routes.jsnpx prisma db seed
+
+│   ├── middleware/       # Middlewares```
+
+│   ├── prisma/          # Configuración de Prisma
+
+│   └── server.js        # Servidor ExpressEsto creará:
+
+├── frontend/            # Aplicación React- 1 usuario administrador
+
+│   ├── src/- 4 clientes de ejemplo
+
+│   │   ├── components/  # Componentes reutilizables- 6 autos de ejemplo
+
+│   │   ├── pages/       # Páginas de la app- 62 cuotas de ejemplo con diferentes estados
+
+│   │   ├── services/    # Servicios (API)
+
+│   │   ├── context/     # Contextos de React### 3. Credenciales por Defecto
+
+│   │   └── utils/       # Utilidades
+
+│   └── dist/           # Build de producción```
+
+├── docs/               # Documentación adicionalEmail: admin@automanager.com
+
+├── VERCEL_DEPLOY_GUIDE.md      # Guía de deployPassword: admin123
+
+├── CAMBIOS_RECONSTRUCCION.md   # Resumen técnico```
+
+├── vercel.json                 # Configuración de Vercel
+
+└── README.md                   # Este archivo## ▶️ Ejecución
+
 ```
-
-### 2. Inicializar Base de Datos
-
-```bash
-cd backend
-
-# Generar cliente de Prisma
-npx prisma generate
-
-# Crear/actualizar la base de datos
-npx prisma db push
-
-# Poblar con datos de ejemplo
-npx prisma db seed
-```
-
-Esto creará:
-- 1 usuario administrador
-- 4 clientes de ejemplo
-- 6 autos de ejemplo
-- 62 cuotas de ejemplo con diferentes estados
-
-### 3. Credenciales por Defecto
-
-```
-Email: admin@automanager.com
-Password: admin123
-```
-
-## ▶️ Ejecución
 
 ### Opción 1: Ejecutar Todo Simultáneamente (Recomendada)
 
+---
+
 ```bash
-# Desde la raíz del proyecto
+
+## 🔐 Seguridad# Desde la raíz del proyecto
+
 npm run dev
-```
 
-Esto iniciará:
-- Backend en `http://localhost:5000`
-- Frontend en `http://localhost:3000`
+- ✅ Autenticación JWT```
 
-### Opción 2: Ejecutar por Separado
+- ✅ Passwords hasheados con bcrypt
+
+- ✅ Validación de entrada con express-validatorEsto iniciará:
+
+- ✅ Rate limiting en rutas sensibles- Backend en `http://localhost:5000`
+
+- ✅ CORS configurado- Frontend en `http://localhost:3000`
+
+- ✅ Helmet para headers seguros
+
+- ✅ HTTPS forzado en producción### Opción 2: Ejecutar por Separado
+
+- ✅ Variables de entorno para credenciales
 
 **Terminal 1 - Backend:**
-```bash
+
+---```bash
+
 cd backend
-npm run dev
-```
 
-**Terminal 2 - Frontend:**
-```bash
-cd frontend
-npm run dev
-```
-
-### Acceder a la Aplicación
-
-Abre tu navegador en: **http://localhost:3000**
-
-## 📁 Estructura del Proyecto
+## 📊 API Endpointsnpm run dev
 
 ```
-Administracion_RV_Automoviles/
-├── backend/
-│   ├── middleware/
-│   │   └── auth.middleware.js       # Middleware de autenticación JWT
-│   ├── routes/
+
+### Autenticación
+
+- `POST /api/auth/register` - Registrar admin**Terminal 2 - Frontend:**
+
+- `POST /api/auth/login` - Login admin```bash
+
+- `POST /api/auth/login-cliente` - Login clientecd frontend
+
+- `GET /api/auth/verify` - Verificar tokennpm run dev
+
+```
+
+### Clientes
+
+- `GET /api/clientes` - Listar### Acceder a la Aplicación
+
+- `GET /api/clientes/:id` - Obtener uno
+
+- `POST /api/clientes` - CrearAbre tu navegador en: **http://localhost:3000**
+
+- `PUT /api/clientes/:id` - Actualizar
+
+- `DELETE /api/clientes/:id` - Eliminar## 📁 Estructura del Proyecto
+
+
+
+### Autos```
+
+- `GET /api/autos` - ListarAdministracion_RV_Automoviles/
+
+- `GET /api/autos/:id` - Obtener uno├── backend/
+
+- `POST /api/autos` - Crear│   ├── middleware/
+
+- `PUT /api/autos/:id` - Actualizar│   │   └── auth.middleware.js       # Middleware de autenticación JWT
+
+- `DELETE /api/autos/:id` - Eliminar│   ├── routes/
+
 │   │   ├── auth.routes.js           # Rutas de autenticación
-│   │   ├── autos.routes.js          # Rutas de autos
-│   │   ├── clientes.routes.js       # Rutas de clientes
-│   │   ├── pagos.routes.js          # Rutas de pagos
-│   │   └── dashboard.routes.js      # Rutas del dashboard
-│   ├── prisma/
-│   │   ├── schema.prisma            # Esquema de base de datos
-│   │   └── seed.js                  # Datos de ejemplo
+
+### Pagos│   │   ├── autos.routes.js          # Rutas de autos
+
+- `GET /api/pagos` - Listar│   │   ├── clientes.routes.js       # Rutas de clientes
+
+- `GET /api/pagos/proximos-vencimientos` - Próximos vencimientos│   │   ├── pagos.routes.js          # Rutas de pagos
+
+- `POST /api/pagos` - Crear pago│   │   └── dashboard.routes.js      # Rutas del dashboard
+
+- `POST /api/pagos/generar-cuotas` - Generar cuotas│   ├── prisma/
+
+- `PUT /api/pagos/:id` - Actualizar pago│   │   ├── schema.prisma            # Esquema de base de datos
+
+- `DELETE /api/pagos/:id` - Eliminar pago│   │   └── seed.js                  # Datos de ejemplo
+
 │   ├── .env                         # Variables de entorno
-│   ├── server.js                    # Servidor Express
-│   └── package.json
+
+### Dashboard│   ├── server.js                    # Servidor Express
+
+- `GET /api/dashboard/stats` - Estadísticas│   └── package.json
+
 │
-├── frontend/
+
+---├── frontend/
+
 │   ├── src/
-│   │   ├── components/
+
+## 🧪 Testing│   │   ├── components/
+
 │   │   │   ├── Layout.jsx           # Layout principal con sidebar
-│   │   │   └── PrivateRoute.jsx     # Protección de rutas
-│   │   ├── context/
-│   │   │   └── AuthContext.jsx      # Contexto de autenticación
-│   │   ├── pages/
+
+```bash│   │   │   └── PrivateRoute.jsx     # Protección de rutas
+
+# Backend│   │   ├── context/
+
+cd backend│   │   │   └── AuthContext.jsx      # Contexto de autenticación
+
+npm test│   │   ├── pages/
+
 │   │   │   ├── Login.jsx            # Página de login
-│   │   │   ├── Dashboard.jsx        # Dashboard principal
-│   │   │   ├── Autos.jsx            # Gestión de autos
-│   │   │   ├── Clientes.jsx         # Gestión de clientes
-│   │   │   └── Pagos.jsx            # Gestión de pagos
+
+# Frontend│   │   │   ├── Dashboard.jsx        # Dashboard principal
+
+cd frontend│   │   │   ├── Autos.jsx            # Gestión de autos
+
+npm test│   │   │   ├── Clientes.jsx         # Gestión de clientes
+
+```│   │   │   └── Pagos.jsx            # Gestión de pagos
+
 │   │   ├── services/
-│   │   │   ├── api.js               # Configuración de Axios
+
+---│   │   │   ├── api.js               # Configuración de Axios
+
 │   │   │   └── index.js             # Servicios de API
-│   │   ├── App.jsx                  # Componente raíz
+
+## 📝 Licencia│   │   ├── App.jsx                  # Componente raíz
+
 │   │   ├── main.jsx                 # Punto de entrada
-│   │   └── index.css                # Estilos globales
+
+Este proyecto es de uso privado para RV Automóviles.│   │   └── index.css                # Estilos globales
+
 │   ├── index.html
-│   ├── vite.config.js
+
+---│   ├── vite.config.js
+
 │   ├── tailwind.config.js
-│   └── package.json
+
+## 👤 Autor│   └── package.json
+
 │
-├── database/
-│   ├── automanager.db               # Base de datos SQLite (generada)
+
+**Mateo Rodriguez**├── database/
+
+- GitHub: [@Mateo14RDGZ](https://github.com/Mateo14RDGZ)│   ├── automanager.db               # Base de datos SQLite (generada)
+
 │   └── README.md
-│
+
+---│
+
 ├── docs/
-│   └── ...                          # Documentación adicional
+
+## 🆘 Soporte│   └── ...                          # Documentación adicional
+
 │
-├── .gitignore
+
+¿Problemas con el deployment?├── .gitignore
+
 ├── package.json                     # Scripts principales
-└── README.md                        # Este archivo
+
+1. Lee `VERCEL_DEPLOY_GUIDE.md` - sección "Solución de Problemas"└── README.md                        # Este archivo
+
+2. Revisa los logs en Vercel Dashboard```
+
+3. Verifica las variables de entorno
+
+4. Abre un issue en GitHub## 🔌 API Endpoints
+
+
+
+---### Autenticación (`/api/auth`)
+
 ```
 
-## 🔌 API Endpoints
+**¡Happy coding! 🚀**POST   /api/auth/register        # Registrar nuevo usuario
 
-### Autenticación (`/api/auth`)
-```
-POST   /api/auth/register        # Registrar nuevo usuario
 POST   /api/auth/login           # Iniciar sesión
 GET    /api/auth/verify          # Verificar token
 ```
