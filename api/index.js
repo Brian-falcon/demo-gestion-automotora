@@ -1,37 +1,22 @@
-const express = require('express');// Función serverless de Vercel para manejar todas las peticiones API
-
-const cors = require('cors');// Las variables de entorno son inyectadas automáticamente por Vercel
-
+const express = require('express');
+const cors = require('cors');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
-// Importar el servidor Express
+const app = express();
 
-const app = express();const app = require('../backend/server');
+app.use(helmet());
 
-
-
-// Middleware de seguridad// Exportar como función serverless de Vercel
-
-app.use(helmet());module.exports = app;
-
-
-// CORS - permitir solo desde el frontend de Vercel
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:3000',
-  'http://localhost:5173',
-  /\.vercel\.app$/
+  'http://localhost:5173'
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Permitir requests sin origin (como mobile apps o curl)
     if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.some(allowed => {
-      if (allowed instanceof RegExp) return allowed.test(origin);
-      return allowed === origin;
-    })) {
+    if (allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -40,25 +25,29 @@ app.use(cors({
   credentials: true
 }));
 
-// Body parsing
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Demasiadas peticiones desde esta IP'
+});
+
+app.use('/api/', apiLimiter);
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Importar rutas del backend original
 const authRoutes = require('../backend/routes/auth.routes');
 const autosRoutes = require('../backend/routes/autos.routes');
 const clientesRoutes = require('../backend/routes/clientes.routes');
 const pagosRoutes = require('../backend/routes/pagos.routes');
 const dashboardRoutes = require('../backend/routes/dashboard.routes');
 
-// Montar rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/autos', autosRoutes);
 app.use('/api/clientes', clientesRoutes);
 app.use('/api/pagos', pagosRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
-// Ruta de health check
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -67,14 +56,25 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Manejo de errores
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ 
-    error: 'Error interno del servidor',
-    message: process.env.NODE_ENV === 'development' ? err.message : undefined
+app.get('/api', (req, res) => {
+  res.json({ 
+    message: 'API RV Automoviles',
+    version: '1.0.0'
   });
 });
 
-// Exportar como función serverless
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(err.status || 500).json({ 
+    error: err.message || 'Error interno del servidor'
+  });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ 
+    error: 'Ruta no encontrada',
+    path: req.path
+  });
+});
+
 module.exports = app;
