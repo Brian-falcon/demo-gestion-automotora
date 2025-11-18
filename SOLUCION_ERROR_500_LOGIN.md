@@ -1,6 +1,7 @@
 # 🔧 Solución Error 500 en Login - Guía de Diagnóstico
 
 ## 🎯 Objetivo
+
 Resolver el error 500 que aparece al intentar hacer login como administrador.
 
 ---
@@ -10,11 +11,13 @@ Resolver el error 500 que aparece al intentar hacer login como administrador.
 ### Paso 1: Verificar Variables de Entorno
 
 Abre en tu navegador:
+
 ```
 https://rv-gestion-automotora20.vercel.app/api/diagnostic
 ```
 
 **Deberías ver algo como:**
+
 ```json
 {
   "message": "Diagnóstico de variables de entorno",
@@ -30,6 +33,7 @@ https://rv-gestion-automotora20.vercel.app/api/diagnostic
 ```
 
 **Si alguna variable muestra "❌ No configurado":**
+
 1. Ve a Vercel → Settings → Environment Variables
 2. Agrega la variable faltante
 3. Haz redeploy
@@ -39,11 +43,13 @@ https://rv-gestion-automotora20.vercel.app/api/diagnostic
 ### Paso 2: Verificar Conexión a Base de Datos
 
 Abre en tu navegador:
+
 ```
 https://rv-gestion-automotora20.vercel.app/api/health
 ```
 
 **Si funciona correctamente, verás:**
+
 ```json
 {
   "status": "OK",
@@ -53,6 +59,7 @@ https://rv-gestion-automotora20.vercel.app/api/health
 ```
 
 **Si hay error, verás:**
+
 ```json
 {
   "status": "ERROR",
@@ -62,6 +69,7 @@ https://rv-gestion-automotora20.vercel.app/api/health
 ```
 
 **Si la base de datos está desconectada:**
+
 1. Verifica que las URLs de Neon sean correctas
 2. Verifica que la base de datos en Neon esté activa
 3. Verifica que las tablas estén creadas (ver Paso 3)
@@ -96,6 +104,7 @@ https://rv-gestion-automotora20.vercel.app/api/health
    - `Pago`
 
 **Si las tablas no existen:**
+
 ```bash
 npx prisma db push
 ```
@@ -107,8 +116,8 @@ npx prisma db push
 3. Ve a "SQL Editor"
 4. Ejecuta:
    ```sql
-   SELECT table_name 
-   FROM information_schema.tables 
+   SELECT table_name
+   FROM information_schema.tables
    WHERE table_schema = 'public';
    ```
 5. Deberías ver: `Usuario`, `Cliente`, `Auto`, `Pago`
@@ -130,47 +139,48 @@ npx prisma db push
 Crea un archivo `create-admin.js` en la carpeta `/api`:
 
 ```javascript
-const { PrismaClient } = require('@prisma/client');
-const bcrypt = require('bcryptjs');
+const { PrismaClient } = require("@prisma/client");
+const bcrypt = require("bcryptjs");
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const email = 'admin@rvautomoviles.com';
-  const password = 'Admin123!'; // Cambia esto por tu contraseña
-  
+  const email = "admin@rvautomoviles.com";
+  const password = "Admin123!"; // Cambia esto por tu contraseña
+
   // Verificar si ya existe
   const existing = await prisma.usuario.findUnique({ where: { email } });
   if (existing) {
-    console.log('✅ Usuario admin ya existe:', email);
+    console.log("✅ Usuario admin ya existe:", email);
     return;
   }
-  
+
   const hashedPassword = await bcrypt.hash(password, 10);
-  
+
   const admin = await prisma.usuario.create({
     data: {
       email,
       password: hashedPassword,
-      rol: 'admin'
-    }
+      rol: "admin",
+    },
   });
-  
-  console.log('✅ Usuario admin creado:');
-  console.log('Email:', admin.email);
-  console.log('Contraseña:', password);
-  console.log('⚠️ Guarda estas credenciales en un lugar seguro');
+
+  console.log("✅ Usuario admin creado:");
+  console.log("Email:", admin.email);
+  console.log("Contraseña:", password);
+  console.log("⚠️ Guarda estas credenciales en un lugar seguro");
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error:', e);
+    console.error("❌ Error:", e);
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());
 ```
 
 Ejecuta:
+
 ```bash
 node create-admin.js
 ```
@@ -204,18 +214,23 @@ node create-admin.js
 **Errores comunes y soluciones:**
 
 #### Error: "POSTGRES_PRISMA_URL no está configurada"
+
 **Solución**: Agrega la variable en Vercel → Settings → Environment Variables
 
 #### Error: "P1001: Can't reach database server"
-**Solución**: 
+
+**Solución**:
+
 - Verifica que las URLs de Neon sean correctas
 - Verifica que Neon esté activo
 - Verifica tu conexión a internet
 
 #### Error: "JWT_SECRET no está configurado"
+
 **Solución**: Agrega `JWT_SECRET` en Vercel → Settings → Environment Variables
 
 #### Error: "relation 'Usuario' does not exist"
+
 **Solución**: Las tablas no están creadas. Ejecuta `npx prisma db push` localmente
 
 ---
@@ -232,11 +247,13 @@ Una vez que hayas verificado todo:
 4. Haz clic en **"Iniciar Sesión"**
 
 **Si funciona correctamente:**
+
 - ✅ Deberías ser redirigido a `/dashboard`
 - ✅ Deberías ver el dashboard de administrador
 - ✅ No debería haber errores en la consola
 
 **Si sigue fallando:**
+
 - Revisa los logs en Vercel (Paso 5)
 - Verifica el endpoint `/api/diagnostic` (Paso 1)
 - Verifica el endpoint `/api/health` (Paso 2)
@@ -296,8 +313,8 @@ Después de seguir todos los pasos, verifica:
 ---
 
 **Si después de seguir todos estos pasos el problema persiste, comparte:**
+
 1. El resultado de `/api/diagnostic`
 2. El resultado de `/api/health`
 3. Los logs de Vercel (especialmente los errores con ❌)
 4. Una captura de pantalla del error en la consola del navegador
-
