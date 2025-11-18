@@ -7,3 +7,19 @@ node_modules
 .git
 .vscode
 .idea
+
+# Archivos de prueba y desarrollo
+*.test.js
+*.spec.js
+probar-*.js
+verificar-*.js
+diagnostico-*.js
+generate-*.js
+actualizar-*.js
+crear-admin-*.js
+resetear-*.js
+
+# Documentación
+*.md
+docs/
+database/
