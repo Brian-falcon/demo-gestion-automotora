@@ -32,15 +32,25 @@ if (process.env.NODE_ENV === 'production') {
   globalForPrisma.prisma = prisma;
 }
 
-// Función helper para asegurar conexión
-prisma.$connect = prisma.$connect || (async () => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    console.log('✅ Prisma Client conectado correctamente');
-  } catch (error) {
-    console.error('❌ Error conectando Prisma:', error.message);
-    throw error;
-  }
-});
+// Función helper para asegurar conexión (si no existe)
+if (!prisma.$connect || typeof prisma.$connect !== 'function') {
+  const originalConnect = prisma.$connect;
+  prisma.$connect = async () => {
+    try {
+      // Si ya está conectado, no hacer nada
+      if (prisma._connectionState === 'connected') {
+        return;
+      }
+      await prisma.$queryRaw`SELECT 1`;
+      prisma._connectionState = 'connected';
+      console.log('✅ Prisma Client conectado correctamente');
+    } catch (error) {
+      prisma._connectionState = 'disconnected';
+      console.error('❌ Error conectando Prisma:', error.message);
+      console.error('Error completo:', error);
+      throw error;
+    }
+  };
+}
 
 module.exports = prisma;

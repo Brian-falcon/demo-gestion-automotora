@@ -90,14 +90,17 @@ router.post('/login', validateLogin, async (req, res) => {
 
     const { email, password } = req.body;
 
-    // Verificar conexión a base de datos
+    // Verificar conexión a base de datos (Prisma se conecta automáticamente, pero verificamos)
     try {
-      await prisma.$connect();
+      // Prisma se conecta automáticamente en el primer query, pero podemos verificar
+      await prisma.$queryRaw`SELECT 1`;
     } catch (dbError) {
       console.error('❌ Error de conexión a base de datos:', dbError);
+      console.error('Error code:', dbError.code);
+      console.error('Error message:', dbError.message);
       return res.status(503).json({ 
         error: 'Error de conexión a la base de datos',
-        message: process.env.NODE_ENV === 'development' ? dbError.message : undefined
+        message: process.env.NODE_ENV === 'development' ? dbError.message : 'Verifica las variables de entorno POSTGRES_PRISMA_URL y POSTGRES_URL_NON_POOLING'
       });
     }
 

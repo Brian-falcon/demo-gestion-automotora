@@ -23,8 +23,14 @@ const Login = () => {
 
     try {
       if (loginMode === 'admin') {
-        await login(email, password);
-        navigate('/dashboard');
+        const result = await login(email, password);
+        // Asegurar que el login fue exitoso antes de navegar
+        if (result && result.token) {
+          navigate('/dashboard');
+        } else {
+          setError('Error al iniciar sesión: respuesta inválida del servidor');
+          setLoading(false);
+        }
       } else {
         // Login de cliente con cédula
         await loginCliente(cedula);
