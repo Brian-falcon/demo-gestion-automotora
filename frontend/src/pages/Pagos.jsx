@@ -52,9 +52,10 @@ const Pagos = () => {
       setAutos(autosData.filter(auto => auto.estado !== 'disponible'));
       setClientes(clientesData);
       
-      // Agrupar pagos por cliente si es admin
+      // Agrupar pagos por cliente si es admin - SIEMPRE con todos los pagos
       if (user?.rol === 'admin') {
-        organizarPagosPorCliente(pagosData, clientesData);
+        const todosPagos = await pagosService.getAll({});
+        organizarPagosPorCliente(todosPagos, clientesData);
       }
     } catch (error) {
       console.error('Error al cargar datos:', error);
@@ -123,9 +124,10 @@ const Pagos = () => {
       const data = await pagosService.getAll(params);
       setPagos(data);
       
-      // Actualizar agrupación por cliente si es admin
+      // Actualizar agrupación por cliente si es admin - SIEMPRE con todos los pagos
       if (user?.rol === 'admin') {
-        organizarPagosPorCliente(data, clientes);
+        const todosPagos = await pagosService.getAll({});
+        organizarPagosPorCliente(todosPagos, clientes);
       }
     } catch (error) {
       console.error('Error al filtrar:', error);
