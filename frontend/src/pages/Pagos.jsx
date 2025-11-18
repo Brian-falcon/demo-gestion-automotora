@@ -272,28 +272,16 @@ const Pagos = () => {
           </p>
         </div>
         {user?.rol === 'admin' && (
-          <div className="flex gap-3">
-            <button
-              onClick={() => {
-                resetGenerateForm();
-                setShowGenerateModal(true);
-              }}
-              className="btn btn-secondary flex items-center gap-2"
-            >
-              <Plus className="w-5 h-5" />
-              Generar Cuotas
-            </button>
-            <button
-              onClick={() => {
-                resetForm();
-                setShowModal(true);
-              }}
-              className="btn btn-primary flex items-center gap-2"
-            >
-              <Plus className="w-5 h-5" />
-              Nueva Cuota
-            </button>
-          </div>
+          <button
+            onClick={() => {
+              resetGenerateForm();
+              setShowGenerateModal(true);
+            }}
+            className="btn btn-primary flex items-center gap-2"
+          >
+            <Plus className="w-5 h-5" />
+            Generar Cuotas
+          </button>
         )}
       </div>
 
