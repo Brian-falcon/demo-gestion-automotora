@@ -506,12 +506,12 @@ const Pagos = () => {
       ) : (
         /* Vista Cliente: Tabla simple */
         <div className="card overflow-hidden">
-          {pagos.length === 0 ? (
+          {pagos.length === 0 && !loading ? (
             <div className="text-center py-12">
               <CreditCard className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
               <p className="text-gray-500 dark:text-gray-400">No se encontraron pagos</p>
             </div>
-          ) : (
+          ) : pagos.length > 0 && (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-800">
