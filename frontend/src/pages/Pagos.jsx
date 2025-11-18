@@ -14,6 +14,7 @@ const Pagos = () => {
   const [filter, setFilter] = useState('pendientes');
   const [showModal, setShowModal] = useState(false);
   const [showGenerateModal, setShowGenerateModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [pagoSeleccionado, setPagoSeleccionado] = useState(null);
   const [formData, setFormData] = useState({
     autoId: '',
@@ -166,13 +167,18 @@ const Pagos = () => {
   };
 
   const handleMarcarPagado = async (pagoId) => {
-    if (window.confirm('¿Marcar esta cuota como pagada?')) {
-      try {
-        await pagosService.update(pagoId, { estado: 'pagado' });
-        loadData();
-      } catch (error) {
-        alert('Error al actualizar el pago');
-      }
+    setPagoSeleccionado(pagoId);
+    setShowConfirmModal(true);
+  };
+
+  const confirmarMarcarPagado = async () => {
+    try {
+      await pagosService.update(pagoSeleccionado, { estado: 'pagado' });
+      setShowConfirmModal(false);
+      setPagoSeleccionado(null);
+      handleFilter(filter);
+    } catch (error) {
+      alert('Error al actualizar el pago');
     }
   };
 
@@ -1032,6 +1038,39 @@ const Pagos = () => {
               </form>
             </div>
             {/* Fin del contenedor con scroll */}
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación para marcar pagado */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+          <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                Confirmar Acción
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                ¿Estás seguro de marcar esta cuota como pagada?
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowConfirmModal(false);
+                    setPagoSeleccionado(null);
+                  }}
+                  className="flex-1 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={confirmarMarcarPagado}
+                  className="flex-1 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
+                >
+                  Confirmar
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
