@@ -14,4 +14,7 @@ SET "password" = EXCLUDED."password",
     "rol" = EXCLUDED."rol";
 
 -- Verificar que el usuario se creó correctamente
-SELECT "id", "email", "rol", "createdAt" FROM "Usuario" WHERE "email" = 'marcos@rvautomoviles.com';
+SELECT "id", "email", "rol", "createdAt"
+FROM "Usuario"
+WHERE
+    "email" = 'marcos@rvautomoviles.com';
