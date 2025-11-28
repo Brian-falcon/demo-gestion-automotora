@@ -269,7 +269,7 @@ const Pagos = () => {
       }
       
       // Abrir WhatsApp
-      const url = `https://wa.me/593${telefono}?text=${encodeURIComponent(mensaje)}`;
+      const url = `https://wa.me/598${telefono}?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
       
       // Cerrar modal
