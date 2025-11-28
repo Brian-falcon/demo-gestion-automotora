@@ -261,7 +261,12 @@ const Pagos = () => {
         `_RV Automóviles - Su concesionario de confianza_`;
       
       // Limpiar el número de teléfono (quitar espacios, guiones, etc.)
-      const telefono = cliente.telefono.replace(/[^0-9]/g, '');
+      let telefono = cliente.telefono.replace(/[^0-9]/g, '');
+      
+      // Si el número empieza con 0, quitarlo (ej: 0998765432 → 998765432)
+      if (telefono.startsWith('0')) {
+        telefono = telefono.substring(1);
+      }
       
       // Abrir WhatsApp
       const url = `https://wa.me/593${telefono}?text=${encodeURIComponent(mensaje)}`;
