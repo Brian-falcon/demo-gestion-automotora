@@ -15,7 +15,9 @@ const Pagos = () => {
   const [showModal, setShowModal] = useState(false);
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
   const [pagoSeleccionado, setPagoSeleccionado] = useState(null);
+  const [pagoParaEmail, setPagoParaEmail] = useState(null);
   const [formData, setFormData] = useState({
     autoId: '',
     numeroCuota: 1,
@@ -182,8 +184,16 @@ const Pagos = () => {
   const confirmarMarcarPagado = async () => {
     try {
       await pagosService.update(pagoSeleccionado, { estado: 'pagado' });
+      
+      // Guardar el pago para el modal de email
+      const pagoActualizado = pagos.find(p => p.id === pagoSeleccionado);
+      setPagoParaEmail(pagoActualizado);
+      
       setShowConfirmModal(false);
       setPagoSeleccionado(null);
+      
+      // Mostrar modal de email
+      setShowEmailModal(true);
       
       // Recargar todos los datos para actualizar los totales
       await loadInitialData();
@@ -194,6 +204,20 @@ const Pagos = () => {
       }
     } catch (error) {
       alert('Error al actualizar el pago');
+    }
+  };
+
+  const enviarEmailConfirmacion = async () => {
+    try {
+      setLoading(true);
+      await pagosService.enviarEmail(pagoParaEmail.id);
+      setShowEmailModal(false);
+      setPagoParaEmail(null);
+      alert('✅ Email de confirmación enviado exitosamente');
+    } catch (error) {
+      alert('❌ Error al enviar el email: ' + (error.response?.data?.error || error.message));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -1083,6 +1107,57 @@ const Pagos = () => {
                   className="flex-1 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
                 >
                   Confirmar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de confirmación de email */}
+      {showEmailModal && pagoParaEmail && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+          <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div className="p-6">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
+                </div>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 text-center">
+                ¡Pago Confirmado!
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">
+                La cuota ha sido marcada como pagada exitosamente.
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 text-center">
+                ¿Deseas enviar un email de confirmación al cliente?
+              </p>
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={enviarEmailConfirmacion}
+                  disabled={loading}
+                  className="w-full bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {loading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      📧 Enviar Email de Confirmación
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowEmailModal(false);
+                    setPagoParaEmail(null);
+                  }}
+                  className="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
+                >
+                  Omitir
                 </button>
               </div>
             </div>

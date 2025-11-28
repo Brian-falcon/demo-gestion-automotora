@@ -260,17 +260,6 @@ router.put('/:id', async (req, res) => {
       }
     });
 
-    // Si el pago fue marcado como "pagado", enviar email de confirmación
-    if (estado === 'pagado' && pago.auto?.cliente?.email) {
-      try {
-        await enviarConfirmacionPago(pago.auto.cliente, pago, pago.auto);
-        console.log(`📧 Email de confirmación enviado a ${pago.auto.cliente.email}`);
-      } catch (emailError) {
-        console.error('❌ Error al enviar email (no afecta el proceso):', emailError);
-        // No falla la petición si el email falla
-      }
-    }
-
     // Si el pago fue marcado como "pagado", verificar si todas las cuotas del cliente están pagadas
     if (estado === 'pagado' && pago.auto.clienteId) {
       const clienteId = pago.auto.clienteId;
@@ -309,6 +298,53 @@ router.put('/:id', async (req, res) => {
   } catch (error) {
     console.error('Error al actualizar pago:', error);
     res.status(500).json({ error: 'Error al actualizar pago' });
+  }
+});
+
+// Enviar email de confirmación de pago
+router.post('/:id/enviar-email', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Obtener el pago con todos los datos necesarios
+    const pago = await prisma.pago.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        auto: {
+          include: {
+            cliente: true
+          }
+        }
+      }
+    });
+
+    if (!pago) {
+      return res.status(404).json({ error: 'Pago no encontrado' });
+    }
+
+    if (!pago.auto?.cliente?.email) {
+      return res.status(400).json({ error: 'El cliente no tiene email registrado' });
+    }
+
+    if (pago.estado !== 'pagado') {
+      return res.status(400).json({ error: 'Solo se pueden enviar emails para pagos confirmados' });
+    }
+
+    // Enviar el email
+    const resultado = await enviarConfirmacionPago(pago.auto.cliente, pago, pago.auto);
+
+    if (!resultado.success) {
+      return res.status(500).json({ error: 'Error al enviar el email: ' + resultado.error });
+    }
+
+    res.json({ 
+      success: true, 
+      message: 'Email enviado exitosamente',
+      messageId: resultado.messageId 
+    });
+  } catch (error) {
+    console.error('Error al enviar email:', error);
+    res.status(500).json({ error: 'Error al enviar el email' });
   }
 });
 

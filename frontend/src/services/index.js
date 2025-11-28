@@ -102,6 +102,11 @@ export const pagosService = {
     return response.data;
   },
 
+  enviarEmail: async (id) => {
+    const response = await api.post(`/pagos/${id}/enviar-email`);
+    return response.data;
+  },
+
   delete: async (id) => {
     const response = await api.delete(`/pagos/${id}`);
     return response.data;
