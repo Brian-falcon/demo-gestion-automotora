@@ -563,7 +563,7 @@ const Pagos = () => {
           )}
         </div>
       ) : (
-        /* Vista Cliente: Tabla simple */
+        /* Vista Cliente: Tabla para desktop, Cards para móvil */
         <div className="card overflow-hidden">
           {pagos.length === 0 && !loading ? (
             <div className="text-center py-12">
@@ -571,66 +571,134 @@ const Pagos = () => {
               <p className="text-gray-500 dark:text-gray-400">No se encontraron pagos</p>
             </div>
           ) : pagos.length > 0 && (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-800">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                      Auto
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                      Cuota
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                      Monto
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                      Vencimiento
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                      Fecha Pago
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                      Estado
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {pagos.map((pago) => (
-                    <tr 
-                      key={pago.id} 
-                      className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${isVencido(pago) ? 'bg-red-50 dark:bg-red-900/20' : ''}`}
-                    >
-                      <td className="px-6 py-4">
-                        <div className="text-sm">
-                          <div className="font-medium text-gray-900 dark:text-white">
-                            {pago.auto.marca} {pago.auto.modelo}
-                          </div>
-                          <div className="text-gray-600 dark:text-gray-400">
-                            {pago.auto.matricula}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
-                        Cuota #{pago.numeroCuota}
-                      </td>
-                      <td className="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">
-                        {formatCurrency(pago.monto)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-                        {formatDate(pago.fechaVencimiento)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-                        {pago.fechaPago ? formatDate(pago.fechaPago) : '-'}
-                      </td>
-                      <td className="px-6 py-4">
-                        {getEstadoBadge(pago)}
-                      </td>
+            <>
+              {/* Vista Desktop - Tabla */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead className="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Auto
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Cuota
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Monto
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Vencimiento
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Fecha Pago
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Estado
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    {pagos.map((pago) => (
+                      <tr 
+                        key={pago.id} 
+                        className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${isVencido(pago) ? 'bg-red-50 dark:bg-red-900/20' : ''}`}
+                      >
+                        <td className="px-6 py-4">
+                          <div className="text-sm">
+                            <div className="font-medium text-gray-900 dark:text-white">
+                              {pago.auto.marca} {pago.auto.modelo}
+                            </div>
+                            <div className="text-gray-600 dark:text-gray-400">
+                              {pago.auto.matricula}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                          Cuota #{pago.numeroCuota}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">
+                          {formatCurrency(pago.monto)}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                          {formatDate(pago.fechaVencimiento)}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                          {pago.fechaPago ? formatDate(pago.fechaPago) : '-'}
+                        </td>
+                        <td className="px-6 py-4">
+                          {getEstadoBadge(pago)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Vista Mobile - Cards */}
+              <div className="md:hidden space-y-4 p-4">
+                {pagos.map((pago) => (
+                  <div 
+                    key={pago.id} 
+                    className={`rounded-lg p-4 border-2 transition-all ${
+                      isVencido(pago) 
+                        ? 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-800' 
+                        : pago.estado === 'pagado'
+                        ? 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-800'
+                        : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                    }`}
+                  >
+                    {/* Header con auto */}
+                    <div className="flex items-start justify-between mb-3 pb-3 border-b border-gray-200 dark:border-gray-700">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Car className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                          <span className="font-semibold text-gray-900 dark:text-white">
+                            {pago.auto.marca} {pago.auto.modelo}
+                          </span>
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                          {pago.auto.matricula}
+                        </div>
+                      </div>
+                      <div className="ml-2">
+                        {getEstadoBadge(pago)}
+                      </div>
+                    </div>
+
+                    {/* Información de la cuota */}
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Cuota</span>
+                        <span className="font-medium text-gray-900 dark:text-white">#{pago.numeroCuota}</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Monto</span>
+                        <span className="font-bold text-lg text-gray-900 dark:text-white">
+                          {formatCurrency(pago.monto)}
+                        </span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Vencimiento</span>
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">
+                          {formatDate(pago.fechaVencimiento)}
+                        </span>
+                      </div>
+                      
+                      {pago.fechaPago && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600 dark:text-gray-400">Fecha de Pago</span>
+                          <span className="text-sm font-medium text-green-600 dark:text-green-400">
+                            {formatDate(pago.fechaPago)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       )}
