@@ -20,9 +20,10 @@ async function generateIcons() {
       await sharp(inputFile)
         .resize(size, size, {
           fit: 'contain',
-          background: { r: 255, g: 255, b: 255, alpha: 0 }
+          background: { r: 255, g: 255, b: 255, alpha: 1 }
         })
-        .png()
+        .flatten({ background: { r: 255, g: 255, b: 255 } })
+        .png({ compressionLevel: 9, quality: 100 })
         .toFile(outputFile);
       
       console.log(`✅ Generado: icon-${size}.png`);
