@@ -18,17 +18,28 @@ const ClienteDashboard = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await pagosService.getAll();
-      const pagos = response.data || [];
+      const pagos = await pagosService.getAll() || [];
+
+      console.log('📊 Dashboard - Pagos cargados:', pagos);
+      console.log('📊 Dashboard - Total de pagos:', pagos.length);
+      console.log('📊 Dashboard - Tipo de datos:', typeof pagos, 'Es array:', Array.isArray(pagos));
 
       // Calcular estadísticas
       const pagados = pagos.filter(p => p.estado === 'pagado');
       const pendientes = pagos.filter(p => p.estado === 'pendiente' && new Date(p.fechaVencimiento) >= new Date());
       const vencidos = pagos.filter(p => p.estado === 'pendiente' && new Date(p.fechaVencimiento) < new Date());
 
+      console.log('✅ Pagados:', pagados.length);
+      console.log('⏰ Pendientes:', pendientes.length);
+      console.log('🚨 Vencidos:', vencidos.length);
+
       const totalPagado = pagados.reduce((sum, p) => sum + parseFloat(p.monto), 0);
       const totalPendiente = [...pendientes, ...vencidos].reduce((sum, p) => sum + parseFloat(p.monto), 0);
       const totalCredito = totalPagado + totalPendiente;
+
+      console.log('💰 Total Crédito:', totalCredito);
+      console.log('💰 Total Pagado:', totalPagado);
+      console.log('💰 Total Pendiente:', totalPendiente);
 
       // Encontrar próximo pago
       const proximosPagos = pendientes.sort((a, b) => 
@@ -51,7 +62,7 @@ const ClienteDashboard = () => {
 
       setProximoPago(proximosPagos[0] || null);
     } catch (error) {
-      console.error('Error al cargar dashboard:', error);
+      console.error('❌ Error al cargar dashboard:', error);
       setError(error.message || 'Error al cargar los datos');
     } finally {
       setLoading(false);

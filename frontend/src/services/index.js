@@ -77,8 +77,15 @@ export const clientesService = {
 };
 
 export const pagosService = {
-  getAll: async (params) => {
+  getAll: async (params = {}) => {
+    console.log('🔍 pagosService.getAll - Llamando API con params:', params);
     const response = await api.get('/pagos', { params });
+    console.log('✅ pagosService.getAll - Respuesta:', {
+      status: response.status,
+      dataType: typeof response.data,
+      isArray: Array.isArray(response.data),
+      length: Array.isArray(response.data) ? response.data.length : 'N/A'
+    });
     return response.data;
   },
 

@@ -12,13 +12,29 @@ router.get('/', async (req, res) => {
   try {
     const { autoId, estado, vencidos } = req.query;
     
+    console.log('🔍 GET /pagos - Usuario:', {
+      id: req.user.id,
+      rol: req.user.rol,
+      clienteId: req.user.clienteId
+    });
+    
     const where = {};
     
     // Si es cliente, solo puede ver sus propios pagos
     if (req.user.rol === 'cliente') {
+      if (!req.user.clienteId) {
+        console.error('❌ Usuario cliente sin clienteId:', req.user);
+        return res.status(400).json({ 
+          error: 'Usuario no tiene clienteId asignado',
+          user: req.user 
+        });
+      }
+      
       where.auto = {
-        clienteId: req.user.clienteId
+        clienteId: parseInt(req.user.clienteId)
       };
+      
+      console.log('🔒 Filtrando pagos para cliente:', req.user.clienteId);
     }
     
     if (autoId) {
@@ -36,6 +52,8 @@ router.get('/', async (req, res) => {
         lt: new Date()
       };
     }
+
+    console.log('📋 Query where:', JSON.stringify(where, null, 2));
 
     const pagos = await prisma.pago.findMany({
       where,
@@ -59,10 +77,25 @@ router.get('/', async (req, res) => {
       ]
     });
 
+    console.log('✅ Pagos encontrados:', pagos.length);
+    if (pagos.length > 0) {
+      console.log('📄 Primer pago:', {
+        id: pagos[0].id,
+        autoId: pagos[0].autoId,
+        clienteId: pagos[0].auto?.clienteId,
+        numeroCuota: pagos[0].numeroCuota,
+        monto: pagos[0].monto
+      });
+    }
+
     res.json(pagos);
   } catch (error) {
-    console.error('Error al obtener pagos:', error);
-    res.status(500).json({ error: 'Error al obtener pagos' });
+    console.error('❌ Error al obtener pagos:', error);
+    console.error('Error stack:', error.stack);
+    res.status(500).json({ 
+      error: 'Error al obtener pagos',
+      message: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 
