@@ -93,30 +93,69 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Nombre, cédula y teléfono son obligatorios' });
     }
 
+    // Función para generar cédula/email únicos con sufijo
+    const generarCedulaUnica = async (cedulaBase) => {
+      let cedula = cedulaBase;
+      let contador = 1;
+      
+      while (await prisma.cliente.findFirst({ where: { cedula } })) {
+        contador++;
+        cedula = `${cedulaBase}-${contador}`;
+      }
+      
+      return { cedula, esDuplicada: contador > 1, sufijo: contador > 1 ? `-${contador}` : '' };
+    };
+
+    const generarEmailUnico = async (emailBase) => {
+      if (!emailBase) return { email: null, esDuplicado: false, sufijo: '' };
+      
+      let email = emailBase;
+      let contador = 1;
+      const [localPart, domain] = emailBase.split('@');
+      
+      while (await prisma.usuario.findFirst({ where: { email } })) {
+        contador++;
+        email = `${localPart}+plan${contador}@${domain}`;
+      }
+      
+      return { email, esDuplicado: contador > 1, sufijo: contador > 1 ? `+plan${contador}` : '' };
+    };
+
+    // Generar cédula y email únicos
+    const { cedula: cedulaUnica, esDuplicada, sufijo: sufijoCedula } = await generarCedulaUnica(cedula);
+    const { email: emailUnico, esDuplicado, sufijo: sufijoEmail } = await generarEmailUnico(email);
+
+    console.log('🔄 Generando identificadores únicos:', { 
+      cedulaOriginal: cedula, 
+      cedulaUnica, 
+      emailOriginal: email, 
+      emailUnico 
+    });
+
     // Crear cliente y opcionalmente usuario en una transacción
     const result = await prisma.$transaction(async (tx) => {
-      // Crear cliente
+      // Crear cliente con cédula única
       const cliente = await tx.cliente.create({
         data: {
           nombre,
-          cedula,
+          cedula: cedulaUnica,
           telefono,
           direccion: direccion || null,
-          email: email || null,
+          email: emailUnico,
         }
       });
 
       let passwordCliente = null;
 
       // Solo crear usuario si se proporciona email
-      if (email) {
-        // Crear usuario con contraseña = últimos 4 dígitos de cédula
+      if (emailUnico) {
+        // Crear usuario con contraseña = últimos 4 dígitos de cédula ORIGINAL
         passwordCliente = cedula.slice(-4);
         const hashedPassword = await bcrypt.hash(passwordCliente, 10);
         
         await tx.usuario.create({
           data: {
-            email,
+            email: emailUnico,
             password: hashedPassword,
             rol: 'cliente',
             clienteId: cliente.id,
@@ -124,7 +163,7 @@ router.post('/', async (req, res) => {
         });
       }
 
-      return { cliente, passwordCliente };
+      return { cliente, passwordCliente, esDuplicada, sufijoCedula, esDuplicado, sufijoEmail };
     });
 
     console.log('✅ Cliente creado:', result.cliente.id);
@@ -132,6 +171,17 @@ router.post('/', async (req, res) => {
     const response = {
       ...result.cliente,
     };
+
+    // Agregar información sobre cambios realizados
+    if (result.esDuplicada || result.esDuplicado) {
+      response.mensajeInfo = `Cliente creado con ajustes automáticos:\n`;
+      if (result.esDuplicada) {
+        response.mensajeInfo += `- Cédula ajustada: ${cedula} → ${result.cliente.cedula}\n`;
+      }
+      if (result.esDuplicado) {
+        response.mensajeInfo += `- Email ajustado: ${email} → ${result.cliente.email}\n`;
+      }
+    }
 
     if (result.passwordCliente) {
       response.passwordTemporal = result.passwordCliente;

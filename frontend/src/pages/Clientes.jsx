@@ -55,11 +55,18 @@ const Clientes = () => {
         const response = await clientesService.create(formData);
         console.log('✅ Cliente creado:', response);
         
-        if (response.passwordTemporal) {
-          alert(`Cliente creado exitosamente.\n\nSe ha creado un usuario con:\nEmail: ${formData.email}\nContraseña temporal: ${response.passwordTemporal}\n\nEl cliente puede usar estas credenciales para acceder al portal.`);
-        } else {
-          alert('Cliente creado exitosamente');
+        let mensaje = 'Cliente creado exitosamente';
+        
+        // Si hubo ajustes automáticos, informar al admin
+        if (response.mensajeInfo) {
+          mensaje += '\n\n⚠️ ' + response.mensajeInfo;
         }
+        
+        if (response.passwordTemporal) {
+          mensaje += `\n\n🔐 Credenciales de acceso:\nEmail: ${response.email}\nContraseña temporal: ${response.passwordTemporal}\n\nEl cliente puede usar estas credenciales para acceder al portal.`;
+        }
+        
+        alert(mensaje);
       }
       setShowModal(false);
       resetForm();
