@@ -5,12 +5,34 @@ export const usePWA = () => {
   const [isInstallable, setIsInstallable] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [isiOS, setIsiOS] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
 
   useEffect(() => {
+    // Detectar plataforma
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const ios = /iphone|ipad|ipod/.test(userAgent);
+    const android = /android/.test(userAgent);
+    
+    setIsiOS(ios);
+    setIsAndroid(android);
+    
+    console.log('[PWA] Plataforma detectada:', { ios, android, userAgent });
+    
     // Verificar si ya está instalada
-    if (window.matchMedia('(display-mode: standalone)').matches) {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isIOSStandalone = (window.navigator as any).standalone === true;
+    
+    if (isStandalone || isIOSStandalone) {
       setIsInstalled(true);
       console.log('[PWA] App ejecutándose como PWA instalada');
+      return;
+    }
+    
+    // En iOS, siempre es "instalable" (manualmente vía Safari)
+    if (ios) {
+      console.log('[PWA] iOS detectado - Banner manual disponible');
+      setIsInstallable(true);
     }
 
     // Registrar Service Worker
@@ -90,6 +112,9 @@ export const usePWA = () => {
   return {
     isInstallable,
     isInstalled,
-    installApp
+    installApp,
+    isiOS,
+    isAndroid,
+    deferredPrompt
   };
 };

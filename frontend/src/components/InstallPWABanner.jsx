@@ -4,23 +4,39 @@ import { Download, X, Smartphone } from 'lucide-react';
 import { usePWA } from '../hooks/usePWA';
 
 const InstallPWABanner = () => {
-  const { isInstallable, isInstalled, installApp } = usePWA();
+  const { isInstallable, isInstalled, installApp, isiOS, isAndroid, deferredPrompt } = usePWA();
   const [showBanner, setShowBanner] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    // Verificar si el usuario ya rechazó el banner
-    const bannerDismissed = localStorage.getItem('pwa-banner-dismissed');
+    console.log('[Banner] Estado:', { isInstallable, isInstalled, isiOS, isAndroid });
     
-    if (!bannerDismissed && isInstallable && !isInstalled) {
-      // Mostrar banner después de 3 segundos
+    // Verificar si el usuario ya rechazó el banner
+    const bannerDismissedStr = localStorage.getItem('pwa-banner-dismissed');
+    
+    if (bannerDismissedStr) {
+      const dismissedDate = new Date(bannerDismissedStr);
+      const now = new Date();
+      
+      // Si pasaron los 7 días, limpiar el storage
+      if (now > dismissedDate) {
+        localStorage.removeItem('pwa-banner-dismissed');
+      } else {
+        console.log('[Banner] Banner fue rechazado, esperando hasta:', dismissedDate);
+        return;
+      }
+    }
+    
+    if (isInstallable && !isInstalled) {
+      // Mostrar banner después de 2 segundos (reducido para testing)
       const timer = setTimeout(() => {
+        console.log('[Banner] Mostrando banner');
         setShowBanner(true);
-      }, 3000);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
-  }, [isInstallable, isInstalled]);
+  }, [isInstallable, isInstalled, isiOS, isAndroid]);
 
   const handleInstall = async () => {
     const installed = await installApp();
@@ -43,36 +59,51 @@ const InstallPWABanner = () => {
   }
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md z-50 animate-slideUp">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 p-4">
+    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md z-[9999] animate-fadeInUp">
+      <div className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-2xl border-2 border-primary-500 dark:border-primary-600 p-5">
         <button
           onClick={handleDismiss}
-          className="absolute top-2 right-2 p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+          className="absolute top-2 right-2 p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-all hover:scale-110"
           aria-label="Cerrar"
         >
           <X className="w-4 h-4 text-gray-500 dark:text-gray-400" />
         </button>
 
         <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
-            <Smartphone className="w-6 h-6 text-white" />
+          <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg animate-pulse">
+            <Smartphone className="w-7 h-7 text-white" />
           </div>
 
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 pr-6">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-              ¡Instala RV Autos!
+              📱 ¡Instala RV Autos!
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-              Accede más rápido desde tu pantalla de inicio. Sin ocupar espacio.
+            <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
+              Accede más rápido desde tu pantalla de inicio.
             </p>
 
-            <button
-              onClick={handleInstall}
-              className="w-full btn btn-primary flex items-center justify-center gap-2 text-sm py-2"
-            >
-              <Download className="w-4 h-4" />
-              Instalar Aplicación
-            </button>
+            {isiOS ? (
+              <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-3 text-xs text-gray-700 dark:text-gray-300 space-y-1">
+                <p className="font-semibold text-blue-700 dark:text-blue-400 mb-2">📲 Instrucciones para iPhone:</p>
+                <p>1. Toca el botón <strong>Compartir</strong> 📤</p>
+                <p>2. Selecciona <strong>"Añadir a pantalla de inicio"</strong></p>
+                <p>3. Toca <strong>"Añadir"</strong></p>
+              </div>
+            ) : deferredPrompt ? (
+              <button
+                onClick={handleInstall}
+                className="w-full btn btn-primary flex items-center justify-center gap-2 text-sm py-2.5 shadow-lg hover:shadow-xl"
+              >
+                <Download className="w-4 h-4" />
+                Instalar Aplicación
+              </button>
+            ) : (
+              <div className="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-3 text-xs text-gray-700 dark:text-gray-300 space-y-1">
+                <p className="font-semibold text-green-700 dark:text-green-400 mb-2">📲 Para instalar:</p>
+                <p>1. Toca el menú <strong>⋮</strong> del navegador</p>
+                <p>2. Selecciona <strong>"Instalar app"</strong> o <strong>"Agregar a pantalla de inicio"</strong></p>
+              </div>
+            )}
           </div>
         </div>
       </div>
