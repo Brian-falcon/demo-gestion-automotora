@@ -239,7 +239,7 @@ const Pagos = () => {
     try {
       const cliente = pagoParaEmail.auto.cliente;
       const auto = pagoParaEmail.auto;
-      const fechaPago = new Date(pagoParaEmail.fechaPago || new Date()).toLocaleDateString('es-EC', {
+      const fechaPago = new Date(pagoParaEmail.fechaPago || new Date()).toLocaleDateString('es-UY', {
         day: '2-digit',
         month: 'long',
         year: 'numeric'
@@ -329,14 +329,14 @@ const Pagos = () => {
   };
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('es-EC', {
+    return new Intl.NumberFormat('es-UY', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'UYU',
     }).format(value);
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('es-EC', {
+    return new Date(dateString).toLocaleDateString('es-UY', {
       day: 'numeric',
       month: 'short',
       year: 'numeric',

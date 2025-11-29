@@ -27,7 +27,7 @@ async function enviarConfirmacionPago(cliente, pago, auto) {
       throw new Error('Credenciales de email no configuradas. Por favor configura EMAIL_USER y EMAIL_PASSWORD en Vercel.');
     }
 
-    const fechaPago = new Date(pago.fechaPago || new Date()).toLocaleDateString('es-EC', {
+    const fechaPago = new Date(pago.fechaPago || new Date()).toLocaleDateString('es-UY', {
       day: '2-digit',
       month: 'long',
       year: 'numeric'

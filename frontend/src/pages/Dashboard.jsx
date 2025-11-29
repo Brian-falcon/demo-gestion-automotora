@@ -47,14 +47,14 @@ const Dashboard = () => {
   }
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('es-EC', {
+    return new Intl.NumberFormat('es-UY', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'UYU',
     }).format(value);
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('es-EC', {
+    return new Date(dateString).toLocaleDateString('es-UY', {
       day: 'numeric',
       month: 'short',
       year: 'numeric',

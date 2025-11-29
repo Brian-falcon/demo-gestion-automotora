@@ -1,15 +1,15 @@
 // Utilidades de formato
 export const formatCurrency = (value) => {
-  return new Intl.NumberFormat('es-EC', {
+  return new Intl.NumberFormat('es-UY', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'UYU',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);
 };
 
 export const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('es-EC', {
+  return new Date(dateString).toLocaleDateString('es-UY', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
@@ -17,7 +17,7 @@ export const formatDate = (dateString) => {
 };
 
 export const formatDateTime = (dateString) => {
-  return new Date(dateString).toLocaleString('es-EC', {
+  return new Date(dateString).toLocaleString('es-UY', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
@@ -27,7 +27,7 @@ export const formatDateTime = (dateString) => {
 };
 
 export const formatNumber = (value) => {
-  return new Intl.NumberFormat('es-EC').format(value);
+  return new Intl.NumberFormat('es-UY').format(value);
 };
 
 export const calculateDaysUntil = (dateString) => {
