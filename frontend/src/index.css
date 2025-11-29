@@ -8,24 +8,15 @@
     @apply scroll-smooth;
   }
 
-  /* Transiciones suaves globales para el cambio de tema */
+  /* Transiciones suaves globales para el cambio de tema - Solo para colores */
   * {
-    @apply transition-colors duration-300 ease-in-out;
+    transition-property: color, background-color, border-color;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
   }
 
   body {
     @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white;
-  }
-
-  /* Optimizar transiciones para elementos específicos */
-  div,
-  section,
-  main,
-  aside,
-  header,
-  footer,
-  nav {
-    @apply transition-colors duration-300 ease-in-out;
   }
 }
 
@@ -64,7 +55,8 @@
   }
 
   @keyframes iconBounce {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0) rotate(0deg);
     }
     25% {
@@ -222,16 +214,24 @@
 
   /* Transiciones suaves para elementos interactivos */
   button,
-  a,
+  a {
+    transition: all 0.2s ease-in-out;
+  }
+
   input,
   select,
   textarea {
-    @apply transition-all duration-300 ease-in-out;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
   }
 
   /* Mejoras visuales para modo oscuro */
   .dark {
     color-scheme: dark;
+  }
+
+  /* Hover suave para filas de tabla */
+  tbody tr {
+    transition: background-color 0.15s ease-in-out;
   }
 
   /* Transiciones más suaves para shadows */
@@ -242,11 +242,6 @@
   .shadow-xl,
   .shadow-2xl {
     transition: box-shadow 0.3s ease-in-out;
-  }
-
-  /* Transiciones profesionales para hover effects */
-  [class*="hover:"]:hover {
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Transiciones suaves */
@@ -271,13 +266,18 @@
   }
 
   .hover-glow::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
     transition: left 0.5s;
   }
 

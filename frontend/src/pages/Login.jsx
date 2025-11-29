@@ -77,7 +77,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 relative">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 relative animate-fadeIn">
       {/* Botón de cambio de tema en la esquina superior derecha */}
       <button
         onClick={toggleTheme}

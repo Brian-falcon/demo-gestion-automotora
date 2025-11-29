@@ -438,8 +438,8 @@ const Pagos = () => {
               </div>
             </div>
           ) : (
-            clientesConPagos.map((clienteData) => (
-              <div key={clienteData.cliente.id} className="card dark:bg-gray-800 dark:border-gray-700">
+            clientesConPagos.map((clienteData, index) => (
+              <div key={clienteData.cliente.id} className="card dark:bg-gray-800 dark:border-gray-700 animate-fadeInUp" style={{animationDelay: `${0.1 * (index % 5)}s`}}>
                 {/* Header del cliente */}
                 <div 
                   className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 p-3 md:p-6 cursor-pointer hover:from-gray-100 hover:to-gray-50 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-200"

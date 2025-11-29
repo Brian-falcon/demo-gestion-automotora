@@ -119,7 +119,7 @@ const Autos = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 animate-fadeInUp" style={{animationDelay: '0.1s'}}>
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Gestión de Autos</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">Administra el inventario de vehículos</p>
@@ -137,7 +137,7 @@ const Autos = () => {
       </div>
 
       {/* Filtros y búsqueda */}
-      <div className="card">
+      <div className="card animate-fadeInUp" style={{animationDelay: '0.2s'}}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="md:col-span-2">
             <div className="relative">
@@ -171,7 +171,7 @@ const Autos = () => {
       </div>
 
       {/* Tabla de autos - Desktop */}
-      <div className="hidden md:block card overflow-hidden">
+      <div className="hidden md:block card overflow-hidden animate-fadeInUp" style={{animationDelay: '0.3s'}}>
         {loading ? (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
@@ -273,8 +273,8 @@ const Autos = () => {
             <p className="text-gray-500 dark:text-gray-400">No se encontraron autos</p>
           </div>
         ) : (
-          autos.map((auto) => (
-            <div key={auto.id} className="card">
+          autos.map((auto, index) => (
+            <div key={auto.id} className="card hover-lift animate-fadeInUp" style={{animationDelay: `${0.1 * (index % 6)}s`}}>
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center">
