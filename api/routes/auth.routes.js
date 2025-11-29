@@ -183,6 +183,8 @@ router.post('/login', validateLogin, async (req, res) => {
 // Login de cliente con cédula (solo si tiene pagos pendientes)
 router.post('/login-cliente', validateClienteLogin, async (req, res) => {
   try {
+    console.log('🔐 Login cliente con cédula:', req.body.cedula);
+    
     // Validar errores
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -194,8 +196,9 @@ router.post('/login-cliente', validateClienteLogin, async (req, res) => {
 
     const { cedula } = req.body;
 
-    // Buscar cliente por cédula
-    const cliente = await prisma.cliente.findUnique({
+    // Buscar cliente por cédula base (sin sufijo) o con sufijo
+    // Primero intentar buscar con cédula exacta
+    let cliente = await prisma.cliente.findFirst({
       where: { cedula },
       include: { 
         usuario: true,
@@ -209,12 +212,46 @@ router.post('/login-cliente', validateClienteLogin, async (req, res) => {
       }
     });
 
+    // Si no encuentra, buscar clientes con cédula que comience con el número dado
+    // y tomar el más reciente (último plan de cuotas)
+    if (!cliente) {
+      const clientesConCedula = await prisma.cliente.findMany({
+        where: {
+          cedula: {
+            startsWith: cedula
+          }
+        },
+        include: { 
+          usuario: true,
+          autos: {
+            include: {
+              pagos: {
+                where: { estado: 'pendiente' }
+              }
+            }
+          }
+        },
+        orderBy: {
+          createdAt: 'desc' // Más reciente primero
+        }
+      });
+
+      // Tomar el cliente más reciente que tenga pagos pendientes
+      cliente = clientesConCedula.find(c => 
+        c.autos.some(auto => auto.pagos.length > 0)
+      ) || clientesConCedula[0];
+    }
+
+    console.log('👤 Cliente encontrado:', cliente ? `ID: ${cliente.id}, Cédula: ${cliente.cedula}` : 'No encontrado');
+
     if (!cliente) {
       return res.status(404).json({ error: 'Cliente no encontrado' });
     }
 
     // Verificar si tiene pagos pendientes
     const tienePagosPendientes = cliente.autos.some(auto => auto.pagos.length > 0);
+    
+    console.log('📋 Tiene pagos pendientes:', tienePagosPendientes);
     
     if (!tienePagosPendientes) {
       return res.status(403).json({ 
@@ -228,6 +265,8 @@ router.post('/login-cliente', validateClienteLogin, async (req, res) => {
         error: 'Cliente no tiene acceso al sistema. Contacta con administración.' 
       });
     }
+
+    console.log('✅ Login exitoso para cliente ID:', cliente.id);
 
     // Generar token sin necesidad de contraseña
     const token = jwt.sign(

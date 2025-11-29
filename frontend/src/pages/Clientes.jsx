@@ -297,7 +297,8 @@ const Clientes = () => {
                     placeholder="correo@ejemplo.com"
                   />
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    Si proporcionas un email, se creará un usuario para acceso al portal del cliente
+                    Si proporcionas un email, se creará un usuario para acceso al portal. 
+                    El cliente podrá iniciar sesión usando solo su cédula (sin sufijos).
                   </p>
                 </div>
 
