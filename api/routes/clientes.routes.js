@@ -93,26 +93,6 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Nombre, cédula y teléfono son obligatorios' });
     }
 
-    // Verificar si la cédula ya existe
-    const existingCliente = await prisma.cliente.findUnique({
-      where: { cedula }
-    });
-
-    if (existingCliente) {
-      return res.status(400).json({ error: 'La cédula ya está registrada' });
-    }
-
-    // Si se proporciona email, verificar que no exista
-    if (email) {
-      const existingEmail = await prisma.cliente.findFirst({
-        where: { email }
-      });
-
-      if (existingEmail) {
-        return res.status(400).json({ error: 'El email ya está registrado' });
-      }
-    }
-
     // Crear cliente y opcionalmente usuario en una transacción
     const result = await prisma.$transaction(async (tx) => {
       // Crear cliente
@@ -183,29 +163,6 @@ router.put('/:id', async (req, res) => {
 
     if (!existingCliente) {
       return res.status(404).json({ error: 'Cliente no encontrado' });
-    }
-
-    // Si se cambia la cédula, verificar que no exista
-    if (cedula && cedula !== existingCliente.cedula) {
-      const cedulaExists = await prisma.cliente.findUnique({
-        where: { cedula }
-      });
-      if (cedulaExists) {
-        return res.status(400).json({ error: 'La cédula ya está registrada' });
-      }
-    }
-
-    // Si se proporciona email y es diferente, verificar que no exista
-    if (email && email !== existingCliente.email) {
-      const emailExists = await prisma.cliente.findFirst({
-        where: { 
-          email,
-          id: { not: parseInt(id) }
-        }
-      });
-      if (emailExists) {
-        return res.status(400).json({ error: 'El email ya está registrado' });
-      }
     }
 
     const cliente = await prisma.cliente.update({

@@ -25,10 +25,10 @@ model Usuario {
 model Cliente {
   id        Int      @id @default(autoincrement())
   nombre    String
-  cedula    String   @unique
+  cedula    String
   telefono  String
   direccion String?
-  email     String   @unique
+  email     String?
   activo    Boolean  @default(true) // true: activo, false: archivado/completado
   usuario   Usuario?
   autos     Auto[]
