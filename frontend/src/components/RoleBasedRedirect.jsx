@@ -9,8 +9,8 @@ const RoleBasedRedirect = () => {
     return <Navigate to="/dashboard" replace />;
   }
   
-  // Los clientes van directamente a sus pagos
-  return <Navigate to="/pagos" replace />;
+  // Los clientes van a su dashboard personal
+  return <Navigate to="/mi-dashboard" replace />;
 };
 
 export default RoleBasedRedirect;

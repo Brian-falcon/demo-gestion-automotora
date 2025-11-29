@@ -11,7 +11,9 @@ import {
   Menu,
   X,
   Moon,
-  Sun
+  Sun,
+  TrendingUp,
+  History
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -36,7 +38,9 @@ const Layout = () => {
         { to: '/reportes', icon: FileText, label: 'Reportes' },
       ]
     : [
+        { to: '/mi-dashboard', icon: TrendingUp, label: 'Mi Dashboard' },
         { to: '/pagos', icon: CreditCard, label: 'Mis Cuotas' },
+        { to: '/historial', icon: History, label: 'Historial' },
       ];
 
   return (
