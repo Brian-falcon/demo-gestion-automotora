@@ -599,14 +599,14 @@ const Reportes = () => {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="animate-fadeInUp">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Reportes y Exportación</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">Genera y descarga reportes del sistema</p>
       </div>
 
       {/* Estadísticas Generales */}
       {stats && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fadeInUp animation-delay-100">
           <StatCard
             title="Total Autos"
             value={stats.autos.total}
@@ -644,7 +644,7 @@ const Reportes = () => {
       )}
 
       {/* Rango de Fechas */}
-      <div className="card">
+      <div className="card animate-fadeInUp animation-delay-200">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Rango de Fechas</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -675,7 +675,7 @@ const Reportes = () => {
       {/* Exportaciones */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Exportar Autos */}
-        <div className="card hover-lift">
+        <div className="card hover-lift animate-fadeInUp animation-delay-300">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
               <Car className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -687,7 +687,7 @@ const Reportes = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Exporta la lista completa de autos con toda su información
               </p>
-              <button onClick={handleExportAutosPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors">
+              <button onClick={handleExportAutosPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
                 <FileText className="w-4 h-4" />
                 PDF
               </button>
@@ -696,7 +696,7 @@ const Reportes = () => {
         </div>
 
         {/* Exportar Clientes */}
-        <div className="card hover-lift">
+        <div className="card hover-lift animate-fadeInUp animation-delay-400">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
               <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -708,7 +708,7 @@ const Reportes = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Exporta la información completa de todos los clientes
               </p>
-              <button onClick={handleExportClientesPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors">
+              <button onClick={handleExportClientesPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
                 <FileText className="w-4 h-4" />
                 PDF
               </button>
@@ -717,7 +717,7 @@ const Reportes = () => {
         </div>
 
         {/* Exportar Pagos */}
-        <div className="card hover-lift">
+        <div className="card hover-lift animate-fadeInUp animation-delay-500">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
               <DollarSign className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -729,7 +729,7 @@ const Reportes = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Exporta el registro completo de pagos y cuotas
               </p>
-              <button onClick={handleExportPagosPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors">
+              <button onClick={handleExportPagosPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
                 <FileText className="w-4 h-4" />
                 PDF
               </button>
@@ -738,7 +738,7 @@ const Reportes = () => {
         </div>
 
         {/* Reporte General */}
-        <div className="card hover-lift">
+        <div className="card hover-lift animate-fadeInUp animation-delay-600">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
               <FileText className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
@@ -750,7 +750,7 @@ const Reportes = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Exporta un resumen completo de todas las estadísticas
               </p>
-              <button onClick={handleExportGeneralPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors">
+              <button onClick={handleExportGeneralPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
                 <FileText className="w-4 h-4" />
                 PDF
               </button>
@@ -761,7 +761,7 @@ const Reportes = () => {
 
       {/* Resumen de Pagos Vencidos */}
       {stats && stats.pagos.vencidos > 0 && (
-        <div className="card bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900">
+        <div className="card bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 animate-fadeInUp animation-delay-700">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 bg-red-100 dark:bg-red-900/40 rounded-lg">
               <Calendar className="w-5 h-5 text-red-600 dark:text-red-400" />
@@ -773,7 +773,7 @@ const Reportes = () => {
           <p className="text-red-800 dark:text-red-300 mb-4">
             Tienes <strong>{stats.pagos.vencidos}</strong> cuotas vencidas que requieren seguimiento inmediato.
           </p>
-          <button className="btn btn-danger text-sm">
+          <button className="btn btn-danger text-sm transition-all hover:scale-105 active:scale-95">
             Ver Pagos Vencidos
           </button>
         </div>
