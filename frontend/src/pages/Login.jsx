@@ -107,9 +107,9 @@ const Login = () => {
         </span>
       </button>
 
-      <div className="max-w-md w-full">
+      <div className="max-w-md w-full animate-zoomIn">
         {/* Logo y título minimalista */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 animate-fadeInUp" style={{animationDelay: '0.1s'}}>
           <h1 className="text-6xl font-black mb-2 tracking-tight">
             <span className="text-red-600 dark:text-red-500">RV</span>
           </h1>
@@ -122,7 +122,7 @@ const Login = () => {
         </div>
 
         {/* Formulario de login minimalista */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 animate-fadeInUp" style={{animationDelay: '0.2s'}}>
           {error && (
             <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded-lg text-sm">
               {error}
