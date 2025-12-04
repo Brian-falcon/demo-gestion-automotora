@@ -68,7 +68,7 @@ const Dashboard = () => {
     <div className="space-y-6">
       <div className="animate-fadeInUp" style={{animationDelay: '0.1s'}}>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Escritorio</h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-1">Resumen general de RV Automoviles</p>
+        <p className="text-gray-600 dark:text-gray-400 mt-1">Resumen general del sistema</p>
       </div>
 
       {/* Cards de estadísticas */}

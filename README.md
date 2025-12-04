@@ -1,28 +1,20 @@
-# 🚗 RV Automóviles - Sistema de Gestión# 🚗 RV Automóviles - Sistema de Gestión# 🚗 RV Automoviles
-
-
+# 🚗 Sistema de Gestión Automotora - DEMO
 
 **Sistema completo de gestión digital para automotoras**
 
-
-
-Aplicación web moderna que permite gestionar clientes, vehículos, pagos y reportes de una automotora de forma eficiente y sin papeleos.Sistema completo de gestión para RV Automóviles con frontend React y backend Express + PostgreSQL.**Sistema de Gestión Digital para Automotoras**
-
-
+Aplicación web moderna que permite gestionar clientes, vehículos, pagos y reportes de una automotora de forma eficiente y sin papeleos.
 
 ---
 
+> **⚠️ VERSIÓN DEMO**: Esta es una versión de demostración del sistema. Todos los logos y referencias de marca han sido removidos para permitir la personalización según las necesidades del cliente.
 
+---
 
-## ⚡ Quick Start - Deploy en Vercel## 🚀 Deploy en Producción (Vercel)RV Automoviles es una aplicación web completa diseñada para digitalizar y automatizar la gestión de una automotora, eliminando el uso de papel y centralizando toda la información en un sistema moderno y eficiente.
-
-
+## ⚡ Quick Start - Deploy en Vercel
 
 **¿Listo para poner tu app en producción?**
 
-
-
-### 📘 Opción 1: Guía Completa (Paso a Paso - 30 min)### Variables de Entorno Requeridas en Vercel:## � Deploy Rápido en Vercel
+### 📘 Opción 1: Guía Completa (Paso a Paso - 30 min)
 
 
 

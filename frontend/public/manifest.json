@@ -1,7 +1,7 @@
 {
-  "name": "RV Automóviles - Gestión Automotora",
-  "short_name": "RV Automóviles",
-  "description": "Sistema de gestión de cuotas y pagos automotor",
+  "name": "Gestión Automotora Demo",
+  "short_name": "Automotora Demo",
+  "description": "Sistema de gestión de cuotas y pagos automotor - Versión Demo",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1890cf",

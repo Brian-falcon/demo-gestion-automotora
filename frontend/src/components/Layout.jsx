@@ -53,12 +53,12 @@ const Layout = () => {
       {/* Sidebar para desktop */}
       <aside className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
         <div className="flex flex-col flex-grow bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
-          <div className="flex items-center justify-center flex-shrink-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-            <img 
-              src="/assets/logo-rv.png?v=4" 
-              alt="RV Automoviles" 
-              className="w-full h-auto object-cover"
-            />
+          <div className="flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-600 dark:to-primary-800 py-4 px-4">
+            <div className="text-center">
+              <div className="text-4xl mb-1">🚗</div>
+              <h1 className="text-white text-lg font-bold">Gestión</h1>
+              <p className="text-white text-sm opacity-90">Automotora</p>
+            </div>
           </div>
           
           <nav className="flex-1 px-4 py-6 space-y-2">
@@ -133,21 +133,20 @@ const Layout = () => {
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div 
-            className="fixed inset-0 bg-gray-600 dark:bg-black bg-opacity-75 dark:bg-opacity-80"
+          <div className="fixed inset-0 bg-gray-600 dark:bg-black bg-opacity-75 dark:bg-opacity-80"
             onClick={() => setSidebarOpen(false)}
           />
           <div className="fixed inset-y-0 left-0 flex flex-col w-64 bg-white dark:bg-gray-800">
-            <div className="flex items-center justify-between bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-600 dark:to-primary-800 py-4 px-4">
               <div className="flex items-center flex-1">
-                <img 
-                  src="/assets/logo-rv.png?v=4" 
-                  alt="RV Automoviles" 
-                  className="w-full h-auto object-cover"
-                />
+                <div className="text-center flex-1">
+                  <div className="text-3xl mb-1">🚗</div>
+                  <h1 className="text-white text-base font-bold">Gestión Automotora</h1>
+                </div>
               </div>
               <button
                 onClick={() => setSidebarOpen(false)}
-                className="p-2 mr-2 text-gray-900 dark:text-white"
+                className="p-2 text-white"
               >
                 <X className="h-6 w-6" />
               </button>

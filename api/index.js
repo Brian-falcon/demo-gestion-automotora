@@ -56,7 +56,7 @@ app.get('/api/health', async (req, res) => {
     
     res.json({ 
       status: 'OK', 
-      message: 'RV Automoviles API funcionando correctamente',
+      message: 'API Gestión Automotora funcionando correctamente',
       timestamp: new Date().toISOString(),
       database: 'connected'
     });
@@ -91,7 +91,7 @@ app.get('/api/diagnostic', (req, res) => {
 
 app.get('/api', (req, res) => {
   res.json({ 
-    message: 'API RV Automoviles',
+    message: 'API Gestión Automotora',
     version: '1.0.0'
   });
 });

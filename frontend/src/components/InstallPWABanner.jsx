@@ -68,7 +68,7 @@ const InstallPWABanner = () => {
 
                 <div className="flex-1 min-w-0 pr-8">
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1 flex items-center gap-2">
-                    Instala RV Autos
+                    Instala la App
                     <span className="inline-block px-2 py-0.5 text-xs font-semibold text-primary-700 dark:text-primary-300 bg-primary-100 dark:bg-primary-900/30 rounded-full">
                       Gratis
                     </span>
