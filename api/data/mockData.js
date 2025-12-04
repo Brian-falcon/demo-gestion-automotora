@@ -7,7 +7,7 @@ const usuarios = [
   {
     id: 1,
     email: 'admin@demo.com',
-    password: '$2a$10$YlO8kIEQZGz.h7xH3qN1GuPKUZ6vBDxD9QVYqGWJc7xKr5kMxPnO6', // admin123
+    password: '$2a$10$ln.v2lFJmyIbBy/9s5X88eZ2wRuRwEVTiesB5Zmw.86kqJnPLCCa.', // admin123
     rol: 'admin',
     createdAt: new Date('2024-01-01'),
     updatedAt: new Date('2024-01-01')
@@ -15,7 +15,7 @@ const usuarios = [
   {
     id: 2,
     email: 'demo@demo.com',
-    password: '$2a$10$YlO8kIEQZGz.h7xH3qN1GuPKUZ6vBDxD9QVYqGWJc7xKr5kMxPnO6', // admin123
+    password: '$2a$10$ln.v2lFJmyIbBy/9s5X88eZ2wRuRwEVTiesB5Zmw.86kqJnPLCCa.', // admin123
     rol: 'admin',
     createdAt: new Date('2024-01-01'),
     updatedAt: new Date('2024-01-01')
