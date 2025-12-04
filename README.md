@@ -6,7 +6,26 @@ Aplicación web moderna que permite gestionar clientes, vehículos, pagos y repo
 
 ---
 
-> **⚠️ VERSIÓN DEMO**: Esta es una versión de demostración del sistema. Todos los logos y referencias de marca han sido removidos para permitir la personalización según las necesidades del cliente.
+> **⚠️ VERSIÓN DEMO - SIN BASE DE DATOS EXTERNA**: Esta versión funciona completamente con datos simulados en memoria. No requiere PostgreSQL, MySQL ni ninguna base de datos externa. Perfecta para demos y presentaciones.
+>
+> **📖 [Guía Rápida de Deploy en Modo Demo →](./DEMO_MODE_README.md)**
+>
+> Credenciales: `admin@demo.com` / `admin123`
+
+---
+
+## 🚀 Deploy Instantáneo (3 minutos)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Mateo14RDGZ/GestionAutomotoraEjemplo)
+
+**Variables de entorno requeridas:**
+```
+USE_MOCK_DB=true
+JWT_SECRET=tu_secret_key_cambiar
+NODE_ENV=production
+```
+
+[Ver guía detallada de deploy →](./DEMO_MODE_README.md)
 
 ---
 
