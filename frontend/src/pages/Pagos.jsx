@@ -173,16 +173,32 @@ const Pagos = () => {
 
   const confirmarMarcarPagado = async () => {
     try {
-      await pagosService.update(pagoSeleccionado, { estado: 'pagado' });
+      // Buscar el pago ANTES de actualizarlo
+      const pagoAActualizar = pagos.find(p => p.id === pagoSeleccionado);
       
-      // Guardar el pago para el modal de email
-      const pagoActualizado = pagos.find(p => p.id === pagoSeleccionado);
-      setPagoParaEmail(pagoActualizado);
+      if (!pagoAActualizar) {
+        console.error('No se encontró el pago a actualizar');
+        setShowConfirmModal(false);
+        setPagoSeleccionado(null);
+        return;
+      }
+      
+      // Actualizar el estado del pago
+      await pagosService.update(pagoSeleccionado, { 
+        estado: 'pagado',
+        fechaPago: new Date().toISOString()
+      });
+      
+      // Guardar el pago con su información completa para el modal
+      setPagoParaEmail({
+        ...pagoAActualizar,
+        estado: 'pagado',
+        fechaPago: new Date().toISOString()
+      });
       
       setShowConfirmModal(false);
-      setPagoSeleccionado(null);
       
-      // Mostrar modal de email
+      // Mostrar modal de notificación
       setShowEmailModal(true);
       
       // Recargar todos los datos para actualizar los totales
@@ -192,9 +208,11 @@ const Pagos = () => {
       if (filter !== 'pendientes') {
         await handleFilter(filter);
       }
+      
+      setPagoSeleccionado(null);
     } catch (error) {
       console.error('Error al actualizar el pago:', error);
-      // No mostrar el modal de email si hay error
+      // No mostrar el modal de notificación si hay error
       setShowConfirmModal(false);
       setPagoSeleccionado(null);
     }
@@ -1231,18 +1249,18 @@ const Pagos = () => {
                 </div>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 text-center">
-                {emailEnviado ? '¡Email Enviado!' : '¡Pago Confirmado!'}
+                {emailEnviado ? '¡Notificación Enviada!' : '✅ ¡Pago Confirmado!'}
               </h3>
               <p className="text-gray-600 dark:text-gray-300 mb-6 text-center">
                 {emailEnviado 
-                  ? 'El cliente recibirá la confirmación en su correo electrónico.' 
-                  : 'La cuota ha sido marcada como pagada exitosamente.'}
+                  ? 'El cliente recibirá la confirmación.' 
+                  : `La cuota #${pagoParaEmail.numeroCuota} de ${pagoParaEmail.auto?.cliente?.nombre || 'cliente'} ha sido marcada como pagada.`}
               </p>
               
               {!emailEnviado && (
                 <>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 text-center">
-                    ¿Cómo deseas notificar al cliente?
+                  <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 text-center">
+                    ¿Deseas notificar al cliente?
                   </p>
                   
                   {emailError && (
@@ -1257,10 +1275,10 @@ const Pagos = () => {
                     <button
                       onClick={enviarEmailConfirmacion}
                       disabled={loading || emailEnviado}
-                      className={`w-full py-2.5 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+                      className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
                         emailEnviado
                           ? 'bg-green-500 dark:bg-green-600 text-white cursor-default'
-                          : 'bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                          : 'bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105'
                       }`}
                     >
                       {loading ? (
@@ -1275,39 +1293,54 @@ const Pagos = () => {
                         </>
                       ) : (
                         <>
-                          📧 Enviar Email
+                          <span className="text-xl">📧</span> Enviar Email
                         </>
                       )}
                     </button>
 
-                    {!emailEnviado && (
-                      <button
-                        onClick={enviarWhatsAppConfirmacion}
-                        disabled={loading}
-                        className="w-full bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50"
-                      >
-                        💬 Enviar WhatsApp
-                      </button>
-                    )}
+                    <button
+                      onClick={enviarWhatsAppConfirmacion}
+                      disabled={loading}
+                      className="w-full bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    >
+                      <span className="text-xl">💬</span> Enviar WhatsApp
+                    </button>
                     
-                    {!emailEnviado && (
-                      <button
-                        onClick={() => {
-                          setShowEmailModal(false);
-                          setPagoParaEmail(null);
-                          setEmailError(null);
-                        }}
-                        disabled={loading}
-                        className="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
-                      >
-                        Omitir
-                      </button>
-                    )}
+                    <button
+                      onClick={() => {
+                        setShowEmailModal(false);
+                        setPagoParaEmail(null);
+                        setEmailError(null);
+                        setEmailEnviado(false);
+                      }}
+                      disabled={loading}
+                      className="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-3 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
+                    >
+                      No notificar ahora
+                    </button>
                   </div>
                 </>
               )}
+              
+              {emailEnviado && (
+                <div className="mt-4">
+                  <button
+                    onClick={() => {
+                      setShowEmailModal(false);
+                      setPagoParaEmail(null);
+                      setEmailError(null);
+                      setEmailEnviado(false);
+                    }}
+                    className="w-full bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              )}
             </div>
           </div>
+        </div>
+      )}
         </div>
       )}
     </div>
