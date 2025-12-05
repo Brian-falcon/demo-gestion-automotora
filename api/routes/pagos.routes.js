@@ -237,8 +237,14 @@ router.post('/generar-cuotas', async (req, res) => {
       data: cuotas
     });
 
+    // Actualizar el estado del auto a "vendido" automáticamente
+    await prisma.auto.update({
+      where: { id: parseInt(autoId) },
+      data: { estado: 'vendido' }
+    });
+
     res.status(201).json({ 
-      message: `${pagosCreados.count} cuotas generadas exitosamente${esFinanciamientoEnProgreso ? ` (${numeroCuotasPagadas} marcadas como pagadas)` : ''}`,
+      message: `${pagosCreados.count} cuotas generadas exitosamente${esFinanciamientoEnProgreso ? ` (${numeroCuotasPagadas} marcadas como pagadas)` : ''}. Auto marcado como vendido.`,
       count: pagosCreados.count,
       cuotasPagadas: numeroCuotasPagadas
     });

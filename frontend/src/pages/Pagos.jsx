@@ -514,114 +514,88 @@ const Pagos = () => {
                 {/* Contenido expandible */}
                 {clientesExpandidos[clienteData.cliente.id] && (
                   <div className="p-3 md:p-6 space-y-3 md:space-y-6 bg-gray-50 dark:bg-gray-900/50">
-                    {/* Pagos Vencidos */}
-                    {clienteData.pagos.vencidos.length > 0 && (
-                      <div>
-                        <h4 className="text-xs md:text-sm font-bold text-red-700 dark:text-red-400 uppercase mb-2 md:mb-3 flex items-center gap-2">
-                          <AlertCircle className="w-4 h-4" />
-                          Pagos Vencidos ({clienteData.pagos.vencidos.length})
-                        </h4>
-                        <div className="space-y-2">
-                          {clienteData.pagos.vencidos.map(pago => (
-                            <div key={pago.id} className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 rounded-lg p-2.5 md:p-4 hover:shadow-md transition-shadow">
-                              <div className="flex flex-col gap-2.5 md:gap-3">
-                                <div className="flex-1 min-w-0">
-                                  <div className="font-medium text-gray-900 dark:text-white text-sm md:text-base break-words">
-                                    {pago.auto.marca} {pago.auto.modelo} - Cuota #{pago.numeroCuota}
+                    {/* Todas las cuotas en orden cronológico */}
+                    <div>
+                      <h4 className="text-xs md:text-sm font-bold text-gray-900 dark:text-white uppercase mb-3 flex items-center gap-2">
+                        <CreditCard className="w-4 h-4" />
+                        Todas las Cuotas ({clienteData.pagos.vencidos.length + clienteData.pagos.pendientes.length + clienteData.pagos.pagados.length})
+                      </h4>
+                      <div className="space-y-2">
+                        {/* Combinar y ordenar todas las cuotas por número de cuota */}
+                        {[...clienteData.pagos.vencidos, ...clienteData.pagos.pendientes, ...clienteData.pagos.pagados]
+                          .sort((a, b) => a.numeroCuota - b.numeroCuota)
+                          .map(pago => {
+                            const esVencido = pago.estado !== 'pagado' && new Date(pago.fechaVencimiento) < new Date();
+                            const esPagado = pago.estado === 'pagado';
+                            
+                            return (
+                              <div 
+                                key={pago.id} 
+                                className={`rounded-lg p-2.5 md:p-4 hover:shadow-md transition-shadow border-2 ${
+                                  esPagado 
+                                    ? 'bg-white dark:bg-gray-800 border-green-200 dark:border-green-900' 
+                                    : esVencido
+                                    ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-900'
+                                    : 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-900'
+                                }`}
+                              >
+                                <div className="flex flex-col gap-2.5 md:gap-3">
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <div className="font-medium text-gray-900 dark:text-white text-sm md:text-base break-words">
+                                        {pago.auto.marca} {pago.auto.modelo} - Cuota #{pago.numeroCuota}
+                                      </div>
+                                      {esPagado && (
+                                        <span className="badge badge-success text-xs flex items-center gap-1">
+                                          <CheckCircle className="w-3 h-3" /> PAGADO
+                                        </span>
+                                      )}
+                                      {esVencido && (
+                                        <span className="badge badge-danger text-xs flex items-center gap-1">
+                                          <AlertCircle className="w-3 h-3" /> VENCIDO
+                                        </span>
+                                      )}
+                                      {!esPagado && !esVencido && (
+                                        <span className="badge badge-warning text-xs flex items-center gap-1">
+                                          <Calendar className="w-3 h-3" /> PENDIENTE
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1 break-words">
+                                      Matrícula: {pago.auto.matricula}
+                                    </div>
+                                    <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
+                                      {esPagado 
+                                        ? `Pagado: ${formatDate(pago.fechaPago)}`
+                                        : `Vencimiento: ${formatDate(pago.fechaVencimiento)}`
+                                      }
+                                    </div>
                                   </div>
-                                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1 break-words">
-                                    Matrícula: {pago.auto.matricula}
+                                  <div className="flex items-center justify-between gap-3">
+                                    <div className={`text-lg md:text-xl font-bold ${
+                                      esPagado 
+                                        ? 'text-green-600 dark:text-green-400' 
+                                        : esVencido
+                                        ? 'text-red-700 dark:text-red-400'
+                                        : 'text-yellow-700 dark:text-yellow-400'
+                                    }`}>
+                                      {formatCurrency(pago.monto)}
+                                    </div>
+                                    {!esPagado && (
+                                      <button
+                                        onClick={() => handleMarcarPagado(pago.id)}
+                                        className="btn btn-success btn-sm whitespace-nowrap text-xs px-3 py-1.5"
+                                      >
+                                        Marcar Pagado
+                                      </button>
+                                    )}
                                   </div>
-                                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
-                                    Vencimiento: {formatDate(pago.fechaVencimiento)}
-                                  </div>
-                                </div>
-                                <div className="flex items-center justify-between gap-3">
-                                  <div className="text-lg md:text-xl font-bold text-red-700 dark:text-red-400">{formatCurrency(pago.monto)}</div>
-                                  <button
-                                    onClick={() => handleMarcarPagado(pago.id)}
-                                    className="btn btn-success btn-sm whitespace-nowrap text-xs px-3 py-1.5"
-                                  >
-                                    Marcar Pagado
-                                  </button>
                                 </div>
                               </div>
-                            </div>
-                          ))}
-                        </div>
+                            );
+                          })}
                       </div>
-                    )}
-
-                    {/* Pagos Pendientes */}
-                    {clienteData.pagos.pendientes.length > 0 && (
-                      <div>
-                        <h4 className="text-xs md:text-sm font-bold text-yellow-700 dark:text-yellow-400 uppercase mb-2 md:mb-3 flex items-center gap-2">
-                          <Calendar className="w-4 h-4" />
-                          Pagos Pendientes ({clienteData.pagos.pendientes.length})
-                        </h4>
-                        <div className="space-y-2">
-                          {clienteData.pagos.pendientes.map(pago => (
-                            <div key={pago.id} className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900 rounded-lg p-2.5 md:p-4 hover:shadow-md transition-shadow">
-                              <div className="flex flex-col gap-2.5 md:gap-3">
-                                <div className="flex-1 min-w-0">
-                                  <div className="font-medium text-gray-900 dark:text-white text-sm md:text-base break-words">
-                                    {pago.auto.marca} {pago.auto.modelo} - Cuota #{pago.numeroCuota}
-                                  </div>
-                                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1 break-words">
-                                    Matrícula: {pago.auto.matricula}
-                                  </div>
-                                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
-                                    Vencimiento: {formatDate(pago.fechaVencimiento)}
-                                  </div>
-                                </div>
-                                <div className="flex items-center justify-between gap-3">
-                                  <div className="text-lg md:text-xl font-bold text-yellow-700 dark:text-yellow-400">{formatCurrency(pago.monto)}</div>
-                                  <button
-                                    onClick={() => handleMarcarPagado(pago.id)}
-                                    className="btn btn-success btn-sm whitespace-nowrap text-xs px-3 py-1.5"
-                                  >
-                                    Marcar Pagado
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Pagos Realizados */}
-                    {clienteData.pagos.pagados.length > 0 && (
-                      <div>
-                        <h4 className="text-xs md:text-sm font-bold text-green-700 dark:text-green-400 uppercase mb-2 md:mb-3 flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4" />
-                          Pagos Realizados ({clienteData.pagos.pagados.length})
-                        </h4>
-                        <div className="space-y-2">
-                          {clienteData.pagos.pagados.map(pago => (
-                            <div key={pago.id} className="bg-white dark:bg-gray-800 border border-green-200 dark:border-green-900 rounded-lg p-2.5 md:p-4 hover:shadow-md transition-shadow">
-                              <div className="flex flex-col gap-2.5 md:gap-3">
-                                <div className="flex-1 min-w-0">
-                                  <div className="font-medium text-gray-900 dark:text-white text-sm md:text-base break-words">
-                                    {pago.auto.marca} {pago.auto.modelo} - Cuota #{pago.numeroCuota}
-                                  </div>
-                                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1 break-words">
-                                    Matrícula: {pago.auto.matricula}
-                                  </div>
-                                  <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
-                                    Pagado: {formatDate(pago.fechaPago)}
-                                  </div>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                  <div className="text-lg md:text-xl font-bold text-green-600 dark:text-green-400">{formatCurrency(pago.monto)}</div>
-                                  <div className="text-xs text-green-600 dark:text-green-400 font-medium">✓ PAGADO</div>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                    </div>
                   </div>
                 )}
               </div>
