@@ -76,6 +76,8 @@ const Pagos = () => {
 
   const organizarPagosPorCliente = (pagosData, clientesData) => {
     const clientesMap = {};
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0); // Normalizar a inicio del día
     
     pagosData.forEach(pago => {
       const clienteId = pago.auto?.clienteId;
@@ -100,16 +102,22 @@ const Pagos = () => {
         };
       }
       
-      // Clasificar pago
+      // Clasificar pago con lógica inline
       if (pago.estado === 'pagado') {
         clientesMap[clienteId].pagos.pagados.push(pago);
         clientesMap[clienteId].totales.pagados += parseFloat(pago.monto);
-      } else if (isVencido(pago)) {
-        clientesMap[clienteId].pagos.vencidos.push(pago);
-        clientesMap[clienteId].totales.vencidos += parseFloat(pago.monto);
       } else {
-        clientesMap[clienteId].pagos.pendientes.push(pago);
-        clientesMap[clienteId].totales.pendientes += parseFloat(pago.monto);
+        // Verificar si está vencido
+        const fechaVencimiento = new Date(pago.fechaVencimiento);
+        fechaVencimiento.setHours(0, 0, 0, 0);
+        
+        if (fechaVencimiento < hoy) {
+          clientesMap[clienteId].pagos.vencidos.push(pago);
+          clientesMap[clienteId].totales.vencidos += parseFloat(pago.monto);
+        } else {
+          clientesMap[clienteId].pagos.pendientes.push(pago);
+          clientesMap[clienteId].totales.pendientes += parseFloat(pago.monto);
+        }
       }
     });
     
@@ -219,7 +227,10 @@ const Pagos = () => {
     try {
       setLoading(true);
       setEmailError(null);
-      await pagosService.enviarEmail(pagoParaEmail.id);
+      
+      // MODO DEMO: Simular envío sin llamada real al backend
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simular delay de red
+      
       setEmailEnviado(true);
       
       // Cerrar modal después de 2 segundos
@@ -229,7 +240,7 @@ const Pagos = () => {
         setEmailEnviado(false);
       }, 2000);
     } catch (error) {
-      setEmailError(error.response?.data?.error || error.message);
+      setEmailError('Error al enviar el email (modo demo)');
     } finally {
       setLoading(false);
     }
@@ -245,7 +256,7 @@ const Pagos = () => {
         year: 'numeric'
       });
       
-      const mensaje = `✅ *Pago Confirmado - RV Automóviles*\n\n` +
+      const mensaje = `✅ *Pago Confirmado - Gestión Automotora*\n\n` +
         `Estimado/a *${cliente.nombre}*,\n\n` +
         `Le confirmamos que hemos recibido su pago correspondiente a:\n\n` +
         `🚗 *Vehículo:* ${auto.marca} ${auto.modelo} ${auto.anio}\n` +
@@ -255,11 +266,11 @@ const Pagos = () => {
         `📅 *Fecha de Pago:* ${fechaPago}\n\n` +
         `Agradecemos su puntualidad.\n\n` +
         `💻 *Control en Línea*\n` +
-        `Puede ver el estado de todas sus cuotas en:\n` +
-        `https://rv-gestion-automotora20.vercel.app\n` +
+        `Puede ver el estado de todas sus cuotas en nuestro portal web.\n` +
         `Ingrese con su número de cédula.\n\n` +
-        `_RV Automóviles - Su concesionario de confianza_`;
+        `_Gestión Automotora - Sistema Demo_`;
       
+      // MODO DEMO: Abrir WhatsApp con el mensaje pre-llenado (solo visual)
       // Limpiar el número de teléfono (quitar espacios, guiones, etc.)
       let telefono = cliente.telefono.replace(/[^0-9]/g, '');
       
@@ -268,7 +279,7 @@ const Pagos = () => {
         telefono = telefono.substring(1);
       }
       
-      // Abrir WhatsApp
+      // Abrir WhatsApp (funcionalidad visual para demo)
       const url = `https://wa.me/598${telefono}?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
       
@@ -280,7 +291,7 @@ const Pagos = () => {
       }, 500);
     } catch (error) {
       console.error('Error al abrir WhatsApp:', error);
-      setEmailError('Error al abrir WhatsApp');
+      setEmailError('Error al abrir WhatsApp (modo demo)');
     }
   };
 
