@@ -458,6 +458,8 @@ app.get('/api/pagos', authenticateToken, async (req, res) => {
     const { estado, vencidos, autoId } = req.query;
     const where = {};
 
+    console.log('📥 GET /api/pagos - Query params:', { estado, vencidos, autoId, rol: req.user.rol, clienteId: req.user.clienteId });
+
     if (req.user.rol === 'cliente' && req.user.clienteId) {
       where.auto = { clienteId: req.user.clienteId };
     }
@@ -477,6 +479,8 @@ app.get('/api/pagos', authenticateToken, async (req, res) => {
       where.estado = estado;
     }
 
+    console.log('🔍 Prisma where:', JSON.stringify(where, null, 2));
+
     const pagos = await prisma.pago.findMany({
       where,
       include: {
@@ -488,6 +492,7 @@ app.get('/api/pagos', authenticateToken, async (req, res) => {
       ]
     });
 
+    console.log('✅ Pagos encontrados:', pagos.length, '- Estados:', pagos.map(p => p.estado).join(', '));
     res.json(pagos);
   } catch (error) {
     console.error('Error obteniendo pagos:', error);
