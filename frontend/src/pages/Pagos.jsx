@@ -172,22 +172,45 @@ const Pagos = () => {
   };
 
   const confirmarMarcarPagado = async () => {
+    console.log('🔄 Confirmando pago...', { pagoSeleccionado });
+    
     try {
-      // Buscar el pago ANTES de actualizarlo
-      const pagoAActualizar = pagos.find(p => p.id === pagoSeleccionado);
+      setLoading(true);
+      
+      // Buscar el pago en el array principal o en los clientes organizados
+      let pagoAActualizar = pagos.find(p => p.id === pagoSeleccionado);
+      
+      // Si no se encuentra en pagos, buscar en clientesConPagos
+      if (!pagoAActualizar) {
+        console.log('⚠️ Pago no encontrado en array principal, buscando en clientesConPagos...');
+        for (const clienteData of clientesConPagos) {
+          const pago = clienteData.pagos.find(p => p.id === pagoSeleccionado);
+          if (pago) {
+            pagoAActualizar = pago;
+            break;
+          }
+        }
+      }
       
       if (!pagoAActualizar) {
-        console.error('No se encontró el pago a actualizar');
+        console.error('❌ No se encontró el pago a actualizar');
+        alert('Error: No se pudo encontrar el pago. Por favor, recarga la página.');
         setShowConfirmModal(false);
         setPagoSeleccionado(null);
+        setLoading(false);
         return;
       }
       
+      console.log('✅ Pago encontrado:', pagoAActualizar);
+      
       // Actualizar el estado del pago
-      await pagosService.update(pagoSeleccionado, { 
+      console.log('📤 Actualizando pago en el servidor...');
+      const resultado = await pagosService.update(pagoSeleccionado, { 
         estado: 'pagado',
         fechaPago: new Date().toISOString()
       });
+      
+      console.log('✅ Pago actualizado exitosamente:', resultado);
       
       // Guardar el pago con su información completa para el modal
       setPagoParaEmail({
@@ -199,9 +222,11 @@ const Pagos = () => {
       setShowConfirmModal(false);
       
       // Mostrar modal de notificación
+      console.log('📧 Mostrando modal de notificación');
       setShowEmailModal(true);
       
       // Recargar todos los datos para actualizar los totales
+      console.log('🔄 Recargando datos...');
       await loadInitialData();
       
       // Aplicar el filtro actual nuevamente
@@ -210,11 +235,15 @@ const Pagos = () => {
       }
       
       setPagoSeleccionado(null);
+      setLoading(false);
+      console.log('✅ Proceso completado');
     } catch (error) {
-      console.error('Error al actualizar el pago:', error);
+      console.error('❌ Error al actualizar el pago:', error);
+      alert(`Error al actualizar el pago: ${error.message || 'Error desconocido'}`);
       // No mostrar el modal de notificación si hay error
       setShowConfirmModal(false);
       setPagoSeleccionado(null);
+      setLoading(false);
     }
   };
 
@@ -1214,15 +1243,24 @@ const Pagos = () => {
                     setShowConfirmModal(false);
                     setPagoSeleccionado(null);
                   }}
-                  className="flex-1 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
+                  disabled={loading}
+                  className="flex-1 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={confirmarMarcarPagado}
-                  className="flex-1 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
+                  disabled={loading}
+                  className="flex-1 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  Confirmar
+                  {loading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Procesando...
+                    </>
+                  ) : (
+                    'Confirmar'
+                  )}
                 </button>
               </div>
             </div>
