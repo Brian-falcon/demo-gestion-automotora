@@ -212,14 +212,24 @@ app.get('/api/auth/verify', authenticateToken, async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(404).json({ valid: false, error: 'Usuario no encontrado' });
     }
 
     const { password: _, ...userWithoutPassword } = user;
-    res.json(userWithoutPassword);
+    
+    // Preparar el objeto user con el formato correcto
+    const userData = {
+      id: user.id,
+      email: user.email,
+      rol: user.rol,
+      clienteId: user.clienteId,
+      nombre: user.cliente ? user.cliente.nombre : null
+    };
+    
+    res.json({ valid: true, user: userData });
   } catch (error) {
     console.error('Error verificando token:', error);
-    res.status(500).json({ error: 'Error al verificar token' });
+    res.status(500).json({ valid: false, error: 'Error al verificar token' });
   }
 });
 

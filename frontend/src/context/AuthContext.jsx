@@ -20,20 +20,28 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
 
+    console.log('AuthContext - Inicializando:', { hasToken: !!token, hasSavedUser: !!savedUser });
+
     if (token && savedUser) {
-      setUser(JSON.parse(savedUser));
+      const parsedUser = JSON.parse(savedUser);
+      console.log('AuthContext - Usuario guardado:', parsedUser);
+      setUser(parsedUser);
+      
       // Verificar que el token siga siendo válido
       authService.verify()
         .then((data) => {
+          console.log('AuthContext - Verify response:', data);
           if (data.valid) {
             setUser(data.user);
           } else {
+            console.log('AuthContext - Token inválido, limpiando...');
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             setUser(null);
           }
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error('AuthContext - Error verificando token:', error);
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           setUser(null);
@@ -42,6 +50,7 @@ export const AuthProvider = ({ children }) => {
           setLoading(false);
         });
     } else {
+      console.log('AuthContext - No hay token, usuario no autenticado');
       setLoading(false);
     }
   }, []);
