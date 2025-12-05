@@ -142,10 +142,9 @@ const Pagos = () => {
       const data = await pagosService.getAll(params);
       setPagos(data);
       
-      // Actualizar agrupación por cliente si es admin - SIEMPRE con todos los pagos
+      // Actualizar agrupación por cliente si es admin - usar los pagos FILTRADOS
       if (user?.rol === 'admin') {
-        const todosPagos = await pagosService.getAll({});
-        organizarPagosPorCliente(todosPagos, clientes);
+        organizarPagosPorCliente(data, clientes);
       }
     } catch (error) {
       console.error('Error al filtrar:', error);
@@ -514,30 +513,20 @@ const Pagos = () => {
                 {/* Contenido expandible */}
                 {clientesExpandidos[clienteData.cliente.id] && (
                   <div className="p-3 md:p-6 space-y-3 md:space-y-6 bg-gray-50 dark:bg-gray-900/50">
-                    {/* Todas las cuotas en orden cronológico - filtradas según el filtro activo */}
+                    {/* Cuotas según el filtro activo */}
                     <div>
                       <h4 className="text-xs md:text-sm font-bold text-gray-900 dark:text-white uppercase mb-3 flex items-center gap-2">
                         <CreditCard className="w-4 h-4" />
                         {filter === 'vencidos' && `Cuotas Vencidas (${clienteData.pagos.vencidos.length})`}
                         {filter === 'pagados' && `Cuotas Pagadas (${clienteData.pagos.pagados.length})`}
                         {filter === 'pendientes' && `Cuotas Pendientes (${clienteData.pagos.pendientes.length})`}
-                        {filter === 'todos' && `Todas las Cuotas (${clienteData.pagos.vencidos.length + clienteData.pagos.pendientes.length + clienteData.pagos.pagados.length})`}
+                        {(!filter || filter === 'todos') && `Todas las Cuotas (${clienteData.pagos.vencidos.length + clienteData.pagos.pendientes.length + clienteData.pagos.pagados.length})`}
                       </h4>
                       <div className="space-y-2">
-                        {/* Mostrar solo las cuotas según el filtro activo */}
-                        {(() => {
-                          let cuotasAMostrar = [];
-                          if (filter === 'vencidos') {
-                            cuotasAMostrar = clienteData.pagos.vencidos;
-                          } else if (filter === 'pagados') {
-                            cuotasAMostrar = clienteData.pagos.pagados;
-                          } else if (filter === 'pendientes') {
-                            cuotasAMostrar = clienteData.pagos.pendientes;
-                          } else {
-                            cuotasAMostrar = [...clienteData.pagos.vencidos, ...clienteData.pagos.pendientes, ...clienteData.pagos.pagados];
-                          }
-                          
-                          return cuotasAMostrar.sort((a, b) => a.numeroCuota - b.numeroCuota).map(pago => {
+                        {/* Mostrar todas las cuotas (ya vienen filtradas desde el backend) */}
+                        {[...clienteData.pagos.vencidos, ...clienteData.pagos.pendientes, ...clienteData.pagos.pagados]
+                          .sort((a, b) => a.numeroCuota - b.numeroCuota)
+                          .map(pago => {
                             const esVencido = pago.estado !== 'pagado' && new Date(pago.fechaVencimiento) < new Date();
                             const esPagado = pago.estado === 'pagado';
                             
@@ -606,8 +595,7 @@ const Pagos = () => {
                                 </div>
                               </div>
                             );
-                          });
-                        })()}
+                          })}
                       </div>
                     </div>
                   </div>
