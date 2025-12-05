@@ -115,7 +115,14 @@ const Pagos = () => {
       }
       // Si es 'todos', params queda vacío para obtener todos los pagos
       
+      console.log('🔍 handleFilter - Rol:', user?.rol, 'Filtro:', filterType, 'Params:', params);
       const data = await pagosService.getAll(params);
+      console.log('✅ handleFilter - Datos recibidos:', { 
+        count: data.length, 
+        sample: data[0],
+        rol: user?.rol 
+      });
+      
       setPagos(data);
       
       // Actualizar agrupación por cliente si es admin - usar los pagos FILTRADOS
@@ -123,6 +130,8 @@ const Pagos = () => {
         // Usar clientes del estado si ya están cargados
         const clientesParaOrganizar = clientes.length > 0 ? clientes : await clientesService.getAll();
         organizarPagosPorCliente(data, clientesParaOrganizar, filterType);
+      } else {
+        console.log('👤 Cliente - Pagos directos:', data.length);
       }
     } catch (error) {
       console.error('Error al filtrar:', error);
@@ -403,6 +412,14 @@ const Pagos = () => {
     if (pago.estado === 'pagado') return false;
     return new Date(pago.fechaVencimiento) < new Date();
   };
+
+  console.log('🎨 Render - Estado:', {
+    rol: user?.rol,
+    loading,
+    pagosCount: pagos.length,
+    clientesConPagosCount: clientesConPagos.length,
+    filter
+  });
 
   return (
     <div className="space-y-6">
