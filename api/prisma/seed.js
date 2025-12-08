@@ -6,13 +6,22 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Iniciando seed de la base de datos...');
 
-  // Limpiar datos existentes
-  await prisma.pago.deleteMany();
-  await prisma.auto.deleteMany();
-  await prisma.usuario.deleteMany();
-  await prisma.cliente.deleteMany();
+  // IMPORTANTE: Verificar si ya existen datos para NO borrarlos
+  const existingUsers = await prisma.usuario.count();
+  const existingClientes = await prisma.cliente.count();
+  const existingAutos = await prisma.auto.count();
 
-  console.log('✅ Datos existentes eliminados');
+  if (existingUsers > 0 || existingClientes > 0 || existingAutos > 0) {
+    console.log('⚠️ Ya existen datos en la base de datos.');
+    console.log(`  - Usuarios: ${existingUsers}`);
+    console.log(`  - Clientes: ${existingClientes}`);
+    console.log(`  - Autos: ${existingAutos}`);
+    console.log('❌ SEED CANCELADO: Para evitar pérdida de datos, no se ejecutará el seed.');
+    console.log('💡 Si deseas resetear la base de datos, debes hacerlo manualmente.');
+    return;
+  }
+
+  console.log('✅ Base de datos vacía, iniciando seed...');
 
   // Hash de contraseñas
   const adminPasswordHash = await bcrypt.hash('admin123', 10);

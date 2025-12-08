@@ -2,6 +2,7 @@
 /**
  * Script de verificación post-deploy
  * Se ejecuta después del deploy para verificar que la base de datos esté correctamente configurada
+ * NO BORRA DATOS - Solo verifica y crea usuario admin si no existe
  */
 
 const { PrismaClient } = require('@prisma/client');
@@ -24,15 +25,15 @@ async function verifyDatabase() {
       prisma.pago.count().catch(() => 0)
     ]);
     
-    console.log('📊 Conteo de tablas:');
+    console.log('📊 Conteo de registros actuales:');
     console.log(`  - Usuarios: ${usuarios}`);
     console.log(`  - Clientes: ${clientes}`);
     console.log(`  - Autos: ${autos}`);
     console.log(`  - Pagos: ${pagos}`);
     
-    // Crear usuario admin si no existe
+    // Crear usuario admin SOLO si no existe ningún usuario
     if (usuarios === 0) {
-      console.log('⚠️ No hay usuarios. Creando usuario admin...');
+      console.log('⚠️ No hay usuarios. Creando usuario admin inicial...');
       const bcrypt = require('bcryptjs');
       const hashedPassword = await bcrypt.hash('admin123', 10);
       
@@ -45,10 +46,13 @@ async function verifyDatabase() {
       });
       
       console.log('✅ Usuario admin creado: admin@admin.com / admin123');
+    } else {
+      console.log('✅ Ya existen usuarios en la base de datos - NO se modificaron datos');
     }
     
     await prisma.$disconnect();
     console.log('✅ Verificación completada exitosamente');
+    console.log('💾 TODOS LOS DATOS EXISTENTES SE MANTUVIERON INTACTOS');
     process.exit(0);
     
   } catch (error) {

@@ -283,6 +283,8 @@ app.get('/api/autos', authenticateToken, async (req, res) => {
     if (estado) where.estado = estado;
     if (clienteId) where.clienteId = parseInt(clienteId);
 
+    console.log('🚗 Consultando autos. Usuario:', req.user.email, 'Filtros:', where);
+
     const autos = await prisma.auto.findMany({
       where,
       include: {
@@ -291,6 +293,8 @@ app.get('/api/autos', authenticateToken, async (req, res) => {
       },
       orderBy: { createdAt: 'desc' }
     });
+
+    console.log(`✅ Autos encontrados: ${autos.length}`, autos.map(a => `${a.marca} ${a.modelo} (ID: ${a.id})`).join(', '));
 
     res.json(autos);
   } catch (error) {
@@ -403,6 +407,8 @@ app.get('/api/clientes', authenticateToken, async (req, res) => {
 
     if (activo !== undefined) where.activo = activo === 'true';
 
+    console.log('👥 Consultando clientes. Usuario:', req.user.email, 'Filtros:', where);
+
     const clientes = await prisma.cliente.findMany({
       where,
       include: {
@@ -411,6 +417,8 @@ app.get('/api/clientes', authenticateToken, async (req, res) => {
       },
       orderBy: { createdAt: 'desc' }
     });
+
+    console.log(`✅ Clientes encontrados: ${clientes.length}`, clientes.map(c => `${c.nombre} (ID: ${c.id})`).join(', '));
 
     res.json(clientes);
   } catch (error) {
@@ -586,10 +594,19 @@ app.post('/api/pagos/generar-cuotas', authenticateToken, requireAdmin, async (re
   try {
     const { autoId, numeroCuotas, montoPorCuota, fechaPrimeraCuota } = req.body;
 
-    const auto = await prisma.auto.findUnique({ where: { id: parseInt(autoId) } });
+    console.log('💳 Generando plan de cuotas:', { autoId, numeroCuotas, montoPorCuota, fechaPrimeraCuota });
+
+    const auto = await prisma.auto.findUnique({ 
+      where: { id: parseInt(autoId) },
+      include: { cliente: true }
+    });
+    
     if (!auto) {
-      return res.status(404).json({ error: 'Auto no encontrado' });
+      console.error('❌ Auto no encontrado. ID recibido:', autoId, 'Tipo:', typeof autoId);
+      return res.status(404).json({ error: 'Auto no encontrado', autoId: autoId });
     }
+
+    console.log('✅ Auto encontrado:', { id: auto.id, marca: auto.marca, modelo: auto.modelo, cliente: auto.cliente?.nombre });
 
     const pagos = [];
     for (let i = 1; i <= numeroCuotas; i++) {
@@ -605,19 +622,25 @@ app.post('/api/pagos/generar-cuotas', authenticateToken, requireAdmin, async (re
       });
     }
 
+    console.log(`📝 Creando ${pagos.length} cuotas...`);
+
     const createdPagos = await Promise.all(
       pagos.map(pago => prisma.pago.create({ data: pago }))
     );
+
+    console.log('✅ Cuotas creadas exitosamente:', createdPagos.length);
 
     await prisma.auto.update({
       where: { id: parseInt(autoId) },
       data: { estado: 'vendido' }
     });
 
+    console.log('✅ Auto marcado como vendido');
+
     res.status(201).json(createdPagos);
   } catch (error) {
-    console.error('Error generando cuotas:', error);
-    res.status(500).json({ error: 'Error al generar cuotas' });
+    console.error('❌ Error generando cuotas:', error);
+    res.status(500).json({ error: 'Error al generar cuotas', details: error.message });
   }
 });
 

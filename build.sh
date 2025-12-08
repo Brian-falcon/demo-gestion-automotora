@@ -12,12 +12,13 @@ npm install
 echo "🔧 Generando Prisma Client..."
 npx prisma generate --schema=./prisma/schema.prisma
 
-# 3. Aplicar migraciones a la base de datos
+# 3. Aplicar migraciones a la base de datos SIN BORRAR DATOS
 echo "🗄️ Aplicando schema a la base de datos..."
 if [ -n "$DATABASE_URL" ]; then
   echo "✓ DATABASE_URL detectada"
-  npx prisma db push --schema=./prisma/schema.prisma --skip-generate --accept-data-loss --force-reset
-  echo "✅ Base de datos sincronizada"
+  # IMPORTANTE: Removí --force-reset para NO borrar los datos existentes
+  npx prisma db push --schema=./prisma/schema.prisma --skip-generate
+  echo "✅ Base de datos sincronizada (sin pérdida de datos)"
   
   # Verificar que las tablas se crearon
   echo "🔍 Verificando tablas..."
