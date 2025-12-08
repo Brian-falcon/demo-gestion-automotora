@@ -1,18 +1,35 @@
 #!/bin/bash
 # Build script para Vercel
 
+echo "🚀 Iniciando build para Vercel..."
+
+# 1. Instalar dependencias del API
+echo "📦 Instalando dependencias del API..."
+cd api
+npm install
+
+# 2. Generar Prisma Client
+echo "🔧 Generando Prisma Client..."
+npx prisma generate --schema=./prisma/schema.prisma
+
+# 3. Aplicar migraciones a la base de datos
+echo "🗄️ Aplicando schema a la base de datos..."
+if [ -n "$DATABASE_URL" ]; then
+  npx prisma db push --schema=./prisma/schema.prisma --skip-generate --accept-data-loss
+  echo "✅ Base de datos sincronizada"
+else
+  echo "⚠️ DATABASE_URL no configurada, saltando migraciones"
+fi
+
+cd ..
+
+# 4. Instalar dependencias del frontend
 echo "📦 Instalando dependencias del frontend..."
 cd frontend
 npm install
 
-echo "🏗️  Construyendo frontend..."
-npm run build
+# 5. Build del frontend
+echo "🏗️ Construyendo frontend..."
+npm run vercel-build
 
-echo "📦 Instalando dependencias del backend..."
-cd ../backend
-npm install
-
-echo "🔨 Generando Prisma Client..."
-npx prisma generate
-
-echo "✅ Build completado!"
+echo "✅ Build completado exitosamente"
