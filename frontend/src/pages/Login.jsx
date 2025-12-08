@@ -192,7 +192,7 @@ const Login = () => {
                       Credenciales de Prueba
                     </h4>
                     <div className="space-y-1 text-xs text-blue-700 dark:text-blue-400">
-                      <p><span className="font-medium">Email:</span> admin@admin.com</p>
+                      <p><span className="font-medium">Email:</span> admin@demo.com</p>
                       <p><span className="font-medium">Contraseña:</span> admin123</p>
                     </div>
                   </div>
