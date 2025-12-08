@@ -370,7 +370,20 @@ app.post('/api/autos', authenticateToken, requireAdmin, async (req, res) => {
     res.status(201).json(auto);
   } catch (error) {
     console.error('❌ Error creando auto:', error);
-    res.status(500).json({ error: 'Error al crear auto', details: error.message });
+    
+    // Manejo específico de error de matrícula única (constraint violation)
+    if (error.code === 'P2002' && error.meta?.target?.includes('matricula')) {
+      return res.status(400).json({ 
+        error: 'Ya existe un auto con esta matrícula',
+        details: 'La matrícula debe ser única. Si el auto es 0km, deje el campo vacío.'
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Error al crear auto', 
+      details: error.message,
+      code: error.code 
+    });
   }
 });
 
@@ -412,7 +425,20 @@ app.put('/api/autos/:id', authenticateToken, requireAdmin, async (req, res) => {
     res.json(auto);
   } catch (error) {
     console.error('Error actualizando auto:', error);
-    res.status(500).json({ error: 'Error al actualizar auto' });
+    
+    // Manejo específico de error de matrícula única
+    if (error.code === 'P2002' && error.meta?.target?.includes('matricula')) {
+      return res.status(400).json({ 
+        error: 'Ya existe un auto con esta matrícula',
+        details: 'La matrícula debe ser única. Si el auto es 0km, deje el campo vacío.'
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Error al actualizar auto',
+      details: error.message,
+      code: error.code
+    });
   }
 });
 
