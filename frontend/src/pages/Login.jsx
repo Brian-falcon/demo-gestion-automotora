@@ -107,37 +107,14 @@ const Login = () => {
         </span>
       </button>
 
-      <div className="max-w-md w-full animate-zoomIn">
-        {/* Logo BRAVO y título */}
-        <div className="text-center mb-8 animate-fadeInUp" style={{animationDelay: '0.1s'}}>
-          {/* Logo SVG BRAVO */}
-          <div className="flex justify-center mb-4">
-            <svg className="w-40 h-auto drop-shadow-lg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <filter id="logoShadow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feDropShadow dx="0" dy="4" stdDeviation="6" floodOpacity="0.3"/>
-                </filter>
-                <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0ea5e9" />
-                  <stop offset="100%" stopColor="#06b6d4" />
-                </linearGradient>
-              </defs>
-              {/* Auto estilizado */}
-              <g filter="url(#logoShadow)">
-                <path d="M 80 180 Q 100 120 180 100 Q 260 120 280 180 Z" fill="none" stroke="url(#carGradient)" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="120" cy="200" r="20" fill="url(#carGradient)" opacity="0.95"/>
-                <circle cx="240" cy="200" r="20" fill="url(#carGradient)" opacity="0.95"/>
-                <circle cx="120" cy="200" r="14" fill="rgba(255,255,255,0.3)"/>
-                <circle cx="240" cy="200" r="14" fill="rgba(255,255,255,0.3)"/>
-                <path d="M 110 180 L 270 180 L 260 160 L 120 160 Z" fill="url(#carGradient)" opacity="0.7"/>
-              </g>
-            </svg>
-          </div>
-          <h1 className="text-4xl font-black text-transparent bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-400 dark:to-cyan-400 bg-clip-text mb-2">
-            BRAVO
+      <div className="max-w-md w-full">
+        {/* Logo BRAVO AUTOMOVILES - Simple */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-transparent bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-400 dark:to-cyan-400 bg-clip-text mb-1">
+            Bravo
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold tracking-wider">
-            AUTOMÓVILES
+            Automoviles
           </p>
         </div>
 
