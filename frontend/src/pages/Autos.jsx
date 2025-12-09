@@ -238,27 +238,27 @@ const Autos = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-gray-800">
+              <thead className="bg-gray-200 dark:bg-gray-800">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
                     Vehículo
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
                     Matrícula
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
                     Año
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
                     Precio
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
                     Cliente
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
                     Estado
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
                     Acciones
                   </th>
                 </tr>
