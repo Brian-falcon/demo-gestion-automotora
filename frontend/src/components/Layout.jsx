@@ -52,12 +52,28 @@ const Layout = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Sidebar para desktop */}
       <aside className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
-        <div className="flex flex-col flex-grow bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
-          <div className="flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-600 dark:to-primary-800 py-4 px-4">
+        <div className="flex flex-col flex-grow bg-white dark:bg-dark-800 border-r border-gray-200 dark:border-dark-700 overflow-y-auto">
+          {/* LOGO BRAVO */}
+          <div className="flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 dark:from-primary-700 dark:via-primary-800 dark:to-dark-900 py-6 px-4 shadow-lg">
             <div className="text-center">
-              <div className="text-4xl mb-1">🚗</div>
-              <h1 className="text-white text-lg font-bold">Gestión</h1>
-              <p className="text-white text-sm opacity-90">Automotora</p>
+              {/* Logo SVG */}
+              <svg className="w-32 h-auto mb-3" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                {/* Coche estilizado */}
+                <g filter="drop-shadow(0 4px 6px rgba(0,0,0,0.1))">
+                  <path d="M 80 180 Q 100 120 180 100 Q 260 120 280 180 Z" fill="none" stroke="white" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="120" cy="200" r="20" fill="white" opacity="0.9"/>
+                  <circle cx="240" cy="200" r="20" fill="white" opacity="0.9"/>
+                  <path d="M 110 180 L 270 180 L 260 160 L 120 160 Z" fill="white" opacity="0.7"/>
+                </g>
+              </svg>
+              
+              {/* Texto */}
+              <h1 className="text-white text-2xl font-black tracking-wider mb-1" style={{textShadow: '0 4px 8px rgba(0,0,0,0.3)'}}>
+                BRAVO
+              </h1>
+              <p className="text-blue-100 text-xs font-bold tracking-widest" style={{textShadow: '0 2px 4px rgba(0,0,0,0.3)'}}>
+                AUTOMÓVILES
+              </p>
             </div>
           </div>
           
@@ -135,12 +151,23 @@ const Layout = () => {
           <div className="fixed inset-0 bg-gray-600 dark:bg-black bg-opacity-75 dark:bg-opacity-80"
             onClick={() => setSidebarOpen(false)}
           />
-          <div className="fixed inset-y-0 left-0 flex flex-col w-64 bg-white dark:bg-gray-800">
-            <div className="flex items-center justify-between bg-gradient-to-br from-primary-500 to-primary-700 dark:from-primary-600 dark:to-primary-800 py-4 px-4">
+          <div className="fixed inset-y-0 left-0 flex flex-col w-64 bg-white dark:bg-dark-800">
+            {/* LOGO MOBILE */}
+            <div className="flex items-center justify-between bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 dark:from-primary-700 dark:via-primary-800 dark:to-dark-900 py-5 px-4 shadow-lg">
               <div className="flex items-center flex-1">
                 <div className="text-center flex-1">
-                  <div className="text-3xl mb-1">🚗</div>
-                  <h1 className="text-white text-base font-bold">Gestión Automotora</h1>
+                  {/* Logo SVG Mobile */}
+                  <svg className="w-24 h-auto mb-2 mx-auto" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                    <g filter="drop-shadow(0 4px 6px rgba(0,0,0,0.1))">
+                      <path d="M 80 180 Q 100 120 180 100 Q 260 120 280 180 Z" fill="none" stroke="white" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="120" cy="200" r="20" fill="white" opacity="0.9"/>
+                      <circle cx="240" cy="200" r="20" fill="white" opacity="0.9"/>
+                      <path d="M 110 180 L 270 180 L 260 160 L 120 160 Z" fill="white" opacity="0.7"/>
+                    </g>
+                  </svg>
+                  <h1 className="text-white text-lg font-black tracking-wider" style={{textShadow: '0 4px 8px rgba(0,0,0,0.3)'}}>
+                    BRAVO
+                  </h1>
                 </div>
               </div>
               <button
