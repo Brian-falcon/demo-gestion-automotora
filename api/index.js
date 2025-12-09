@@ -333,16 +333,23 @@ app.post('/api/autos', authenticateToken, requireAdmin, async (req, res) => {
 
     // Si no hay matrícula o está vacía, usar "0km"
     const matriculaFinal = !matricula || matricula.trim() === '' ? '0km' : matricula.trim();
+    
+    console.log('🔄 Matrícula procesada:', { original: matricula, final: matriculaFinal });
 
     // Validar que la matrícula no esté duplicada (excepto "0km")
     if (matriculaFinal !== '0km') {
+      console.log('🔍 Verificando si matrícula ya existe:', matriculaFinal);
       const autoExistente = await prisma.auto.findFirst({
         where: { matricula: matriculaFinal }
       });
       
       if (autoExistente) {
+        console.log('❌ Matrícula duplicada encontrada:', autoExistente.id);
         return res.status(400).json({ error: 'Ya existe un auto con esta matrícula' });
       }
+      console.log('✅ Matrícula disponible');
+    } else {
+      console.log('✅ Auto 0km - permitiendo múltiples');
     }
 
     const auto = await prisma.auto.create({
@@ -370,13 +377,21 @@ app.post('/api/autos', authenticateToken, requireAdmin, async (req, res) => {
     res.status(201).json(auto);
   } catch (error) {
     console.error('❌ Error creando auto:', error);
+    console.error('❌ Error code:', error.code);
+    console.error('❌ Error meta:', error.meta);
     
     // Manejo específico de error de matrícula única (constraint violation)
-    if (error.code === 'P2002' && error.meta?.target?.includes('matricula')) {
-      return res.status(400).json({ 
-        error: 'Ya existe un auto con esta matrícula',
-        details: 'La matrícula debe ser única. Si el auto es 0km, deje el campo vacío.'
-      });
+    if (error.code === 'P2002') {
+      const target = error.meta?.target;
+      console.error('❌ Constraint violation en:', target);
+      
+      if (target && target.includes('matricula')) {
+        return res.status(400).json({ 
+          error: 'Error de base de datos: El índice único de matrícula aún existe',
+          details: 'La migración no se aplicó correctamente. Por favor contacte al administrador.',
+          suggestion: 'Intente nuevamente en unos minutos o use una matrícula diferente'
+        });
+      }
     }
     
     res.status(500).json({ 
