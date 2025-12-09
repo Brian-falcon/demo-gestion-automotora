@@ -81,20 +81,20 @@ const Login = () => {
       {/* Botón de cambio de tema en la esquina superior derecha */}
       <button
         onClick={toggleTheme}
-        className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 sm:p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 z-50 group"
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 sm:p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 z-50 group"
         title={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
         aria-label={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
       >
         <div className="relative w-5 h-5 sm:w-6 sm:h-6">
           <Moon 
-            className={`w-5 h-5 sm:w-6 sm:h-6 absolute text-gray-700 dark:text-gray-300 transition-all duration-200 ${
+            className={`w-5 h-5 sm:w-6 sm:h-6 absolute text-gray-700 dark:text-gray-300 ${
               theme === 'light' 
                 ? 'opacity-100' 
                 : 'opacity-0 hidden'
             }`} 
           />
           <Sun 
-            className={`w-5 h-5 sm:w-6 sm:h-6 absolute text-amber-500 transition-all duration-200 ${
+            className={`w-5 h-5 sm:w-6 sm:h-6 absolute text-amber-500 ${
               theme === 'dark' 
                 ? 'opacity-100' 
                 : 'opacity-0 hidden'
@@ -102,7 +102,7 @@ const Login = () => {
           />
         </div>
         {/* Tooltip en hover (solo desktop) */}
-        <span className="absolute -bottom-10 right-0 bg-gray-900 dark:bg-gray-700 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 transition-opacity duration-200 whitespace-nowrap pointer-events-none hidden sm:block">
+        <span className="absolute -bottom-10 right-0 bg-gray-900 dark:bg-gray-700 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 whitespace-nowrap pointer-events-none hidden sm:block">
           {theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
         </span>
       </button>
@@ -134,7 +134,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setLoginMode('admin')}
-                className="w-full flex items-center justify-center gap-3 bg-blue-600 dark:bg-blue-600 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
+                className="w-full flex items-center justify-center gap-3 bg-blue-600 dark:bg-blue-600 text-white py-4 px-6 rounded-lg font-medium text-base"
               >
                 <ShieldCheck className="w-5 h-5" />
                 <span>Soy Administrador</span>
@@ -143,7 +143,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setLoginMode('cliente')}
-                className="w-full flex items-center justify-center gap-3 bg-gray-700 dark:bg-gray-700 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
+                className="w-full flex items-center justify-center gap-3 bg-gray-700 dark:bg-gray-700 text-white py-4 px-6 rounded-lg font-medium text-base"
               >
                 <CreditCard className="w-5 h-5" />
                 <span>Soy Cliente (Ver mis cuotas)</span>
@@ -159,7 +159,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={resetForm}
-                className="text-gray-700 dark:text-gray-400 text-sm flex items-center gap-2 transition-all duration-200"
+                className="text-gray-700 dark:text-gray-400 text-sm flex items-center gap-2"
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
                 <span>Volver</span>
@@ -205,7 +205,7 @@ const Login = () => {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 focus:border-transparent transition-all"
+                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 focus:border-transparent"
                         placeholder="correo@ejemplo.com"
                         required
                       />
@@ -223,7 +223,7 @@ const Login = () => {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 focus:border-transparent transition-all"
+                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 focus:border-transparent"
                         placeholder="••••••••"
                         required
                       />
@@ -262,7 +262,7 @@ const Login = () => {
                             setCedula(value);
                           }
                         }}
-                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 focus:border-transparent transition-all"
+                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 focus:border-transparent"
                         placeholder="Ej: 12345678"
                         maxLength="8"
                         pattern="[0-9]{8}"
@@ -279,7 +279,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 dark:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 dark:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">

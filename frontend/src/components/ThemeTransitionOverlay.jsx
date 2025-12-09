@@ -20,7 +20,7 @@ const ThemeTransitionOverlay = () => {
 
   return (
     <div 
-      className="fixed inset-0 pointer-events-none z-[9999] transition-opacity duration-300"
+      className="fixed inset-0 pointer-events-none z-[9999]"
       style={{
         background: 'radial-gradient(circle at center, rgba(0,0,0,0.03) 0%, transparent 70%)',
         opacity: show ? 1 : 0

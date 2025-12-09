@@ -36,7 +36,7 @@ const StatCard = ({
   };
 
   return (
-    <div className="card transition-shadow duration-300">
+    <div className="card">
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>

@@ -71,7 +71,7 @@ const Layout = () => {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                  `flex items-center px-4 py-3 text-sm font-medium rounded-lg ${
                     isActive
                       ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
                       : 'text-gray-700 dark:text-gray-300'
@@ -96,7 +96,7 @@ const Layout = () => {
               </div>
               <button
                 onClick={handleLogout}
-                className="ml-3 p-2 text-gray-400 dark:text-gray-500 transition-colors"
+                className="ml-3 p-2 text-gray-400 dark:text-gray-500"
                 title="Cerrar sesión"
               >
                 <LogOut className="h-5 w-5" />
@@ -106,26 +106,26 @@ const Layout = () => {
             {/* Theme Toggle */}
             <button
               onClick={handleThemeToggle}
-              className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg transition-all duration-300 active:scale-95"
+              className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg"
               title={theme === 'light' ? 'Modo oscuro' : 'Modo claro'}
             >
               <div className="relative w-4 h-4 mr-2">
                 <Moon 
-                  className={`h-4 w-4 absolute transition-all duration-300 ${
+                  className={`h-4 w-4 absolute ${
                     theme === 'light' 
                       ? 'opacity-100 rotate-0 scale-100' 
                       : 'opacity-0 rotate-90 scale-0'
                   }`} 
                 />
                 <Sun 
-                  className={`h-4 w-4 absolute transition-all duration-300 ${
+                  className={`h-4 w-4 absolute ${
                     theme === 'dark' 
                       ? 'opacity-100 rotate-0 scale-100' 
                       : 'opacity-0 -rotate-90 scale-0'
                   }`} 
                 />
               </div>
-              <span className="transition-all duration-300">
+              <span>
                 {theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
               </span>
             </button>
@@ -167,7 +167,7 @@ const Layout = () => {
                   to={item.to}
                   onClick={() => setSidebarOpen(false)}
                   className={({ isActive }) =>
-                    `flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                    `flex items-center px-4 py-3 text-sm font-medium rounded-lg ${
                       isActive
                         ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
                         : 'text-gray-700 dark:text-gray-300'
@@ -192,7 +192,7 @@ const Layout = () => {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="ml-3 p-2 text-gray-400 dark:text-gray-500 transition-colors"
+                  className="ml-3 p-2 text-gray-400 dark:text-gray-500"
                   title="Cerrar sesión"
                 >
                   <LogOut className="h-5 w-5" />
@@ -202,26 +202,26 @@ const Layout = () => {
               {/* Theme Toggle Mobile */}
               <button
                 onClick={handleThemeToggle}
-                className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg transition-all duration-300 active:scale-95"
+                className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg"
                 title={theme === 'light' ? 'Modo oscuro' : 'Modo claro'}
               >
                 <div className="relative w-4 h-4 mr-2">
                   <Moon 
-                    className={`h-4 w-4 absolute transition-all duration-300 ${
+                    className={`h-4 w-4 absolute ${
                       theme === 'light' 
                         ? 'opacity-100 rotate-0 scale-100' 
                         : 'opacity-0 rotate-90 scale-0'
                     }`} 
                   />
                   <Sun 
-                    className={`h-4 w-4 absolute transition-all duration-300 ${
+                    className={`h-4 w-4 absolute ${
                       theme === 'dark' 
                         ? 'opacity-100 rotate-0 scale-100' 
                         : 'opacity-0 -rotate-90 scale-0'
                     }`} 
                   />
                 </div>
-                <span className="transition-all duration-300">
+                <span>
                   {theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
                 </span>
               </button>

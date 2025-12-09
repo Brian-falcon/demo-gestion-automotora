@@ -25,7 +25,7 @@ const InstallPWABanner = () => {
       {/* Botón flotante de instalación */}
       <button
         onClick={() => setShowModal(true)}
-        className="fixed bottom-6 right-6 z-50 p-4 bg-gradient-to-br from-primary-500 via-primary-600 to-purple-600 text-white rounded-full shadow-2xl transition-all duration-200 group"
+        className="fixed bottom-6 right-6 z-50 p-4 bg-gradient-to-br from-primary-500 via-primary-600 to-purple-600 text-white rounded-full shadow-2xl group"
         aria-label="Instalar aplicación"
       >
         <div className="relative">
@@ -50,7 +50,7 @@ const InstallPWABanner = () => {
             {/* Botón cerrar */}
             <button
               onClick={() => setShowModal(false)}
-              className="absolute top-3 right-3 z-10 p-2 bg-white/80 dark:bg-gray-700/80 rounded-full transition-all duration-200 active:scale-95 shadow-lg backdrop-blur-sm"
+              className="absolute top-3 right-3 z-10 p-2 bg-white/80 dark:bg-gray-700/80 rounded-full shadow-lg backdrop-blur-sm"
               aria-label="Cerrar"
             >
               <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
@@ -89,7 +89,7 @@ const InstallPWABanner = () => {
                     
                     <div className="space-y-2.5">
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-7 h-7 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md transition-transform">
+                        <div className="flex-shrink-0 w-7 h-7 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
                           1
                         </div>
                         <div className="flex-1">
@@ -102,7 +102,7 @@ const InstallPWABanner = () => {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-7 h-7 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md transition-transform">
+                        <div className="flex-shrink-0 w-7 h-7 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
                           2
                         </div>
                         <div className="flex-1">
@@ -114,7 +114,7 @@ const InstallPWABanner = () => {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-7 h-7 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md transition-transform">
+                        <div className="flex-shrink-0 w-7 h-7 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
                           3
                         </div>
                         <div className="flex-1">
@@ -135,13 +135,13 @@ const InstallPWABanner = () => {
                 <div className="space-y-3">
                   <button
                     onClick={handleInstall}
-                    className="w-full btn btn-primary relative overflow-hidden py-3.5 text-base font-semibold shadow-xl transition-all duration-200"
+                    className="w-full btn btn-primary relative overflow-hidden py-3.5 text-base font-semibold shadow-xl"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       <Download className="w-5 h-5" />
                       Instalar Aplicación
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full transition-transform duration-700"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full"></div>
                   </button>
 
                   <div className="grid grid-cols-3 gap-2 text-xs">
@@ -169,7 +169,7 @@ const InstallPWABanner = () => {
                     
                     <div className="space-y-2.5">
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md transition-transform">
+                        <div className="flex-shrink-0 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
                           1
                         </div>
                         <div className="flex-1">
@@ -180,7 +180,7 @@ const InstallPWABanner = () => {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md transition-transform">
+                        <div className="flex-shrink-0 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
                           2
                         </div>
                         <div className="flex-1">
@@ -191,7 +191,7 @@ const InstallPWABanner = () => {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md transition-transform">
+                        <div className="flex-shrink-0 w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
                           3
                         </div>
                         <div className="flex-1">

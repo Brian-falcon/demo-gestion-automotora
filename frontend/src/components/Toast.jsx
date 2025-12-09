@@ -52,7 +52,7 @@ const Toast = ({ message, type = 'info', onClose, duration = 4000 }) => {
       <p className={`${config.textColor} flex-1 text-sm font-medium`}>{message}</p>
       <button
         onClick={onClose}
-        className={`${config.iconColor} hover:opacity-70 transition-opacity flex-shrink-0`}
+        className={`${config.iconColor} flex-shrink-0`}
       >
         <X className="w-4 h-4" />
       </button>

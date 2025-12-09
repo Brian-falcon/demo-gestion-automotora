@@ -714,7 +714,7 @@ const Reportes = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Exporta la lista completa de autos con toda su información
               </p>
-              <button onClick={handleExportAutosPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
+              <button onClick={handleExportAutosPDF} className="bg-red-600 dark:bg-red-700 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2">
                 <FileText className="w-4 h-4" />
                 PDF
               </button>
@@ -735,7 +735,7 @@ const Reportes = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Exporta la información completa de todos los clientes
               </p>
-              <button onClick={handleExportClientesPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
+              <button onClick={handleExportClientesPDF} className="bg-red-600 dark:bg-red-700 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2">
                 <FileText className="w-4 h-4" />
                 PDF
               </button>
@@ -756,7 +756,7 @@ const Reportes = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Exporta el registro completo de pagos y cuotas
               </p>
-              <button onClick={handleExportPagosPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
+              <button onClick={handleExportPagosPDF} className="bg-red-600 dark:bg-red-700 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2">
                 <FileText className="w-4 h-4" />
                 PDF
               </button>
@@ -777,7 +777,7 @@ const Reportes = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 Exporta un resumen completo de todas las estadísticas
               </p>
-              <button onClick={handleExportGeneralPDF} className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
+              <button onClick={handleExportGeneralPDF} className="bg-red-600 dark:bg-red-700 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2">
                 <FileText className="w-4 h-4" />
                 PDF
               </button>
@@ -802,7 +802,7 @@ const Reportes = () => {
           </p>
           <button 
             onClick={() => navigate('/pagos', { state: { filterType: 'vencidos' } })}
-            className="btn btn-danger text-sm transition-all hover:scale-105 active:scale-95"
+            className="btn btn-danger text-sm"
           >
             Ver Pagos Vencidos
           </button>

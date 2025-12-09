@@ -307,7 +307,7 @@ const ClienteDashboard = () => {
             {stats.pagados.slice(0, 5).map((pago) => (
               <div
                 key={pago.id}
-                className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 transition-shadow"
+                className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4"
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                   <div className="flex-1">
@@ -361,7 +361,7 @@ const ClienteDashboard = () => {
               return (
                 <div
                   key={pago.id}
-                  className={`border rounded-lg p-4 transition-shadow ${
+                  className={`border rounded-lg p-4 ${
                     esUrgente
                       ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800'
                       : 'bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700'

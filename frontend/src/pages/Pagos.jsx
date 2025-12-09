@@ -576,7 +576,7 @@ const Pagos = () => {
               <div key={clienteData.cliente.id} className="card dark:bg-gray-800 dark:border-gray-700">
                 {/* Header del cliente */}
                 <div 
-                  className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 p-3 md:p-6 cursor-pointer transition-all duration-200"
+                  className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 p-3 md:p-6 cursor-pointer"
                   onClick={() => toggleCliente(clienteData.cliente.id)}
                 >
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -652,7 +652,7 @@ const Pagos = () => {
                               return (
                                 <div 
                                   key={pago.id} 
-                                  className={`rounded-lg p-2.5 md:p-4 transition-shadow border-2 ${
+                                  className={`rounded-lg p-2.5 md:p-4 border-2 ${
                                     esPagado 
                                       ? 'bg-white dark:bg-gray-800 border-green-200 dark:border-green-900' 
                                       : esVencido
@@ -801,7 +801,7 @@ const Pagos = () => {
                 {pagos.map((pago) => (
                   <div 
                     key={pago.id} 
-                    className={`rounded-lg p-4 border-2 transition-all ${
+                    className={`rounded-lg p-4 border-2 ${
                       isVencido(pago) 
                         ? 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-800' 
                         : pago.estado === 'pagado'
@@ -974,7 +974,7 @@ const Pagos = () => {
                     setShowGenerateModal(false);
                     resetGenerateForm();
                   }}
-                  className="text-white rounded-lg p-2 transition-all duration-200"
+                  className="text-white rounded-lg p-2"
                 >
                   <span className="text-2xl leading-none">×</span>
                 </button>
@@ -1249,7 +1249,7 @@ const Pagos = () => {
                     <button
                       type="button"
                       onClick={calcularMontoCuota}
-                      className="px-3 py-1.5 bg-gray-700 dark:bg-gray-600 text-white text-xs font-medium rounded transition-all duration-200"
+                      className="px-3 py-1.5 bg-gray-700 dark:bg-gray-600 text-white text-xs font-medium rounded"
                     >
                       Calcular
                     </button>
@@ -1310,13 +1310,13 @@ const Pagos = () => {
                       setShowGenerateModal(false);
                       resetGenerateForm();
                     }}
-                    className="px-6 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-all duration-200"
+                    className="px-6 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg"
                   >
                     Cancelar
                   </button>
                   <button 
                     type="submit" 
-                    className="flex-1 bg-blue-400 dark:bg-blue-500 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
+                    className="flex-1 bg-blue-400 dark:bg-blue-500 text-white py-2.5 px-4 rounded-lg font-semibold"
                   >
                     Generar Plan de Cuotas
                   </button>
@@ -1346,14 +1346,14 @@ const Pagos = () => {
                     setPagoSeleccionado(null);
                   }}
                   disabled={loading}
-                  className="flex-1 bg-red-500 dark:bg-red-600 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-red-500 dark:bg-red-600 text-white py-2.5 px-4 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={confirmarMarcarPagado}
                   disabled={loading}
-                  className="flex-1 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="flex-1 bg-green-500 dark:bg-green-600 text-white py-2.5 px-4 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>
@@ -1376,12 +1376,12 @@ const Pagos = () => {
           <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4">
             <div className="p-6">
               <div className="flex items-center justify-center mb-4">
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 ${
+                <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
                   emailEnviado 
                     ? 'bg-green-500 dark:bg-green-600 scale-110' 
                     : 'bg-green-100 dark:bg-green-900/30'
                 }`}>
-                  <CheckCircle className={`w-10 h-10 transition-all duration-500 ${
+                  <CheckCircle className={`w-10 h-10 ${
                     emailEnviado 
                       ? 'text-white scale-110' 
                       : 'text-green-600 dark:text-green-400'
@@ -1415,10 +1415,10 @@ const Pagos = () => {
                     <button
                       onClick={enviarEmailConfirmacion}
                       disabled={loading || emailEnviado}
-                      className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+                      className={`w-full py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2 ${
                         emailEnviado
                           ? 'bg-green-500 dark:bg-green-600 text-white cursor-default'
-                          : 'bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105'
+                          : 'bg-blue-500 dark:bg-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed'
                       }`}
                     >
                       {loading ? (
@@ -1441,7 +1441,7 @@ const Pagos = () => {
                     <button
                       onClick={enviarWhatsAppConfirmacion}
                       disabled={loading}
-                      className="w-full bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg hover:shadow-xl transform hover:scale-105"
+                      className="w-full bg-green-500 dark:bg-green-600 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       <span className="text-xl">💬</span> Enviar WhatsApp
                     </button>
@@ -1454,7 +1454,7 @@ const Pagos = () => {
                         setEmailEnviado(false);
                       }}
                       disabled={loading}
-                      className="w-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-3 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50"
+                      className="w-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-3 px-4 rounded-lg font-semibold disabled:opacity-50"
                     >
                       No notificar ahora
                     </button>
@@ -1471,7 +1471,7 @@ const Pagos = () => {
                       setEmailError(null);
                       setEmailEnviado(false);
                     }}
-                    className="w-full bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200"
+                    className="w-full bg-green-500 dark:bg-green-600 text-white py-3 px-4 rounded-lg font-semibold"
                   >
                     Cerrar
                   </button>

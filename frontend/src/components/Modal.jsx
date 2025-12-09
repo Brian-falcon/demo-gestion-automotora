@@ -12,7 +12,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'max-w-2xl' }) => {
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg transition-all duration-200 active:scale-95"
+            className="p-2 rounded-lg"
           >
             <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>

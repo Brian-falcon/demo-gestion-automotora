@@ -46,7 +46,7 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 dark:text-gray-300 transition-colors"
+            className="text-gray-400 dark:text-gray-300"
           >
             <X className="w-5 h-5" />
           </button>
@@ -61,13 +61,13 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
         <div className="flex justify-end gap-3 p-6 border-t dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 rounded-b-lg">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg transition-colors font-medium"
+            className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg font-medium"
           >
             {cancelText}
           </button>
           <button
             onClick={handleConfirm}
-            className={`px-4 py-2 ${config.buttonBg} ${config.buttonText} rounded-lg transition-colors font-medium`}
+            className={`px-4 py-2 ${config.buttonBg} ${config.buttonText} rounded-lg font-medium`}
           >
             {confirmText}
           </button>
