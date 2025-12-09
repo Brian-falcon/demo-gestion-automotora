@@ -29,15 +29,15 @@ const InstallPWABanner = () => {
         aria-label="Instalar aplicación"
       >
         <div className="relative">
-          <div className="absolute inset-0 bg-primary-500 rounded-full animate-ping opacity-20"></div>
-          <Download className="w-6 h-6 relative z-10 group-hover:animate-bounce" />
+          <div className="absolute inset-0 bg-primary-500 rounded-full opacity-20"></div>
+          <Download className="w-6 h-6 relative z-10" />
         </div>
       </button>
 
       {/* Modal con instrucciones */}
       {showModal && (
-        <div className="fixed inset-0 z-[9999] flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div className="relative bg-white dark:bg-gray-800 w-full md:max-w-lg md:rounded-2xl rounded-t-2xl shadow-2xl border-t-4 md:border-t-0 md:border border-primary-500 dark:border-primary-600 overflow-hidden animate-slideUp md:animate-fadeInUp max-h-[85vh] overflow-y-auto">
+        <div className="fixed inset-0 z-[9999] flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="relative bg-white dark:bg-gray-800 w-full md:max-w-lg md:rounded-2xl rounded-t-2xl shadow-2xl border-t-4 md:border-t-0 md:border border-primary-500 dark:border-primary-600 overflow-hidden max-h-[85vh] overflow-y-auto">
             {/* Fondo decorativo con gradiente */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary-50/50 via-transparent to-purple-50/30 dark:from-primary-900/20 dark:via-gray-800 dark:to-purple-900/10 pointer-events-none"></div>
             
@@ -60,7 +60,6 @@ const InstallPWABanner = () => {
               {/* Header con ícono animado */}
               <div className="flex items-start gap-4 mb-4">
                 <div className="relative flex-shrink-0">
-                  <div className="absolute inset-0 bg-primary-500 rounded-2xl animate-ping opacity-20"></div>
                   <div className="relative w-16 h-16 bg-gradient-to-br from-primary-500 via-primary-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
                     <Smartphone className="w-8 h-8 text-white" />
                   </div>
@@ -139,7 +138,7 @@ const InstallPWABanner = () => {
                     className="w-full btn btn-primary group relative overflow-hidden py-3.5 text-base font-semibold shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 transition-all duration-200"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
-                      <Download className="w-5 h-5 group-hover:animate-bounce" />
+                      <Download className="w-5 h-5" />
                       Instalar Aplicación
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>

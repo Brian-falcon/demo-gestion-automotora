@@ -73,16 +73,6 @@ export default {
         'glow-lg': '0 0 40px rgba(14, 165, 233, 0.6)',
         neon: '0 0 10px rgba(45, 212, 191, 0.5)',
       },
-      animation: {
-        pulse: 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        glow: 'glow 3s ease-in-out infinite',
-      },
-      keyframes: {
-        glow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(14, 165, 233, 0.5)' },
-          '50%': { boxShadow: '0 0 40px rgba(14, 165, 233, 0.8)' },
-        },
-      },
     },
   },
   plugins: [],

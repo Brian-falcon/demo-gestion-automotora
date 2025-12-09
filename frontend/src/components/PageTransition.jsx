@@ -12,8 +12,6 @@ const PageTransition = ({ children }) => {
   return (
     <div
       key={location.pathname}
-      className="animate-fadeIn"
-      style={{ animationDuration: '0.3s' }}
     >
       {children}
     </div>

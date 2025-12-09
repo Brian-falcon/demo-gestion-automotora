@@ -130,7 +130,7 @@ const Clientes = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center animate-fadeInUp" style={{animationDelay: '0.1s'}}>
+      <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Gestión de Clientes</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">Administra la información de tus clientes</p>
@@ -148,7 +148,7 @@ const Clientes = () => {
       </div>
 
       {/* Búsqueda */}
-      <div className="card animate-fadeInUp" style={{animationDelay: '0.2s'}}>
+      <div className="card">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
           <input
@@ -164,7 +164,7 @@ const Clientes = () => {
       {/* Grid de clientes */}
       {loading ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+          <div className="rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
         </div>
       ) : filteredClientes.length === 0 ? (
         <div className="card text-center py-12">
@@ -174,7 +174,7 @@ const Clientes = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredClientes.map((cliente, index) => (
-            <div key={cliente.id} className="card hover:shadow-xl hover-lift transition-all duration-300 animate-fadeInUp" style={{animationDelay: `${0.1 * (index % 6)}s`}}>
+            <div key={cliente.id} className="card hover:shadow-xl hover-lift transition-all duration-300">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center">

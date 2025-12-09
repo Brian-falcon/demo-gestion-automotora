@@ -79,9 +79,9 @@ const ClienteDashboard = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center animate-fadeIn">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-t-4 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400 animate-pulse">Cargando tu escritorio...</p>
+        <div className="text-center">
+          <div className="rounded-full h-16 w-16 border-b-4 border-t-4 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Cargando tu escritorio...</p>
         </div>
       </div>
     );
@@ -128,7 +128,7 @@ const ClienteDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="animate-fadeInUp" style={{animationDelay: '0.1s'}}>
+      <div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Mi Escritorio</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
           Resumen completo de tu crédito automotor
@@ -138,7 +138,7 @@ const ClienteDashboard = () => {
       {/* Tarjetas de estadísticas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total del Crédito */}
-        <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white hover-lift animate-fadeInUp" style={{animationDelay: '0.2s'}}>
+        <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white hover-lift">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-blue-100 text-sm font-medium">Total del Crédito</p>
@@ -149,7 +149,7 @@ const ClienteDashboard = () => {
         </div>
 
         {/* Total Pagado */}
-        <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white hover-lift animate-fadeInUp" style={{animationDelay: '0.3s'}}>
+        <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white hover-lift">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-green-100 text-sm font-medium">Total Pagado</p>
@@ -161,7 +161,7 @@ const ClienteDashboard = () => {
         </div>
 
         {/* Saldo Pendiente */}
-        <div className="card bg-gradient-to-br from-yellow-500 to-yellow-600 text-white hover-lift animate-fadeInUp" style={{animationDelay: '0.4s'}}>
+        <div className="card bg-gradient-to-br from-yellow-500 to-yellow-600 text-white hover-lift">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-yellow-100 text-sm font-medium">Saldo Pendiente</p>
@@ -173,7 +173,7 @@ const ClienteDashboard = () => {
         </div>
 
         {/* Progreso */}
-        <div className="card bg-gradient-to-br from-purple-500 to-purple-600 text-white hover-lift animate-fadeInUp" style={{animationDelay: '0.5s'}}>
+        <div className="card bg-gradient-to-br from-purple-500 to-purple-600 text-white hover-lift">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-purple-100 text-sm font-medium">Progreso</p>
@@ -187,7 +187,7 @@ const ClienteDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Gráfico de Progreso */}
-        <div className="card dark:bg-gray-800 dark:border-gray-700 animate-fadeInUp" style={{animationDelay: '0.6s'}}>
+        <div className="card dark:bg-gray-800 dark:border-gray-700">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Progreso de Pagos</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -217,7 +217,7 @@ const ClienteDashboard = () => {
         </div>
 
         {/* Próximo Pago */}
-        <div className="card dark:bg-gray-800 dark:border-gray-700 animate-fadeInUp" style={{animationDelay: '0.7s'}}>
+        <div className="card dark:bg-gray-800 dark:border-gray-700">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Próximo Pago</h2>
           {proximoPago ? (
             <div className="space-y-4">
@@ -276,7 +276,7 @@ const ClienteDashboard = () => {
 
       {/* Alertas */}
       {stats.cuotasVencidas > 0 && (
-        <div className="card bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 animate-fadeInUp" style={{animationDelay: '0.8s'}}>
+        <div className="card bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800">
           <div className="flex items-start gap-3">
             <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
             <div>
@@ -293,7 +293,7 @@ const ClienteDashboard = () => {
 
       {/* Sección de Cuotas Pagadas */}
       {stats.pagados.length > 0 && (
-        <div className="card dark:bg-gray-800 dark:border-gray-700 animate-fadeInUp" style={{animationDelay: '0.9s'}}>
+        <div className="card dark:bg-gray-800 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
               <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -343,7 +343,7 @@ const ClienteDashboard = () => {
 
       {/* Sección de Cuotas Pendientes */}
       {stats.pendientes.length > 0 && (
-        <div className="card dark:bg-gray-800 dark:border-gray-700 animate-fadeInUp" style={{animationDelay: '1s'}}>
+        <div className="card dark:bg-gray-800 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
               <Clock className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />

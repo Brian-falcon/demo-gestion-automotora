@@ -139,7 +139,7 @@
 
   .spinner::after {
     content: "";
-    @apply absolute inset-0 border-4 border-dark-700 border-t-primary-500 rounded-full animate-spin;
+    @apply absolute inset-0 border-4 border-dark-700 border-t-primary-500 rounded-full;
   }
 
   .modal-overlay {
@@ -174,5 +174,78 @@
 @media (prefers-color-scheme: dark) {
   body {
     color-scheme: dark;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    color-scheme: light;
+    background: #f8f9fa;
+  }
+
+  .input {
+    background-color: white;
+    border-color: #d1d5db;
+    color: #111827;
+  }
+
+  .input:hover {
+    border-color: #9ca3af;
+  }
+
+  .input:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+  }
+
+  .card {
+    background-color: white;
+    color: #111827;
+    border-color: #e5e7eb;
+  }
+
+  .card:hover {
+    border-color: rgba(14, 165, 233, 0.3);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  select {
+    background-color: white;
+    border-color: #d1d5db;
+    color: #111827;
+  }
+
+  select:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+  }
+
+  thead {
+    background-color: #f3f4f6;
+    border-bottom-color: #d1d5db;
+  }
+
+  th {
+    color: #374151;
+  }
+
+  td {
+    border-bottom-color: #e5e7eb;
+  }
+
+  tbody tr:hover {
+    background-color: #f9fafb;
+  }
+
+  a {
+    color: #0284c7;
+  }
+
+  a:hover {
+    color: #0369a1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #111827;
   }
 }
