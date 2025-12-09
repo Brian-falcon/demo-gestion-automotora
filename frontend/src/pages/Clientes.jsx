@@ -174,7 +174,7 @@ const Clientes = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredClientes.map((cliente, index) => (
-            <div key={cliente.id} className="card hover:shadow-xl hover-lift transition-all duration-300">
+            <div key={cliente.id} className="card hover:shadow-xl transition-all duration-300">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center">

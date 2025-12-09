@@ -334,7 +334,7 @@ const Autos = () => {
           </div>
         ) : (
           filteredAutos.map((auto, index) => (
-            <div key={auto.id} className="card hover-lift">
+            <div key={auto.id} className="card">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center">

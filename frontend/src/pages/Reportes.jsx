@@ -702,7 +702,7 @@ const Reportes = () => {
       {/* Exportaciones */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Exportar Autos */}
-        <div className="card hover-lift">
+        <div className="card">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
               <Car className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -723,7 +723,7 @@ const Reportes = () => {
         </div>
 
         {/* Exportar Clientes */}
-        <div className="card hover-lift">
+        <div className="card">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
               <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -744,7 +744,7 @@ const Reportes = () => {
         </div>
 
         {/* Exportar Pagos */}
-        <div className="card hover-lift">
+        <div className="card">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
               <DollarSign className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -765,7 +765,7 @@ const Reportes = () => {
         </div>
 
         {/* Reporte General */}
-        <div className="card hover-lift">
+        <div className="card">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
               <FileText className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />

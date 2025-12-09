@@ -74,7 +74,7 @@ const Dashboard = () => {
       {/* Cards de estadísticas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Autos */}
-        <div className="card dark:bg-gray-800 dark:border-gray-700 hover-lift">
+        <div className="card dark:bg-gray-800 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Autos</p>
@@ -90,7 +90,7 @@ const Dashboard = () => {
         </div>
 
         {/* Autos Vendidos */}
-        <div className="card dark:bg-gray-800 dark:border-gray-700 hover-lift">
+        <div className="card dark:bg-gray-800 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Autos Vendidos</p>
@@ -106,7 +106,7 @@ const Dashboard = () => {
         </div>
 
         {/* Total Clientes */}
-        <div className="card dark:bg-gray-800 dark:border-gray-700 hover-lift">
+        <div className="card dark:bg-gray-800 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Clientes</p>
@@ -119,7 +119,7 @@ const Dashboard = () => {
         </div>
 
         {/* Total Recaudado */}
-        <div className="card dark:bg-gray-800 dark:border-gray-700 hover-lift">
+        <div className="card dark:bg-gray-800 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Recaudado</p>
@@ -137,7 +137,7 @@ const Dashboard = () => {
 
       {/* Estado de Pagos */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="card bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900 hover-lift">
+        <div className="card bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-900">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-yellow-800 dark:text-yellow-400">Cuotas Pendientes</p>
@@ -150,7 +150,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="card bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 hover-lift">
+        <div className="card bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-red-800 dark:text-red-400">Cuotas Vencidas</p>
@@ -161,7 +161,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="card bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900 hover-lift">
+        <div className="card bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-green-800 dark:text-green-400">Cuotas Pagadas</p>

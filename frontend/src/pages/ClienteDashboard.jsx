@@ -138,7 +138,7 @@ const ClienteDashboard = () => {
       {/* Tarjetas de estadísticas */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total del Crédito */}
-        <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white hover-lift">
+        <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-blue-100 text-sm font-medium">Total del Crédito</p>
@@ -149,7 +149,7 @@ const ClienteDashboard = () => {
         </div>
 
         {/* Total Pagado */}
-        <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white hover-lift">
+        <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-green-100 text-sm font-medium">Total Pagado</p>
@@ -161,7 +161,7 @@ const ClienteDashboard = () => {
         </div>
 
         {/* Saldo Pendiente */}
-        <div className="card bg-gradient-to-br from-yellow-500 to-yellow-600 text-white hover-lift">
+        <div className="card bg-gradient-to-br from-yellow-500 to-yellow-600 text-white">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-yellow-100 text-sm font-medium">Saldo Pendiente</p>
@@ -173,7 +173,7 @@ const ClienteDashboard = () => {
         </div>
 
         {/* Progreso */}
-        <div className="card bg-gradient-to-br from-purple-500 to-purple-600 text-white hover-lift">
+        <div className="card bg-gradient-to-br from-purple-500 to-purple-600 text-white">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-purple-100 text-sm font-medium">Progreso</p>
@@ -221,7 +221,7 @@ const ClienteDashboard = () => {
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Próximo Pago</h2>
           {proximoPago ? (
             <div className="space-y-4">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800 hover-lift">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <Calendar className="w-8 h-8 text-blue-600 dark:text-blue-400" />
