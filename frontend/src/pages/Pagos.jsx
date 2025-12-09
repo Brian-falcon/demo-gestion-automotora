@@ -737,24 +737,24 @@ const Pagos = () => {
               {/* Vista Desktop - Tabla */}
               <div className="hidden md:block overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-200 dark:bg-gray-800">
+                  <thead className="bg-white dark:bg-gray-800 border-b-2 border-gray-900 dark:border-gray-600">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase">
                         Auto
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase">
                         Cuota
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase">
                         Monto
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase">
                         Vencimiento
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase">
                         Fecha Pago
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 dark:text-gray-400 uppercase">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-300 uppercase">
                         Estado
                       </th>
                     </tr>
