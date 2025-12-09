@@ -576,7 +576,7 @@ const Pagos = () => {
               <div key={clienteData.cliente.id} className="card dark:bg-gray-800 dark:border-gray-700">
                 {/* Header del cliente */}
                 <div 
-                  className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 p-3 md:p-6 cursor-pointer hover:from-gray-100 hover:to-gray-50 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-200"
+                  className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 p-3 md:p-6 cursor-pointer transition-all duration-200"
                   onClick={() => toggleCliente(clienteData.cliente.id)}
                 >
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -652,7 +652,7 @@ const Pagos = () => {
                               return (
                                 <div 
                                   key={pago.id} 
-                                  className={`rounded-lg p-2.5 md:p-4 hover:shadow-md transition-shadow border-2 ${
+                                  className={`rounded-lg p-2.5 md:p-4 transition-shadow border-2 ${
                                     esPagado 
                                       ? 'bg-white dark:bg-gray-800 border-green-200 dark:border-green-900' 
                                       : esVencido
@@ -763,7 +763,7 @@ const Pagos = () => {
                     {pagos.map((pago) => (
                       <tr 
                         key={pago.id} 
-                        className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${isVencido(pago) ? 'bg-red-50 dark:bg-red-900/20' : ''}`}
+                        className={`${isVencido(pago) ? 'bg-red-50 dark:bg-red-900/20' : ''}`}
                       >
                         <td className="px-6 py-4">
                           <div className="text-sm">
@@ -974,7 +974,7 @@ const Pagos = () => {
                     setShowGenerateModal(false);
                     resetGenerateForm();
                   }}
-                  className="text-white hover:bg-gray-700 rounded-lg p-2 transition-all duration-200"
+                  className="text-white rounded-lg p-2 transition-all duration-200"
                 >
                   <span className="text-2xl leading-none">×</span>
                 </button>
@@ -1249,7 +1249,7 @@ const Pagos = () => {
                     <button
                       type="button"
                       onClick={calcularMontoCuota}
-                      className="px-3 py-1.5 bg-gray-700 hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500 text-white text-xs font-medium rounded transition-all duration-200"
+                      className="px-3 py-1.5 bg-gray-700 dark:bg-gray-600 text-white text-xs font-medium rounded transition-all duration-200"
                     >
                       Calcular
                     </button>
@@ -1310,13 +1310,13 @@ const Pagos = () => {
                       setShowGenerateModal(false);
                       resetGenerateForm();
                     }}
-                    className="px-6 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-all duration-200"
+                    className="px-6 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-all duration-200"
                   >
                     Cancelar
                   </button>
                   <button 
                     type="submit" 
-                    className="flex-1 bg-blue-400 hover:bg-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
+                    className="flex-1 bg-blue-400 dark:bg-blue-500 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200"
                   >
                     Generar Plan de Cuotas
                   </button>
@@ -1346,7 +1346,7 @@ const Pagos = () => {
                     setPagoSeleccionado(null);
                   }}
                   disabled={loading}
-                  className="flex-1 bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-red-500 dark:bg-red-600 text-white py-2.5 px-4 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancelar
                 </button>

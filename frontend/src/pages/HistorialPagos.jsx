@@ -266,7 +266,7 @@ const HistorialPagos = () => {
           filteredPagos.map((pago) => (
             <div
               key={pago.id}
-              className={`card dark:bg-gray-800 dark:border-gray-700 hover:shadow-lg transition-shadow ${
+              className={`card dark:bg-gray-800 dark:border-gray-700 transition-shadow ${
                 pago.estado === 'pagado' 
                   ? 'border-l-4 border-l-green-500' 
                   : new Date(pago.fechaVencimiento) < new Date()

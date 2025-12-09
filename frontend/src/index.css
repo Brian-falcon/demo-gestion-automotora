@@ -47,33 +47,28 @@
   }
 
   .btn-primary {
-    @apply bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-lg border border-primary-400/20;
+    @apply bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg border border-primary-400/20;
   }
 
   .btn-secondary {
-    @apply bg-gradient-to-r from-dark-700 to-dark-800 text-white hover:from-dark-600 hover:to-dark-700 shadow-lg border border-dark-600/50;
+    @apply bg-gradient-to-r from-dark-700 to-dark-800 text-white shadow-lg border border-dark-600/50;
   }
 
   .btn-danger {
-    @apply bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-lg border border-red-500/20;
+    @apply bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg border border-red-500/20;
   }
 
   .btn-success {
-    @apply bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-600 hover:to-emerald-700 shadow-lg border border-emerald-400/20;
+    @apply bg-gradient-to-r from-emerald-500 to-emerald-600 text-white shadow-lg border border-emerald-400/20;
   }
 
   .input {
-    @apply w-full px-4 py-3 bg-dark-800/50 border border-dark-700 rounded-lg text-white placeholder-dark-500 backdrop-blur-sm shadow-inner hover:border-dark-600 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30 focus:outline-none transition-all duration-300;
+    @apply w-full px-4 py-3 bg-dark-800/50 border border-dark-700 rounded-lg text-white placeholder-dark-500 backdrop-blur-sm shadow-inner focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30 focus:outline-none transition-all duration-300;
   }
 
   .card {
     @apply relative bg-gradient-to-br from-dark-800 to-dark-900 rounded-2xl border border-dark-700 p-6 shadow-2xl transition-all duration-500;
     backdrop-filter: blur(10px);
-  }
-
-  .card:hover {
-    @apply shadow-2xl border-primary-500/50;
-    transform: scale(1.05);
   }
 
   .badge {
@@ -130,7 +125,7 @@
   }
 
   tbody tr {
-    @apply hover:bg-dark-800/50 transition-colors duration-200;
+    @apply transition-colors duration-200;
   }
 
   .spinner {
@@ -151,7 +146,7 @@
   }
 
   a {
-    @apply text-primary-400 hover:text-primary-300 transition-colors duration-300;
+    @apply text-primary-400 transition-colors duration-300;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -204,11 +199,6 @@
     border-color: #e5e7eb;
   }
 
-  .card:hover {
-    border-color: rgba(14, 165, 233, 0.3);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  }
-
   select {
     background-color: white;
     border-color: #d1d5db;
@@ -239,10 +229,6 @@
 
   a {
     color: #0284c7;
-  }
-
-  a:hover {
-    color: #0369a1;
   }
 
   h1, h2, h3, h4, h5, h6 {

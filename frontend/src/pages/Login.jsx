@@ -81,7 +81,7 @@ const Login = () => {
       {/* Botón de cambio de tema en la esquina superior derecha */}
       <button
         onClick={toggleTheme}
-        className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 sm:p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 z-50 group"
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 sm:p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 z-50 group"
         title={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
         aria-label={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
       >
@@ -102,7 +102,7 @@ const Login = () => {
           />
         </div>
         {/* Tooltip en hover (solo desktop) */}
-        <span className="absolute -bottom-10 right-0 bg-gray-900 dark:bg-gray-700 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none hidden sm:block">
+        <span className="absolute -bottom-10 right-0 bg-gray-900 dark:bg-gray-700 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 transition-opacity duration-200 whitespace-nowrap pointer-events-none hidden sm:block">
           {theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
         </span>
       </button>
@@ -134,7 +134,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setLoginMode('admin')}
-                className="w-full flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
+                className="w-full flex items-center justify-center gap-3 bg-blue-600 dark:bg-blue-600 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
               >
                 <ShieldCheck className="w-5 h-5" />
                 <span>Soy Administrador</span>
@@ -143,7 +143,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setLoginMode('cliente')}
-                className="w-full flex items-center justify-center gap-3 bg-gray-700 hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
+                className="w-full flex items-center justify-center gap-3 bg-gray-700 dark:bg-gray-700 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
               >
                 <CreditCard className="w-5 h-5" />
                 <span>Soy Cliente (Ver mis cuotas)</span>
@@ -159,7 +159,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={resetForm}
-                className="text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 text-sm flex items-center gap-2 transition-all duration-200"
+                className="text-gray-700 dark:text-gray-400 text-sm flex items-center gap-2 transition-all duration-200"
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
                 <span>Volver</span>
@@ -279,7 +279,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 dark:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">

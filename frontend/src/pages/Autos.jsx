@@ -265,7 +265,7 @@ const Autos = () => {
               </thead>
               <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {filteredAutos.map((auto) => (
-                  <tr key={auto.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                  <tr key={auto.id} className="">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center">
@@ -301,13 +301,13 @@ const Autos = () => {
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={() => handleEdit(auto)}
-                          className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                          className="text-blue-600 dark:text-blue-400"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(auto.id)}
-                          className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                          className="text-red-600 dark:text-red-400"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

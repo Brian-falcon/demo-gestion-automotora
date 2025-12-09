@@ -7,19 +7,19 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
     danger: {
       bg: 'bg-red-100 dark:bg-red-900/30',
       iconColor: 'text-red-600 dark:text-red-400',
-      buttonBg: 'bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800',
+      buttonBg: 'bg-red-600 dark:bg-red-700',
       buttonText: 'text-white'
     },
     warning: {
       bg: 'bg-yellow-100 dark:bg-yellow-900/30',
       iconColor: 'text-yellow-600 dark:text-yellow-400',
-      buttonBg: 'bg-yellow-600 hover:bg-yellow-700 dark:bg-yellow-700 dark:hover:bg-yellow-800',
+      buttonBg: 'bg-yellow-600 dark:bg-yellow-700',
       buttonText: 'text-white'
     },
     info: {
       bg: 'bg-blue-100 dark:bg-blue-900/30',
       iconColor: 'text-blue-600 dark:text-blue-400',
-      buttonBg: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800',
+      buttonBg: 'bg-blue-600 dark:bg-blue-700',
       buttonText: 'text-white'
     }
   };
@@ -46,7 +46,7 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            className="text-gray-400 dark:text-gray-300 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -61,7 +61,7 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
         <div className="flex justify-end gap-3 p-6 border-t dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 rounded-b-lg">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors font-medium"
+            className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg transition-colors font-medium"
           >
             {cancelText}
           </button>
