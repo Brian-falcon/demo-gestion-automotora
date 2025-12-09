@@ -96,7 +96,7 @@ const Layout = () => {
               </div>
               <button
                 onClick={handleLogout}
-                className="ml-3 p-2 text-gray-400 dark:text-gray-500"
+                className="ml-3 p-2 text-gray-500 dark:text-gray-400"
                 title="Cerrar sesión"
               >
                 <LogOut className="h-5 w-5" />
@@ -192,7 +192,7 @@ const Layout = () => {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="ml-3 p-2 text-gray-600 dark:text-gray-500"
+                  className="ml-3 p-2 text-gray-600 dark:text-gray-400"
                   title="Cerrar sesión"
                 >
                   <LogOut className="h-5 w-5" />

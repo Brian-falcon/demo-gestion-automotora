@@ -497,7 +497,7 @@ const Pagos = () => {
               : 'Consulta tus cuotas pagadas y pendientes'}
           </p>
           {user?.rol !== 'admin' && lastUpdate && (
-            <p className="text-xs text-gray-500 dark:text-gray-500 mt-1 flex items-center gap-1">
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 flex items-center gap-1">
               <RefreshCw className="w-3 h-3" />
               Última actualización: {lastUpdate.toLocaleTimeString('es-UY')} (se actualiza cada 30s)
             </p>
@@ -567,7 +567,7 @@ const Pagos = () => {
           {clientesConPagos.length === 0 ? (
             <div className="card dark:bg-gray-800 dark:border-gray-700">
               <div className="text-center py-12">
-                <User className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                <User className="w-12 h-12 text-gray-500 dark:text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-500 dark:text-gray-400">No se encontraron clientes con pagos</p>
               </div>
             </div>
@@ -589,9 +589,9 @@ const Pagos = () => {
                         <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                           <span className="truncate">{clienteData.cliente.nombre}</span>
                           {clientesExpandidos[clienteData.cliente.id] ? (
-                            <ChevronUp className="w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0" />
+                            <ChevronUp className="w-5 h-5 text-gray-500 dark:text-gray-400 flex-shrink-0" />
                           ) : (
-                            <ChevronDown className="w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0" />
+                            <ChevronDown className="w-5 h-5 text-gray-500 dark:text-gray-400 flex-shrink-0" />
                           )}
                         </h3>
                         <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 truncate">
@@ -729,7 +729,7 @@ const Pagos = () => {
         <div className="card overflow-hidden">
           {pagos.length === 0 && !loading ? (
             <div className="text-center py-12">
-              <CreditCard className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+              <CreditCard className="w-12 h-12 text-gray-500 dark:text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500 dark:text-gray-400">No se encontraron pagos</p>
             </div>
           ) : pagos.length > 0 && (
@@ -813,7 +813,7 @@ const Pagos = () => {
                     <div className="flex items-start justify-between mb-3 pb-3 border-b border-gray-200 dark:border-gray-700">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <Car className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                          <Car className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                           <span className="font-semibold text-gray-900 dark:text-white">
                             {pago.auto.marca} {pago.auto.modelo}
                           </span>
@@ -1330,7 +1330,7 @@ const Pagos = () => {
 
       {/* Modal de confirmación para marcar pagado */}
       {showConfirmModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/40 dark:bg-black/60 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
           <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4">
             <div className="p-6">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
@@ -1372,7 +1372,7 @@ const Pagos = () => {
 
       {/* Modal de confirmación de email */}
       {showEmailModal && pagoParaEmail && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/40 dark:bg-black/60 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
           <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4">
             <div className="p-6">
               <div className="flex items-center justify-center mb-4">
