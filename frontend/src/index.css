@@ -74,23 +74,23 @@
   }
 
   .badge-success {
-    @apply bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-300 border border-emerald-500/30;
+    @apply bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-600;
   }
 
   .badge-warning {
-    @apply bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 border border-amber-500/30;
+    @apply bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-600;
   }
 
   .badge-danger {
-    @apply bg-gradient-to-r from-red-500/20 to-pink-500/20 text-red-300 border border-red-500/30;
+    @apply bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 border border-red-300 dark:border-red-600;
   }
 
   .badge-info {
-    @apply bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-300 border border-blue-500/30;
+    @apply bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-600;
   }
 
   .badge-gray {
-    @apply bg-gradient-to-r from-dark-700 to-dark-800 text-dark-200 border border-dark-600/50;
+    @apply bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 border border-gray-400 dark:border-gray-600;
   }
 
   .glass {
