@@ -102,7 +102,7 @@ const Login = () => {
           />
         </div>
         {/* Tooltip en hover (solo desktop) */}
-        <span className="absolute -bottom-10 right-0 bg-gray-900 dark:bg-gray-700 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 whitespace-nowrap pointer-events-none hidden sm:block">
+        <span className="absolute -bottom-10 right-0 bg-gray-800 dark:bg-gray-700 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 whitespace-nowrap pointer-events-none hidden sm:block">
           {theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
         </span>
       </button>
@@ -143,7 +143,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setLoginMode('cliente')}
-                className="w-full flex items-center justify-center gap-3 bg-gray-700 dark:bg-gray-700 text-white py-4 px-6 rounded-lg font-medium text-base"
+                className="w-full flex items-center justify-center gap-3 bg-gray-400 dark:bg-gray-700 text-white dark:text-white py-4 px-6 rounded-lg font-medium text-base"
               >
                 <CreditCard className="w-5 h-5" />
                 <span>Soy Cliente (Ver mis cuotas)</span>

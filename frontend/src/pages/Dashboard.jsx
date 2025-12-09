@@ -44,7 +44,7 @@ const Dashboard = () => {
   if (!stats) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Error al cargar las estadísticas</p>
+        <p className="text-gray-500 dark:text-gray-400">Error al cargar las estadísticas</p>
       </div>
     );
   }

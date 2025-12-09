@@ -35,7 +35,7 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3">
             <div className={`${config.bg} p-2 rounded-lg`}>
               <AlertTriangle className={`${config.iconColor} w-6 h-6`} />
@@ -58,7 +58,7 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title, message, confirmText
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 p-6 border-t dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 rounded-b-lg">
+        <div className="flex justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 rounded-b-lg">
           <button
             onClick={onClose}
             className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg font-medium"

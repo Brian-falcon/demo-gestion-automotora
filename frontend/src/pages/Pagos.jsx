@@ -893,7 +893,7 @@ const Pagos = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Número de Cuota *
                   </label>
                   <input
@@ -907,7 +907,7 @@ const Pagos = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Monto *
                   </label>
                   <input
@@ -960,13 +960,13 @@ const Pagos = () => {
         <div className="fixed inset-0 bg-black dark:bg-black bg-opacity-60 dark:bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full shadow-xl border border-gray-300 dark:border-gray-700 max-h-[90vh] flex flex-col">
             {/* Header - Fijo */}
-            <div className="bg-gray-800 dark:bg-gray-900 p-4 rounded-t-xl flex-shrink-0">
+            <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-t-xl flex-shrink-0">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-bold text-white">
+                  <h2 className="text-lg font-bold text-gray-900 dark:text-white">
                     Generar Plan de Cuotas
                   </h2>
-                  <p className="text-gray-300 dark:text-gray-400 text-sm mt-1">Configure el plan de financiamiento</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">Configure el plan de financiamiento</p>
                 </div>
                 <button
                   type="button"
@@ -1249,7 +1249,7 @@ const Pagos = () => {
                     <button
                       type="button"
                       onClick={calcularMontoCuota}
-                      className="px-3 py-1.5 bg-gray-700 dark:bg-gray-600 text-white text-xs font-medium rounded"
+                      className="px-3 py-1.5 bg-gray-600 dark:bg-gray-600 text-white text-xs font-medium rounded"
                     >
                       Calcular
                     </button>
