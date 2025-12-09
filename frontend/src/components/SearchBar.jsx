@@ -73,7 +73,7 @@ const SearchBar = ({ onSearch, placeholder = 'Buscar...', filters = [] }) => {
       </div>
 
       {showFilters && filters.length > 0 && (
-        <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 animate-slideDown">
+        <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {filters.map((filter) => (
               <div key={filter.key}>

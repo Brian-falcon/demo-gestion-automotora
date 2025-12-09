@@ -511,7 +511,7 @@ const Pagos = () => {
               className="btn btn-secondary flex items-center gap-2"
               title="Actualizar datos"
             >
-              <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+              <RefreshCw className="w-5 h-5" />
               <span className="hidden sm:inline">Actualizar</span>
             </button>
           )}
@@ -558,7 +558,7 @@ const Pagos = () => {
       {loading ? (
         <div className="card">
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            <div className="rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           </div>
         </div>
       ) : user?.rol === 'admin' ? (
@@ -573,7 +573,7 @@ const Pagos = () => {
             </div>
           ) : (
             clientesConPagos.map((clienteData, index) => (
-              <div key={clienteData.cliente.id} className="card dark:bg-gray-800 dark:border-gray-700 animate-fadeInUp" style={{animationDelay: `${0.1 * (index % 5)}s`}}>
+              <div key={clienteData.cliente.id} className="card dark:bg-gray-800 dark:border-gray-700">
                 {/* Header del cliente */}
                 <div 
                   className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 p-3 md:p-6 cursor-pointer hover:from-gray-100 hover:to-gray-50 dark:hover:from-gray-600 dark:hover:to-gray-700 transition-all duration-200"
@@ -957,8 +957,8 @@ const Pagos = () => {
 
       {/* Modal generar cuotas */}
       {showGenerateModal && (
-        <div className="fixed inset-0 bg-black dark:bg-black bg-opacity-60 dark:bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
-          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full shadow-xl border border-gray-300 dark:border-gray-700 animate-scale-in max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 bg-black dark:bg-black bg-opacity-60 dark:bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full shadow-xl border border-gray-300 dark:border-gray-700 max-h-[90vh] flex flex-col">
             {/* Header - Fijo */}
             <div className="bg-gray-800 dark:bg-gray-900 p-4 rounded-t-xl flex-shrink-0">
               <div className="flex items-center justify-between">
@@ -1092,7 +1092,7 @@ const Pagos = () => {
 
                   {/* Resumen Financiero Dinámico */}
                   {generateData.precioTotal && (
-                    <div className="mt-3 bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-300 dark:border-gray-600 animate-fade-in">
+                    <div className="mt-3 bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-300 dark:border-gray-600">
                       <div className="space-y-2">
                         <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-600">
                           <span className="text-sm text-gray-600 dark:text-gray-400">Saldo a Financiar:</span>
@@ -1103,7 +1103,7 @@ const Pagos = () => {
                         
                         {generateData.porcentajeInteres && parseFloat(generateData.porcentajeInteres) > 0 && (
                           <>
-                            <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-600 animate-fade-in">
+                            <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-gray-600">
                               <span className="text-sm text-gray-600 dark:text-gray-400">
                                 Interés ({generateData.porcentajeInteres}%):
                               </span>
@@ -1357,7 +1357,7 @@ const Pagos = () => {
                 >
                   {loading ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"></div>
                       Procesando...
                     </>
                   ) : (
@@ -1423,12 +1423,12 @@ const Pagos = () => {
                     >
                       {loading ? (
                         <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"></div>
                           Enviando...
                         </>
                       ) : emailEnviado ? (
                         <>
-                          <CheckCircle className="w-5 h-5 animate-bounce" />
+                          <CheckCircle className="w-5 h-5" />
                           ¡Enviado!
                         </>
                       ) : (

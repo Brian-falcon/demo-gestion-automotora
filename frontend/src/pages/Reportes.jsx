@@ -626,14 +626,14 @@ const Reportes = () => {
 
   return (
     <div className="space-y-6">
-      <div className="animate-fadeInUp" style={{animationDelay: '0.1s'}}>
+      <div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Reportes y Exportación</h1>
         <p className="text-gray-600 dark:text-gray-400 mt-1">Genera y descarga reportes del sistema</p>
       </div>
 
       {/* Estadísticas Generales */}
       {stats && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fadeInUp" style={{animationDelay: '0.2s'}}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCard
             title="Total Autos"
             value={stats.autos.total}
@@ -671,7 +671,7 @@ const Reportes = () => {
       )}
 
       {/* Rango de Fechas */}
-      <div className="card animate-fadeInUp" style={{animationDelay: '0.3s'}}>
+      <div className="card">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Rango de Fechas</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -702,7 +702,7 @@ const Reportes = () => {
       {/* Exportaciones */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Exportar Autos */}
-        <div className="card hover-lift animate-fadeInUp" style={{animationDelay: '0.4s'}}>
+        <div className="card hover-lift">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
               <Car className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -723,7 +723,7 @@ const Reportes = () => {
         </div>
 
         {/* Exportar Clientes */}
-        <div className="card hover-lift animate-fadeInUp" style={{animationDelay: '0.5s'}}>
+        <div className="card hover-lift">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
               <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -744,7 +744,7 @@ const Reportes = () => {
         </div>
 
         {/* Exportar Pagos */}
-        <div className="card hover-lift animate-fadeInUp" style={{animationDelay: '0.6s'}}>
+        <div className="card hover-lift">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
               <DollarSign className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -765,7 +765,7 @@ const Reportes = () => {
         </div>
 
         {/* Reporte General */}
-        <div className="card hover-lift animate-fadeInUp" style={{animationDelay: '0.7s'}}>
+        <div className="card hover-lift">
           <div className="flex items-start gap-4">
             <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
               <FileText className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
@@ -788,7 +788,7 @@ const Reportes = () => {
 
       {/* Resumen de Pagos Vencidos */}
       {stats && stats.pagos.vencidos > 0 && (
-        <div className="card bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 animate-fadeInUp" style={{animationDelay: '0.8s'}}>
+        <div className="card bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 bg-red-100 dark:bg-red-900/40 rounded-lg">
               <Calendar className="w-5 h-5 text-red-600 dark:text-red-400" />

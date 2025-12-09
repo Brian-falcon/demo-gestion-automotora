@@ -47,7 +47,7 @@ const Toast = ({ message, type = 'info', onClose, duration = 4000 }) => {
   const Icon = config.icon;
 
   return (
-    <div className={`${config.bg} ${config.border} border-l-4 p-4 rounded-lg shadow-lg flex items-start gap-3 min-w-[300px] max-w-md animate-slideInRight`}>
+    <div className={`${config.bg} ${config.border} border-l-4 p-4 rounded-lg shadow-lg flex items-start gap-3 min-w-[300px] max-w-md`}>
       <Icon className={`${config.iconColor} w-5 h-5 flex-shrink-0 mt-0.5`} />
       <p className={`${config.textColor} flex-1 text-sm font-medium`}>{message}</p>
       <button
