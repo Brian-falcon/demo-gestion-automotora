@@ -77,27 +77,27 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 relative animate-fadeIn">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 relative">
       {/* Botón de cambio de tema en la esquina superior derecha */}
       <button
         onClick={toggleTheme}
-        className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 sm:p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:scale-110 active:scale-95 z-50 group"
+        className="fixed top-4 right-4 sm:top-6 sm:right-6 p-2.5 sm:p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 z-50 group"
         title={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
         aria-label={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
       >
         <div className="relative w-5 h-5 sm:w-6 sm:h-6">
           <Moon 
-            className={`w-5 h-5 sm:w-6 sm:h-6 absolute text-gray-700 dark:text-gray-300 transition-all duration-300 ${
+            className={`w-5 h-5 sm:w-6 sm:h-6 absolute text-gray-700 dark:text-gray-300 transition-all duration-200 ${
               theme === 'light' 
-                ? 'opacity-100 rotate-0 scale-100' 
-                : 'opacity-0 rotate-90 scale-0'
+                ? 'opacity-100' 
+                : 'opacity-0 hidden'
             }`} 
           />
           <Sun 
-            className={`w-5 h-5 sm:w-6 sm:h-6 absolute text-amber-500 transition-all duration-300 ${
+            className={`w-5 h-5 sm:w-6 sm:h-6 absolute text-amber-500 transition-all duration-200 ${
               theme === 'dark' 
-                ? 'opacity-100 rotate-0 scale-100' 
-                : 'opacity-0 -rotate-90 scale-0'
+                ? 'opacity-100' 
+                : 'opacity-0 hidden'
             }`} 
           />
         </div>
@@ -110,7 +110,7 @@ const Login = () => {
       <div className="max-w-md w-full">
         {/* Logo BRAVO AUTOMOVILES - Simple */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-transparent bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-400 dark:to-cyan-400 bg-clip-text mb-1">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-1">
             Bravo
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold tracking-wider">
@@ -118,8 +118,8 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Formulario de login minimalista */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 animate-fadeInUp" style={{animationDelay: '0.2s'}}>
+        {/* Formulario de login */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
           {error && (
             <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded-lg text-sm">
               {error}
@@ -134,7 +134,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setLoginMode('admin')}
-                className="w-full flex items-center justify-center gap-3 bg-blue-400 hover:bg-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
+                className="w-full flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
               >
                 <ShieldCheck className="w-5 h-5" />
                 <span>Soy Administrador</span>
@@ -143,13 +143,13 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setLoginMode('cliente')}
-                className="w-full flex items-center justify-center gap-3 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
+                className="w-full flex items-center justify-center gap-3 bg-gray-700 hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 text-white py-4 px-6 rounded-lg font-medium text-base transition-all duration-200"
               >
                 <CreditCard className="w-5 h-5" />
                 <span>Soy Cliente (Ver mis cuotas)</span>
               </button>
 
-              <p className="text-gray-500 dark:text-gray-400 text-xs text-center mt-4">
+              <p className="text-gray-600 dark:text-gray-400 text-xs text-center mt-4">
                 Los clientes solo pueden acceder si tienen pagos pendientes
               </p>
             </div>
@@ -159,7 +159,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={resetForm}
-                className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 text-sm flex items-center gap-2 transition-all duration-200"
+                className="text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 text-sm flex items-center gap-2 transition-all duration-200"
               >
                 <ArrowRight className="w-4 h-4 rotate-180" />
                 <span>Volver</span>
@@ -168,12 +168,12 @@ const Login = () => {
               <h3 className="text-lg font-semibold text-gray-800 dark:text-white text-center">
                 {loginMode === 'admin' ? (
                   <span className="flex items-center justify-center gap-2">
-                    <ShieldCheck className="w-5 h-5 text-blue-400 dark:text-blue-500" />
+                    <ShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-500" />
                     Acceso Administrativo
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-2">
-                    <CreditCard className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                    <CreditCard className="w-5 h-5 text-gray-700 dark:text-gray-400" />
                     Acceso Cliente
                   </span>
                 )}
@@ -184,11 +184,11 @@ const Login = () => {
                 <>
                   {/* Credenciales de prueba para admin */}
                   <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                    <h4 className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
+                    <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2 flex items-center gap-2">
                       <Sparkles className="w-4 h-4" />
                       Credenciales de Prueba
                     </h4>
-                    <div className="space-y-1 text-xs text-blue-700 dark:text-blue-400">
+                    <div className="space-y-1 text-xs text-blue-800 dark:text-blue-400">
                       <p><span className="font-medium">Email:</span> admin@demo.com</p>
                       <p><span className="font-medium">Contraseña:</span> admin123</p>
                     </div>
@@ -205,7 +205,7 @@ const Login = () => {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:border-transparent transition-all"
+                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 focus:border-transparent transition-all"
                         placeholder="correo@ejemplo.com"
                         required
                       />
@@ -223,7 +223,7 @@ const Login = () => {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:border-transparent transition-all"
+                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 focus:border-transparent transition-all"
                         placeholder="••••••••"
                         required
                       />
@@ -234,12 +234,12 @@ const Login = () => {
                 /* Formulario para cliente */
                 <>
                   {/* Cédulas de prueba para clientes */}
-                  <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg">
-                    <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-300 mb-2 flex items-center gap-2">
+                  <div className="mb-4 p-4 bg-gray-100 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-lg">
+                    <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-300 mb-2 flex items-center gap-2">
                       <Sparkles className="w-4 h-4" />
                       Cédulas de Prueba
                     </h4>
-                    <div className="space-y-1 text-xs text-gray-700 dark:text-gray-400">
+                    <div className="space-y-1 text-xs text-gray-800 dark:text-gray-400">
                       <p><span className="font-medium">Juan Pérez:</span> 12345678</p>
                       <p><span className="font-medium">María González:</span> 87654321</p>
                       <p><span className="font-medium">Carlos Rodríguez:</span> 11223344</p>
@@ -262,14 +262,14 @@ const Login = () => {
                             setCedula(value);
                           }
                         }}
-                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500 focus:border-transparent transition-all"
+                        className="w-full pl-11 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500 focus:border-transparent transition-all"
                         placeholder="Ej: 12345678"
                         maxLength="8"
                         pattern="[0-9]{8}"
                         required
                       />
                     </div>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">
+                    <p className="text-gray-700 dark:text-gray-400 text-xs mt-2">
                       Ingresa tu número de cédula (8 dígitos) para ver tus pagos pendientes
                     </p>
                   </div>
@@ -279,7 +279,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-400 hover:bg-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
