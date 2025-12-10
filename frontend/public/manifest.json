@@ -1,7 +1,7 @@
 {
-  "name": "RV Gestión Automotora Demo",
-  "short_name": "RV Autos Demo",
-  "description": "Sistema de gestión de cuotas y pagos automotor - Versión Demo",
+  "name": "Bravo Automóviles",
+  "short_name": "Bravo Autos",
+  "description": "Sistema de gestión de cuotas y pagos automotor - Bravo Automóviles",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
