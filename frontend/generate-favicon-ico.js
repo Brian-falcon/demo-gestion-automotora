@@ -8,9 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const sourceImage = path.join(__dirname, 'public', 'assets', 'faviconBravo.jpg');
-const outputIco = path.join(__dirname, 'public', 'favicon.ico');
+const outputIco = path.join(__dirname, 'public', 'faviconBravo.ico');
 
-console.log('🔧 Generando favicon.ico desde faviconBravo.jpg...\n');
+console.log('🔧 Generando faviconBravo.ico desde faviconBravo.jpg...\n');
 
 // Generar favicon.ico (formato PNG con extensión .ico, tamaño 32x32)
 // Nota: Sharp no genera archivos .ico nativos, pero muchos navegadores aceptan PNG renombrados
@@ -26,7 +26,7 @@ async function generateFaviconIco() {
       })
       .toFile(outputIco);
     
-    console.log('✅ favicon.ico generado');
+    console.log('✅ faviconBravo.ico generado');
     console.log('📝 Nota: Es un PNG de 32x32 con extensión .ico (compatible con la mayoría de navegadores)');
   } catch (error) {
     console.error('❌ Error:', error.message);

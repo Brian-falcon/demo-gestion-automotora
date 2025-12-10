@@ -1,4 +1,4 @@
-// Script para generar iconos PWA a partir de faviconRF.jpg
+// Script para generar iconos PWA a partir de faviconBravo.jpg
 import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
