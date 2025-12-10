@@ -11,10 +11,10 @@ const __dirname = path.dirname(__filename);
 const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
 
 // Rutas
-const sourceImage = path.join(__dirname, 'public', 'assets', 'faviconRF.jpg');
+const sourceImage = path.join(__dirname, 'public', 'assets', 'faviconBravo.jpg');
 const outputDir = path.join(__dirname, 'public');
 
-console.log('🖼️  Generando iconos PWA desde faviconRF.jpg...\n');
+console.log('🖼️  Generando iconos PWA desde faviconBravo.jpg...\n');
 
 // Verificar que la imagen fuente existe
 if (!fs.existsSync(sourceImage)) {

@@ -239,7 +239,7 @@ async function enviarConfirmacionPago(cliente, pago, auto) {
             </div>
 
             <div class="footer">
-              <p class="footer-title">Gestión Automotora Demo</p>
+              <p class="footer-title">Bravo Automóviles</p>
               <p class="footer-text">Sistema de gestión automotora</p>
               <p class="footer-text" style="margin-top: 10px;">
                 🌐 <a href="https://rv-gestion-automotora20.vercel.app" style="color: #3b82f6; text-decoration: none;">rv-gestion-automotora20.vercel.app</a>

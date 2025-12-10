@@ -1,4 +1,4 @@
-// Script para generar favicon.ico desde faviconRF.jpg
+// Script para generar favicon.ico desde faviconBravo.jpg
 import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
@@ -7,10 +7,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const sourceImage = path.join(__dirname, 'public', 'assets', 'faviconRF.jpg');
+const sourceImage = path.join(__dirname, 'public', 'assets', 'faviconBravo.jpg');
 const outputIco = path.join(__dirname, 'public', 'favicon.ico');
 
-console.log('🔧 Generando favicon.ico...\n');
+console.log('🔧 Generando favicon.ico desde faviconBravo.jpg...\n');
 
 // Generar favicon.ico (formato PNG con extensión .ico, tamaño 32x32)
 // Nota: Sharp no genera archivos .ico nativos, pero muchos navegadores aceptan PNG renombrados

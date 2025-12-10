@@ -42,8 +42,8 @@ const createSimpleLogoHTML = () => {
 <body>
   <div class="logo-container">
     <div class="icon">🚗</div>
-    <div class="title">Gestión</div>
-    <div class="subtitle">Automotora</div>
+    <div class="title">Bravo</div>
+    <div class="subtitle">Automóviles</div>
   </div>
 </body>
 </html>
